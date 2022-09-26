@@ -52,6 +52,7 @@
   "devDependencies": {
     "@types/jest": "^29.0.3",
     "@types/styled-components": "^5.1.26",
+    "cypress": "^10.8.0",
     "styled-components": "^5.3.5",
     "ts-jest": "^29.0.1",
     "ts-node": "^10.9.1"

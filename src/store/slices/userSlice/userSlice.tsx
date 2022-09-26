@@ -1,14 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { doc, setDoc } from "firebase/firestore";
+
 import { IUser } from "./types";
-import { db } from "../../../services/firebase";
 
 const initialState: IUser = {
   userID: "",
-  name: "",
   username: "",
   profilePicture: "",
-  profileBackground: "",
   bio: "",
   postCounter: 0,
   likedPosts: [],
@@ -24,10 +21,24 @@ const userSlice = createSlice({
     setActiveUser: (state, action: PayloadAction<string>) => {
       state.userID = action.payload;
     },
+    getUsername: (state, action: PayloadAction<string>) => {
+      state.username = action.payload;
+    },
+    getBio: (state, action: PayloadAction<string>) => {
+      if ((action.payload = "")) {
+        state.bio = `Hello it's ${state.username}!`;
+      } else {
+        state.bio = action.payload;
+      }
+    },
+    getProfilePicture: (state, action: PayloadAction<string>) => {
+      state.profilePicture = action.payload;
+    },
   },
 });
 
-export const { setActiveUser } = userSlice.actions;
+export const { setActiveUser, getUsername, getBio, getProfilePicture } =
+  userSlice.actions;
 
 export const selectUsername = (state: IUser) => state.username;
 

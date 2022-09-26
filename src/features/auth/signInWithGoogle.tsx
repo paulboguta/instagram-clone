@@ -1,6 +1,6 @@
 import { auth, provider } from "../../services/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { getAdditionalUserInfo } from "firebase/auth";
 import { useAppDispatch } from "../../store/hooks";
@@ -9,6 +9,7 @@ import { setActiveUser } from "../../store/slices/userSlice/userSlice";
 export const useSignInWithGoogle = () => {
   const dispatch = useAppDispatch();
   const [authing, setAuthing] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const signInWithGoogle = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -20,13 +21,13 @@ export const useSignInWithGoogle = () => {
         const isNew = getAdditionalUserInfo(response)!.isNewUser;
 
         dispatch(setActiveUser(response.user.uid));
-
         if (isNew) {
-          redirect("/setup");
+          navigate("/setup");
         } else {
-          redirect("/");
+          navigate("/");
         }
         setAuthing(false);
+        console.log(response.user.uid);
       })
       .catch((error) => {
         console.log(error);

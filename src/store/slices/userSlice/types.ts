@@ -1,8 +1,8 @@
 export interface IUser {
-  name: string;
+  // name: string;
   username: string;
   profilePicture: string;
-  profileBackground: string;
+  // profileBackground: string;
   bio: string;
   userID: string;
   postCounter: number;

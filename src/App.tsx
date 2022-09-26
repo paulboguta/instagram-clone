@@ -7,7 +7,6 @@ import { SignupPage } from "./pages/Signup";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { AuthRoute } from "./features/auth/AuthRoute";
 
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -19,9 +18,9 @@ const App = () => {
         <Route
           path="/setup"
           element={
-            <AuthRoute>
-              <SetupPage />
-            </AuthRoute>
+            // <AuthRoute>
+            <SetupPage />
+            // </AuthRoute>
           }
         />
       </Routes>

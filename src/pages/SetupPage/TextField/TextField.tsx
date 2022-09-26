@@ -12,7 +12,12 @@ export const TextField = ({ placeholder, onChange }: ITextFieldProps) => {
       <WrapperInput>
         <div>@</div>
         <hr />
-        <input role="input" placeholder={placeholder} onChange={onChange} />
+        <input
+          role="input"
+          placeholder={placeholder}
+          onChange={onChange}
+          id="input-username"
+        />
       </WrapperInput>
       <p>Name must be 4-16 characters.</p>
     </Wrapper>
