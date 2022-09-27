@@ -1,8 +1,6 @@
 export interface IUser {
-  // name: string;
   username: string;
   profilePicture: string;
-  // profileBackground: string;
   bio: string;
   userID: string;
   postCounter: number;
@@ -10,4 +8,8 @@ export interface IUser {
   followers: Array<string>;
   following: Array<string>;
   theme: string;
+}
+
+export interface IUserState {
+  users: IUser[];
 }

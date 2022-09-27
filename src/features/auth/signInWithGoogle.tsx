@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { getAdditionalUserInfo } from "firebase/auth";
 import { useAppDispatch } from "../../store/hooks";
-import { setActiveUser } from "../../store/slices/userSlice/userSlice";
+import { setUser } from "../../store/actions/currentUser";
 
 export const useSignInWithGoogle = () => {
   const dispatch = useAppDispatch();
@@ -19,15 +19,13 @@ export const useSignInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then(async (response) => {
         const isNew = getAdditionalUserInfo(response)!.isNewUser;
-
-        dispatch(setActiveUser(response.user.uid));
+        dispatch(setUser(response.user.uid));
         if (isNew) {
           navigate("/setup");
         } else {
           navigate("/");
         }
         setAuthing(false);
-        console.log(response.user.uid);
       })
       .catch((error) => {
         console.log(error);

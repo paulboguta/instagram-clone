@@ -5,18 +5,18 @@ import { Bio } from "./Bio/Bio";
 import { ProfilePicForm } from "./ProfilePicForm/ProfilePicForm";
 import { ButtonConfirm } from "./ButtonConfirm/ButtonConfirm";
 import { ChangeEvent, useState } from "react";
-import { useAppDispatch } from "../../store/hooks";
-import {
-  getUsername,
-  getBio,
-  getProfilePicture,
-} from "../../store/slices/userSlice/userSlice";
+import { RootState, useAppDispatch } from "../../store/hooks";
+import { useSelector } from "react-redux";
+import { useAuth } from "../../hooks/hooks";
+
+import { doSetup } from "../../store/actions/userActions";
 
 export const SetupPage = () => {
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePic, setProfilePic] = useState<string>("");
   const dispatch = useAppDispatch();
+  const currentUser = useAuth();
 
   const onChangeUsernameInput = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -30,7 +30,7 @@ export const SetupPage = () => {
     setProfilePic(event.currentTarget.firstElementChild!.getAttribute("src")!);
   };
 
-  const onClickConfirm = () => {
+  const onClickConfirm = async () => {
     // username, bio, profilepic validation
     if (username.length < 4 || username.length > 16) {
       alert("Wrong username! It has to be from 4 to 16 characters");
@@ -41,15 +41,17 @@ export const SetupPage = () => {
       return;
     }
 
-    if (profilePic == "") {
+    if (profilePic === "") {
       alert("You have to choose profile picture!");
       return;
     }
 
+    if (bio.length < 2) {
+      setBio(`Hello it's @${username}!`);
+    }
+
     // managing data
-    dispatch(getUsername(username));
-    dispatch(getBio(bio));
-    dispatch(getProfilePicture(profilePic));
+    await dispatch(doSetup(currentUser.uid, username, bio, profilePic));
   };
 
   return (
