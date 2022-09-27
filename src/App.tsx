@@ -6,6 +6,7 @@ import store from "./store/store";
 import { SignupPage } from "./pages/Signup";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { AuthRoute } from "./features/auth/AuthRoute";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 
 const App = () => {
   return (
@@ -20,6 +21,14 @@ const App = () => {
           element={
             // <AuthRoute>
             <SetupPage />
+            // </AuthRoute>
+          }
+        />
+        <Route
+          path="/profilepage" // to change /user/:uid
+          element={
+            // <AuthRoute>
+            <ProfilePage />
             // </AuthRoute>
           }
         />

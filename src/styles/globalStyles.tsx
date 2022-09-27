@@ -30,8 +30,9 @@ export const GlobalStyle = createGlobalStyle`
 export const theme = {
   fontPrimary: "#000",
   fontSecondary: "rgb(136, 136, 136)",
-  border1: "1px solid rgb(41, 41, 41, 0)",
+  border1: "1px solid rgb(41, 41, 41, 0.1)",
   border2: "1px solid rgb(41, 41, 41)",
   backgroundPrimary: "rgb(255, 255, 255)",
+  backgroundOpposite: "#000",
   boxShadowPrimary: "0 0 16px 1px rgb(0 0 0 / 10%)",
 };

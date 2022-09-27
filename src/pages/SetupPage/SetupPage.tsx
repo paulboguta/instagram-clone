@@ -5,10 +5,9 @@ import { Bio } from "./Bio/Bio";
 import { ProfilePicForm } from "./ProfilePicForm/ProfilePicForm";
 import { ButtonConfirm } from "./ButtonConfirm/ButtonConfirm";
 import { ChangeEvent, useState } from "react";
-import { RootState, useAppDispatch } from "../../store/hooks";
-import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../store/hooks";
 import { useAuth } from "../../hooks/hooks";
-
+import { useNavigate } from "react-router-dom";
 import { doSetup } from "../../store/actions/userActions";
 
 export const SetupPage = () => {
@@ -17,6 +16,7 @@ export const SetupPage = () => {
   const [profilePic, setProfilePic] = useState<string>("");
   const dispatch = useAppDispatch();
   const currentUser = useAuth();
+  const navigate = useNavigate();
 
   const onChangeUsernameInput = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -52,6 +52,7 @@ export const SetupPage = () => {
 
     // managing data
     await dispatch(doSetup(currentUser.uid, username, bio, profilePic));
+    navigate("/feed");
   };
 
   return (
