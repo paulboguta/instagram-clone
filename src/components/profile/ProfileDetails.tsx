@@ -9,9 +9,13 @@ import { useAuth } from "../../hooks/hooks";
 
 interface IProfileDetailsProps {
   profileClicked: boolean;
+  resultClicked: boolean;
 }
 
-export const ProfileDetails = ({ profileClicked }: IProfileDetailsProps) => {
+export const ProfileDetails = ({
+  profileClicked,
+  resultClicked,
+}: IProfileDetailsProps) => {
   const [username, setUsername] = useState<string>("");
   const [profilePic, setProfilePic] = useState<string>("");
   const [bio, setBio] = useState<string>("");
@@ -29,7 +33,7 @@ export const ProfileDetails = ({ profileClicked }: IProfileDetailsProps) => {
 
   useEffect(() => {
     getDocs();
-  }, [currentUser, profileClicked, url]);
+  }, [currentUser, profileClicked, url, resultClicked]);
 
   return (
     <Wrapper>

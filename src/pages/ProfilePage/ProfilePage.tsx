@@ -8,17 +8,24 @@ import { ProfilePost } from "../../components/post";
 interface IProfilePageProps {
   onProfileClick(): void;
   profileClicked: boolean;
+  onResultClick(): void;
+  resultClicked: boolean;
 }
 
 export const ProfilePage = ({
   onProfileClick,
   profileClicked,
+  onResultClick,
+  resultClicked,
 }: IProfilePageProps) => {
   return (
     <Wrapper>
-      <Navbar onProfileClick={onProfileClick} />
+      <Navbar onProfileClick={onProfileClick} onResultClick={onResultClick} />
       <Img src={Background1} />
-      <ProfileDetails profileClicked={profileClicked} />
+      <ProfileDetails
+        profileClicked={profileClicked}
+        resultClicked={resultClicked}
+      />
       <ProfileButtons profileClicked={profileClicked} />
       <Posts>
         <ProfilePost />

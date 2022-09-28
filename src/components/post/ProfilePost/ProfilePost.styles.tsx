@@ -5,38 +5,30 @@ export const Wrapper = styled.button`
   width: 245px;
   border: none;
   cursor: pointer;
-  border-radius: 16px;
-
-  @media (max-width: 768px) {
-    width: 33vw;
-    height: 33vw;
-    border-radius: 0px;
-  }
 
   @media (max-width: 1160px) and (min-width: 768px) {
-    width: 200px;
-    height: 200px;
+    width: 25vw;
+    height: 25vw;
+    border-radius: 16px;
   }
 
   @media (min-width: 1160px) {
     box-shadow: ${(props) => props.theme.boxShadowPrimary};
+    border-radius: 16px;
   }
 
   img {
     height: 250px;
     width: 250px;
-    border-radius: 16px;
-
-    @media (max-width: 768px) {
-      width: 33.3vw;
-      height: 33.3vw;
-      border-radius: 0px;
-    }
 
     @media (max-width: 1160px) and (min-width: 768px) {
-      width: 210px;
-      height: 210px;
-      border-radius: 0px;
+      width: 25vw;
+      height: 25vw;
+      border-radius: 16px;
+    }
+
+    @media (min-width: 1160px) {
+      border-radius: 16px;
     }
 
     &:hover {

@@ -14,9 +14,14 @@ import { EditPage } from "./pages/EditPage/EditPage";
 
 const App = () => {
   const [profileClicked, setProfileClicked] = useState<boolean>(false);
+  const [resultClicked, setResultClicked] = useState<boolean>(false);
 
   const onProfileClick = () => {
     setProfileClicked((profileClicked) => !profileClicked);
+  };
+
+  const onResultClick = () => {
+    setResultClicked((resultClicked) => !resultClicked);
   };
 
   return (
@@ -30,10 +35,20 @@ const App = () => {
             <ProfilePage
               onProfileClick={onProfileClick}
               profileClicked={profileClicked}
+              onResultClick={onResultClick}
+              resultClicked={resultClicked}
             />
           }
         />
-        <Route path="/" element={<Feed onProfileClick={onProfileClick} />} />
+        <Route
+          path="/"
+          element={
+            <Feed
+              onProfileClick={onProfileClick}
+              onResultClick={onResultClick}
+            />
+          }
+        />
         <Route path="/edit" element={<EditPage />} />
       </Routes>
     </BrowserRouter>

@@ -37,24 +37,3 @@ export const ButtonImg = styled.button`
 export const LogoImg = styled.img`
   height: 50px;
 `;
-
-export const Search = styled.input`
-  border: ${(props) => props.theme.border1};
-  background-color: ${(props) => props.theme.backgroundGlassNavbar};
-  height: 24px;
-  width: 160px;
-  text-align: center;
-  border-radius: 8px;
-  outline: none;
-
-  &:focus {
-    transition: 0.3s ease-out;
-    width: 260px;
-    margin-left: -50px;
-    height: 28px;
-  }
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
