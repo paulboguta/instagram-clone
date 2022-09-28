@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
     text-align: center;
     font-size: 18px;
     margin-top: 10px;
+    color: ${(props) => props.theme.fontPrimary};
   }
 `;
 

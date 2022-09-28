@@ -21,8 +21,8 @@ export const ToggleDarkMode = () => {
         />
       </svg>
       <WrapperToggle>
-        <Circle toggle={toggle}></Circle>
         <Circle toggle={toggle2}></Circle>
+        <Circle toggle={toggle}></Circle>
       </WrapperToggle>
 
       <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
