@@ -7,7 +7,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
   return (
     <Wrapper>
-      <ButtonImg id="logo-navbar" onClick={() => navigate("/feed")}>
+      <ButtonImg id="logo-navbar" onClick={() => navigate("/")}>
         <LogoImg src={Logo} alt="logo" />
       </ButtonImg>
       <Search placeholder="Search" id="search-navbar" />

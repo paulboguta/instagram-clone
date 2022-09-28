@@ -6,8 +6,8 @@ import {
   ButtonConfirm,
   Button,
 } from "./ProfilePicForm.styles";
-import { Memojis } from "../../../assets/memoji";
-import { MemojisPreview } from "../../../assets/memoji";
+import { Memojis } from "../../../../assets/memoji/index";
+import { MemojisPreview } from "../../../../assets/memoji";
 import { useState } from "react";
 
 interface IProfilePicFormProps {

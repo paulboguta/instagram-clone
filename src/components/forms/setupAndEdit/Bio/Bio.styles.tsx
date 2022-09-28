@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   textarea {
     resize: none;
     outline: none;
-    border: 1px solid #e6e3e3;
+    border: ${(props) => props.theme.border1};
     border-radius: 15px;
     padding: 6px;
     width: 400px;

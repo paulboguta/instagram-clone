@@ -5,7 +5,7 @@ describe("test navbar", () => {
 
   it("test logo button", () => {
     cy.get("#logo-navbar").click();
-    cy.url().should("include", "/feed");
+    cy.url().should("include", "/);
   });
 
   describe("test searchbar", () => {
@@ -18,7 +18,7 @@ describe("test navbar", () => {
     describe("test buttons navigation", () => {
       it("test button home", () => {
         cy.get("#button-nav-home").click();
-        cy.url().should("include", "/feed");
+        cy.url().should("include", "/");
       });
       it("test button profile", () => {
         cy.visit("http://localhost:3000/feed");

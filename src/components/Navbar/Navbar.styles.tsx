@@ -3,8 +3,12 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   width: 100vw;
   height: 60px;
-  background-color: ${(props) => props.theme.backgroundPrimary};
-  box-shadow: ${(props) => props.theme.boxShadowPrimary};
+
+  /* From https://css.glass */
+  background: ${(props) => props.theme.backgroundGlassNavbar};
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   position: fixed;
   display: flex;
   align-items: center;
@@ -36,6 +40,7 @@ export const LogoImg = styled.img`
 
 export const Search = styled.input`
   border: ${(props) => props.theme.border1};
+  background-color: ${(props) => props.theme.backgroundGlassNavbar};
   height: 24px;
   width: 160px;
   text-align: center;

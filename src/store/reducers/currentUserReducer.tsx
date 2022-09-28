@@ -1,18 +1,17 @@
-import { SET_USER } from "../actions/currentUser";
+import { setUser, SET_USER } from "../actions/userActions";
 
 interface ICurrentUser {
-  userID: string;
+  uid: string;
 }
 
 const initialState: ICurrentUser = {
-  userID: "",
+  uid: "",
 };
 
 const currentUser = (state = initialState, action: any) => {
   switch (action.type) {
     case SET_USER:
-      return [(state.userID = action.uid)];
-
+      return [state.uid === action.uid];
     default:
       return state;
   }

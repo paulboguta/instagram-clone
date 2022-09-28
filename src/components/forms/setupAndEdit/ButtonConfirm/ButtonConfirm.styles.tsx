@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  background-color: ${(props) => props.theme.backgroundPrimary};
+  background-color: ${(props) => props.theme.buttonConfirm};
+  color: ${(props) => props.theme.backgroundOpposite};
   border: none;
   cursor: pointer;
   box-shadow: ${(props) => props.theme.boxShadowPrimary};

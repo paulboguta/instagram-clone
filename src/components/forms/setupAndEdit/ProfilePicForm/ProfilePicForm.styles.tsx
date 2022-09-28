@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ButtonPreview = styled.button`
-  background-color: none;
+  background-color: ${(props) => props.theme.buttonSetupProfilePicBackground};
   border: transparent;
   width: 340px;
   height: 70px;
@@ -97,7 +97,8 @@ export const Button = styled.button`
 export const ButtonConfirm = styled.button`
   align-self: center;
   justify-self: center;
-  background-color: ${(props) => props.theme.backgroundPrimary};
+  background-color: ${(props) => props.theme.buttonConfirm};
+  color: ${(props) => props.theme.backgroundOpposite};
   border: none;
   cursor: pointer;
   box-shadow: ${(props) => props.theme.boxShadowPrimary};

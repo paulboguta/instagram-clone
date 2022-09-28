@@ -19,7 +19,7 @@ export const WrapperInput = styled.div`
   gap: 5px;
   height: 25px;
   border-radius: 16px;
-  border: 1px solid #c0c0c0;
+  border: ${(props) => props.theme.border1};
   color: ${(props) => props.theme.fontSecondary};
 
   div {
@@ -27,9 +27,8 @@ export const WrapperInput = styled.div`
   }
 
   hr {
-    margin: 0;
-    color: #c0c0c0;
-    height: 80%;
+    border: ${(props) => props.theme.border1};
+    height: 88%;
   }
 
   input {

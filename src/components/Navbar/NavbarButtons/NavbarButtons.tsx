@@ -24,7 +24,7 @@ export const NavbarButtons = () => {
   return (
     <IconWrapper>
       <IconContext.Provider value={{ size: "24px" }}>
-        <ButtonNav onClick={() => navigate("/feed")} id="button-nav-home">
+        <ButtonNav onClick={() => navigate("/")} id="button-nav-home">
           <AiOutlineHome />
           <AiFillHome />
         </ButtonNav>

@@ -7,7 +7,6 @@ export const Wrapper = styled.form`
   gap: 20px;
   border-radius: 16px;
   box-shadow: 0 0 16px 1px rgb(0 0 0 / 10%);
-  border: ${(props) => props.theme.border1};
 
   @media (min-width: 768px) {
     width: 400px;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { getAdditionalUserInfo } from "firebase/auth";
 import { useAppDispatch } from "../../store/hooks";
-import { setUser } from "../../store/actions/currentUser";
+import { setUser } from "../../store/actions/userActions";
 
 export const useSignInWithGoogle = () => {
   const dispatch = useAppDispatch();

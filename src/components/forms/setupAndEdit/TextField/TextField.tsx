@@ -4,9 +4,14 @@ import { WrapperInput, Wrapper } from "./TextField.styles";
 interface ITextFieldProps {
   placeholder?: string;
   onChange?(event: ChangeEvent<HTMLInputElement>): void;
+  value?: string;
 }
 
-export const TextField = ({ placeholder, onChange }: ITextFieldProps) => {
+export const TextField = ({
+  placeholder,
+  onChange,
+  value,
+}: ITextFieldProps) => {
   return (
     <Wrapper>
       <WrapperInput>
@@ -16,6 +21,7 @@ export const TextField = ({ placeholder, onChange }: ITextFieldProps) => {
           role="input"
           placeholder={placeholder}
           onChange={onChange}
+          value={value}
           id="input-username"
         />
       </WrapperInput>
