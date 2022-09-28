@@ -6,20 +6,15 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { db } from "../../services/firebase";
 import { useAuth } from "../../hooks/hooks";
+import { useContext } from "react";
+import { ProfileResultContext } from "../../contexts/ProfileResultContext";
 
-interface IProfileDetailsProps {
-  profileClicked: boolean;
-  resultClicked: boolean;
-}
-
-export const ProfileDetails = ({
-  profileClicked,
-  resultClicked,
-}: IProfileDetailsProps) => {
+export const ProfileDetails = () => {
   const [username, setUsername] = useState<string>("");
   const [profilePic, setProfilePic] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const currentUser = useAuth();
+  const { profileClicked, resultClicked } = useContext(ProfileResultContext);
   const id = window.location.pathname.slice(6);
   const url = window.location.pathname.split("/").pop();
 

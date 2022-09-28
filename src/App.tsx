@@ -10,11 +10,38 @@ import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
 import { useState } from "react";
 import { DarkModeContext } from "./contexts/DarkModeContext";
+import { ProfileResultContext } from "./contexts/ProfileResultContext";
 import { EditPage } from "./pages/EditPage/EditPage";
+import { SearchPage } from "./pages/SearchPage/SearchPage";
 
 const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/setup" element={<SetupPage />} />
+        <Route
+          path="/user/:userID" // to change /user/:uid
+          element={<ProfilePage />}
+        />
+        <Route path="/" element={<Feed />} />
+        <Route path="/edit" element={<EditPage />} />
+        <Route path="/search" element={<SearchPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+const AppWrapper = () => {
+  const [theme, setTheme] = useState(themeLight);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const [profileClicked, setProfileClicked] = useState<boolean>(false);
   const [resultClicked, setResultClicked] = useState<boolean>(false);
+
+  const changeDarkModeOnClick = () => {
+    setDarkMode((darkMode) => !darkMode);
+    darkMode ? setTheme(themeDark) : setTheme(themeLight);
+  };
 
   const onProfileClick = () => {
     setProfileClicked((profileClicked) => !profileClicked);
@@ -25,53 +52,17 @@ const App = () => {
   };
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/setup" element={<SetupPage />} />
-        <Route
-          path="/user/:userID" // to change /user/:uid
-          element={
-            <ProfilePage
-              onProfileClick={onProfileClick}
-              profileClicked={profileClicked}
-              onResultClick={onResultClick}
-              resultClicked={resultClicked}
-            />
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <Feed
-              onProfileClick={onProfileClick}
-              onResultClick={onResultClick}
-            />
-          }
-        />
-        <Route path="/edit" element={<EditPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
-
-const AppWrapper = () => {
-  const [theme, setTheme] = useState(themeLight);
-  const [darkMode, setDarkMode] = useState<boolean>(false);
-
-  const changeDarkModeOnClick = () => {
-    setDarkMode((darkMode) => !darkMode);
-    darkMode ? setTheme(themeDark) : setTheme(themeLight);
-  };
-
-  return (
     <DarkModeContext.Provider value={{ changeDarkModeOnClick, darkMode }}>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <App />
-        </ThemeProvider>
-      </Provider>
+      <ProfileResultContext.Provider
+        value={{ onProfileClick, onResultClick, profileClicked, resultClicked }}
+      >
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <App />
+          </ThemeProvider>
+        </Provider>
+      </ProfileResultContext.Provider>
     </DarkModeContext.Provider>
   );
 };

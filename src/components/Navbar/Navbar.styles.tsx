@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const Desktop = styled.div`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 export const Wrapper = styled.div`
   width: 100vw;
   height: 60px;
@@ -20,6 +26,7 @@ export const Wrapper = styled.div`
 
   @media (max-width: 768px) {
     bottom: 0;
+    background: ${(props) => props.theme.backgroundGlassNavbar2};
   }
 `;
 

@@ -7,16 +7,15 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useSignInWithGoogle } from "../../../features/auth/signInWithGoogle";
+import { useContext } from "react";
+import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 
-interface IProfileButtonsProps {
-  profileClicked: boolean;
-}
-
-export const ProfileButtons = ({ profileClicked }: IProfileButtonsProps) => {
+export const ProfileButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
   const [isOnOwnProfilePage, setIsOnOwnProfilePage] = useState<boolean>(false);
   const currentUser = useAuth();
+  const { profileClicked } = useContext(ProfileResultContext);
   const { signInWithGoogle } = useSignInWithGoogle();
 
   const onClickEditProfile = () => {

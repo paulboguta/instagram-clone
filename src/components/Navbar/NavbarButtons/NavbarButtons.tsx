@@ -19,15 +19,14 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/hooks";
 import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 
-interface INavbarButtonsProps {
-  onProfileClick(): void;
-}
-
-export const NavbarButtons = ({ onProfileClick }: INavbarButtonsProps) => {
+export const NavbarButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
   const currentUser = useAuth();
+  const { onProfileClick } = useContext(ProfileResultContext);
 
   const setUser = async () => {
     await setUserID(currentUser.uid);
@@ -49,7 +48,7 @@ export const NavbarButtons = ({ onProfileClick }: INavbarButtonsProps) => {
           <AiOutlineHome />
           <AiFillHome />
         </ButtonNav>
-        <ButtonNavMobile>
+        <ButtonNavMobile onClick={() => navigate("/search")}>
           <AiOutlineSearch />
         </ButtonNavMobile>
         <ButtonNavMobile>

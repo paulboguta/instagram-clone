@@ -5,28 +5,13 @@ import { Wrapper, Img, Posts } from "./ProfilePage.styles";
 import { ProfileButtons } from "../../components/profile/ProfileButtons/ProfileButtons";
 import { ProfilePost } from "../../components/post";
 
-interface IProfilePageProps {
-  onProfileClick(): void;
-  profileClicked: boolean;
-  onResultClick(): void;
-  resultClicked: boolean;
-}
-
-export const ProfilePage = ({
-  onProfileClick,
-  profileClicked,
-  onResultClick,
-  resultClicked,
-}: IProfilePageProps) => {
+export const ProfilePage = () => {
   return (
     <Wrapper>
-      <Navbar onProfileClick={onProfileClick} onResultClick={onResultClick} />
+      <Navbar />
       <Img src={Background1} />
-      <ProfileDetails
-        profileClicked={profileClicked}
-        resultClicked={resultClicked}
-      />
-      <ProfileButtons profileClicked={profileClicked} />
+      <ProfileDetails />
+      <ProfileButtons />
       <Posts>
         <ProfilePost />
         <ProfilePost />

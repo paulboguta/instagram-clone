@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: repeat(3, 1fr);
-  height: 100vh;
+
   @media (max-width: 1160px) {
     display: flex;
     flex-direction: column;

@@ -1,29 +1,48 @@
 import styled from "styled-components";
 
+export const Wrapper = styled.div`
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+export const Mobile = styled.div`
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
 export const SearchStyled = styled.input`
   border: ${(props) => props.theme.border1};
   background-color: ${(props) => props.theme.backgroundGlassNavbar};
   height: 24px;
   width: 160px;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 12px;
   outline: none;
 
-  &:focus {
-    transition: 0.3s ease-out;
-    width: 260px;
-    margin-left: -50px;
-    height: 28px;
+  @media (min-width: 768px) {
+    &:focus {
+      transition: 0.3s ease-out;
+      width: 260px;
+      margin-left: -50px;
+      height: 28px;
+    }
   }
 
   @media (max-width: 768px) {
-    display: none;
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
   }
 `;
 
 export const Results = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${(props) => props.theme.boxShadowPrimary};
   width: 260px;
   height: 100px;
   margin-top: 10px;
@@ -35,6 +54,11 @@ export const Results = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 80%;
+    position: static;
+  }
 `;
 
 export const Button = styled.button`

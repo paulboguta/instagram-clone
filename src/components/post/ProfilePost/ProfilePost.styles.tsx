@@ -11,6 +11,10 @@ export const Wrapper = styled.button`
     height: 25vw;
     border-radius: 16px;
   }
+  @media (max-width: 768px) {
+    width: 33.333vw;
+    height: 33.333vw;
+  }
 
   @media (min-width: 1160px) {
     box-shadow: ${(props) => props.theme.boxShadowPrimary};
@@ -27,14 +31,21 @@ export const Wrapper = styled.button`
       border-radius: 16px;
     }
 
+    @media (max-width: 768px) {
+      width: 33.333vw;
+      height: 33.333vw;
+    }
+
     @media (min-width: 1160px) {
       border-radius: 16px;
     }
 
     &:hover {
-      transition: 0.3s ease-in;
-      opacity: 0.7;
-      filter: alpha(opacity=30);
+      @media (min-width: 768px) {
+        transition: 0.3s ease-in;
+        opacity: 0.7;
+        filter: alpha(opacity=30);
+      }
     }
   }
 `;
