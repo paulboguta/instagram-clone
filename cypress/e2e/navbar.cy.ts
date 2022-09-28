@@ -1,11 +1,13 @@
+const uid = "shU1M5oNmMNstdZ1HSruGBrUca12";
+
 describe("test navbar", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/profilepage");
+    cy.visit("http://localhost:3000/");
   });
 
   it("test logo button", () => {
     cy.get("#logo-navbar").click();
-    cy.url().should("include", "/);
+    cy.url().should("include", "/");
   });
 
   describe("test searchbar", () => {
@@ -21,7 +23,6 @@ describe("test navbar", () => {
         cy.url().should("include", "/");
       });
       it("test button profile", () => {
-        cy.visit("http://localhost:3000/feed");
         cy.get("#button-nav-profile").click();
         cy.url().should("include", "/profile");
       });

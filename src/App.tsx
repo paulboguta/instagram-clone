@@ -13,31 +13,28 @@ import { DarkModeContext } from "./contexts/DarkModeContext";
 import { EditPage } from "./pages/EditPage/EditPage";
 
 const App = () => {
+  const [profileClicked, setProfileClicked] = useState<boolean>(false);
+
+  const onProfileClick = () => {
+    setProfileClicked((profileClicked) => !profileClicked);
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/setup" element={<SetupPage />} />
         <Route
-          path="/profilepage" // to change /user/:uid
-          element={<ProfilePage />}
-        />
-        <Route
-          path="/"
+          path="/user/:userID" // to change /user/:uid
           element={
-            <AuthRoute>
-              <Feed />
-            </AuthRoute>
+            <ProfilePage
+              onProfileClick={onProfileClick}
+              profileClicked={profileClicked}
+            />
           }
         />
-        <Route
-          path="/edit"
-          element={
-            <AuthRoute>
-              <EditPage />
-            </AuthRoute>
-          }
-        />
+        <Route path="/" element={<Feed onProfileClick={onProfileClick} />} />
+        <Route path="/edit" element={<EditPage />} />
       </Routes>
     </BrowserRouter>
   );

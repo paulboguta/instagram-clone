@@ -62,7 +62,7 @@ export const EditPage = () => {
       setBio(`Hello it's @${username}!`);
     }
     await dispatch(doSetup(currentUser.uid, username, bio, profilePic, theme));
-    navigate("/");
+    navigate(`/user/${currentUser.uid}`);
   };
 
   useEffect(() => {

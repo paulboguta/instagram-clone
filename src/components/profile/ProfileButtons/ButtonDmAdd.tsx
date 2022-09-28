@@ -1,19 +1,21 @@
 import styled from "styled-components";
 import { IButtonProps } from "./interfaces";
 
-export const ButtonEditProfile = ({ onClick }: IButtonProps) => {
-  return <Wrapper onClick={onClick}>Edit Profile</Wrapper>;
+export const ButtonDmAdd = ({ element }: IButtonProps) => {
+  return <Wrapper>{element}</Wrapper>;
 };
 
 const Wrapper = styled.button`
   background-color: ${(props) => props.theme.backgroundOpposite};
   color: ${(props) => props.theme.backgroundPrimary};
-  width: 120px;
+  width: 36px;
   height: 36px;
+  text-align: center;
+  padding-top: 2px;
+  font-size: 20px;
   border: none;
-  border-radius: 16px;
+  border-radius: 50%;
   cursor: pointer;
-  font-weight: 700;
 
   @media (min-width: 768px) {
     margin-top: -18px;

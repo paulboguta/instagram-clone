@@ -1,20 +1,19 @@
 import styled from "styled-components";
+import { IButtonProps } from "./interfaces";
 
-export const ButtonAddPostFromProfile = () => {
-  return <Wrapper>+</Wrapper>;
+export const ButtonEditFollow = ({ onClick, text }: IButtonProps) => {
+  return <Wrapper onClick={onClick}>{text}</Wrapper>;
 };
 
 const Wrapper = styled.button`
   background-color: ${(props) => props.theme.backgroundOpposite};
   color: ${(props) => props.theme.backgroundPrimary};
-  width: 36px;
+  width: 120px;
   height: 36px;
-  text-align: center;
-  padding-bottom: 2px;
-  font-size: 20px;
   border: none;
-  border-radius: 50%;
+  border-radius: 16px;
   cursor: pointer;
+  font-weight: 700;
 
   @media (min-width: 768px) {
     margin-top: -18px;

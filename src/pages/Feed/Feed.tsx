@@ -1,9 +1,13 @@
 import { Navbar } from "../../components/Navbar/Navbar";
 
-export const Feed = () => {
+interface IFeedProps {
+  onProfileClick(): void;
+}
+
+export const Feed = ({ onProfileClick }: IFeedProps) => {
   return (
     <div>
-      <Navbar />
+      <Navbar onProfileClick={onProfileClick} />
     </div>
   );
 };

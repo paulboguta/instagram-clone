@@ -3,7 +3,11 @@ import Logo from "../../assets/logo.png";
 import { NavbarButtons } from "./NavbarButtons/NavbarButtons";
 import { useNavigate } from "react-router-dom";
 
-export const Navbar = () => {
+interface INavbarProps {
+  onProfileClick(): void;
+}
+
+export const Navbar = ({ onProfileClick }: INavbarProps) => {
   const navigate = useNavigate();
   return (
     <Wrapper>
@@ -11,7 +15,7 @@ export const Navbar = () => {
         <LogoImg src={Logo} alt="logo" />
       </ButtonImg>
       <Search placeholder="Search" id="search-navbar" />
-      <NavbarButtons />
+      <NavbarButtons onProfileClick={onProfileClick} />
     </Wrapper>
   );
 };

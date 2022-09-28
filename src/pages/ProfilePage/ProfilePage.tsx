@@ -1,17 +1,32 @@
 import { Navbar } from "../../components/Navbar/Navbar";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 import Background1 from "../../assets/background/background-1.jpeg";
-import { Wrapper, Img } from "./ProfilePage.styles";
+import { Wrapper, Img, Posts } from "./ProfilePage.styles";
 import { ProfileButtons } from "../../components/profile/ProfileButtons/ProfileButtons";
-import { useState } from "react";
+import { ProfilePost } from "../../components/post";
 
-export const ProfilePage = () => {
+interface IProfilePageProps {
+  onProfileClick(): void;
+  profileClicked: boolean;
+}
+
+export const ProfilePage = ({
+  onProfileClick,
+  profileClicked,
+}: IProfilePageProps) => {
   return (
     <Wrapper>
-      <Navbar />
+      <Navbar onProfileClick={onProfileClick} />
       <Img src={Background1} />
-      <ProfileDetails />
-      <ProfileButtons />
+      <ProfileDetails profileClicked={profileClicked} />
+      <ProfileButtons profileClicked={profileClicked} />
+      <Posts>
+        <ProfilePost />
+        <ProfilePost />
+        <ProfilePost />
+        <ProfilePost />
+        <ProfilePost />
+      </Posts>
     </Wrapper>
   );
 };

@@ -7,15 +7,20 @@ import { useState } from "react";
 import { db } from "../../services/firebase";
 import { useAuth } from "../../hooks/hooks";
 
-export const ProfileDetails = () => {
-  const [documents, setDocuments] = useState<any>();
+interface IProfileDetailsProps {
+  profileClicked: boolean;
+}
+
+export const ProfileDetails = ({ profileClicked }: IProfileDetailsProps) => {
   const [username, setUsername] = useState<string>("");
   const [profilePic, setProfilePic] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const currentUser = useAuth();
+  const id = window.location.pathname.slice(6);
+  const url = window.location.pathname.split("/").pop();
 
   const getDocs = async () => {
-    const usersRef = doc(db, "users", currentUser.uid);
+    const usersRef = doc(db, "users", id);
     const data = await getDoc(usersRef);
     setUsername(data.data()!.username);
     setProfilePic(data.data()!.profilePic);
@@ -24,7 +29,7 @@ export const ProfileDetails = () => {
 
   useEffect(() => {
     getDocs();
-  }, [currentUser]);
+  }, [currentUser, profileClicked, url]);
 
   return (
     <Wrapper>

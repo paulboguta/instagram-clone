@@ -25,13 +25,20 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+//
+
+import firebase from "firebase/compat/app";
+import { attachCustomCommands } from "cypress-firebase";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBTOSMhSAH1ZAp_Akoe2-Jn6jZbIqx9TCk",
+  authDomain: "instagram-d534e.firebaseapp.com",
+  projectId: "instagram-d534e",
+  storageBucket: "instagram-d534e.appspot.com",
+  messagingSenderId: "676808198167",
+  appId: "1:676808198167:web:09908d82fe199910cfb452",
+};
+
+firebase.initializeApp(firebaseConfig);
+
+attachCustomCommands({ Cypress, cy, firebase });

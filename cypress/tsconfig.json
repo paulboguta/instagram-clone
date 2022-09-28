@@ -4,5 +4,5 @@
       "lib": ["es5", "dom"],
       "types": ["cypress", "node"]
     },
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts", "support/commands.js", "support/commands.js", "e2e/navbar.cy.js", "support/commands.js", "e2e/navbar.cy.js", "support/commands.js"]
   }
