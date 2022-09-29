@@ -58,6 +58,7 @@ export const Search = () => {
         id="#search-navbar"
         onChange={onChangeInput}
         onKeyDown={onKeyDown}
+        value={input}
       />
       {typeof result == "string" && !resultClicked ? (
         <Results>

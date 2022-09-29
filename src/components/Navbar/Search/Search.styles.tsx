@@ -18,6 +18,7 @@ export const Mobile = styled.div`
 export const SearchStyled = styled.input`
   border: ${(props) => props.theme.border1};
   background-color: ${(props) => props.theme.backgroundGlassNavbar};
+  color: ${(props) => props.theme.fontPrimary};
   height: 24px;
   width: 160px;
   text-align: center;
@@ -65,6 +66,7 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   background-color: transparent;
   border: none;
   cursor: pointer;
