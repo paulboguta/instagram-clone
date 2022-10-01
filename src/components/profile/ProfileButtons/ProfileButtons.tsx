@@ -1,29 +1,61 @@
 import styled from "styled-components";
 import { ButtonDmAdd } from "./ButtonDmAdd";
 import { ButtonEditFollow } from "./ButtonEditFollow";
+import { ButtonUnfollow } from "./ButtonUnfollow";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/hooks";
+import { useSelector } from "react-redux";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useSignInWithGoogle } from "../../../features/auth/signInWithGoogle";
 import { useContext } from "react";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
+import { RootState, useAppDispatch } from "../../../store/hooks";
+import { doFollow } from "../../../store/actions/userActions";
+import { doUnfollow } from "../../../store/actions/userActions";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../services/firebase";
 
 export const ProfileButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
+  const [isFollowed, setIsFollowed] = useState<boolean>();
   const [isOnOwnProfilePage, setIsOnOwnProfilePage] = useState<boolean>(false);
-  const currentUser = useAuth();
-  const { profileClicked } = useContext(ProfileResultContext);
+  const { profileClicked, resultClicked } = useContext(ProfileResultContext);
   const { signInWithGoogle } = useSignInWithGoogle();
+  const dispatch = useAppDispatch();
+  const currentUser = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
+
+  const id = window.location.pathname.slice(6);
+  const url = window.location.pathname.split("/").pop();
+
+  const setUser = () => {
+    setUserID(currentUser.uid);
+  };
+
+  const getDocs = async () => {
+    const usersRef = doc(db, "users", id);
+    onSnapshot(usersRef, (doc) => {
+      if (doc.data()!.followers.includes(userID)) {
+        setIsFollowed(true);
+      } else {
+        setIsFollowed(false);
+      }
+    });
+  };
 
   const onClickEditProfile = () => {
     navigate("/edit");
   };
 
   const onClickFollow = () => {
-    console.log("follow");
+    dispatch(doFollow(userID, id));
+  };
+
+  const onClickUnfollow = () => {
+    dispatch(doUnfollow(userID, id));
   };
 
   const onClickDm = () => {
@@ -34,12 +66,6 @@ export const ProfileButtons = () => {
     console.log("add post");
   };
 
-  const id = window.location.pathname.slice(6);
-  const url = window.location.pathname.split("/").pop();
-  const setUser = async () => {
-    await setUserID(currentUser.uid);
-  };
-
   useEffect(() => {
     setUser();
     if (userID === id) {
@@ -47,7 +73,17 @@ export const ProfileButtons = () => {
     } else {
       setIsOnOwnProfilePage(false);
     }
-  }, [currentUser, isOnOwnProfilePage, profileClicked, signInWithGoogle, url]);
+    getDocs();
+  }, [
+    currentUser,
+    isOnOwnProfilePage,
+    profileClicked,
+    resultClicked,
+    signInWithGoogle,
+    url,
+    onClickFollow,
+    onClickUnfollow,
+  ]);
 
   return (
     <Wrapper>
@@ -56,8 +92,11 @@ export const ProfileButtons = () => {
       )}
       {isOnOwnProfilePage && <ButtonDmAdd element={<AiOutlinePlus />} />}
 
-      {!isOnOwnProfilePage && (
+      {!isOnOwnProfilePage && !isFollowed && (
         <ButtonEditFollow onClick={onClickFollow} text="Follow" />
+      )}
+      {!isOnOwnProfilePage && isFollowed && (
+        <ButtonUnfollow onClick={onClickUnfollow} text="Unfollow" />
       )}
       {!isOnOwnProfilePage && <ButtonDmAdd element={<BiMessageSquareAdd />} />}
     </Wrapper>

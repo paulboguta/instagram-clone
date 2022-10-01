@@ -1,3 +1,4 @@
+import { PayloadAction } from "@reduxjs/toolkit";
 import { setUser, SET_USER } from "../actions/userActions";
 
 interface ICurrentUser {
@@ -8,10 +9,17 @@ const initialState: ICurrentUser = {
   uid: "",
 };
 
-const currentUser = (state = initialState, action: any) => {
+interface IAction {
+  type: string;
+  uid?: any;
+}
+
+const currentUser = (state = initialState, action: IAction) => {
   switch (action.type) {
     case SET_USER:
-      return [state.uid === action.uid];
+      return {
+        uid: action.uid,
+      };
     default:
       return state;
   }

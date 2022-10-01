@@ -1,5 +1,5 @@
 import { GlobalStyle, themeDark, themeLight } from "./styles/globalStyles";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import store from "./store/store";
@@ -16,19 +16,51 @@ import { SearchPage } from "./pages/SearchPage/SearchPage";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <>
       <Routes>
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/setup" element={<SetupPage />} />
         <Route
-          path="/user/:userID" // to change /user/:uid
-          element={<ProfilePage />}
+          path="/signup"
+          element={
+            <AuthRoute>
+              <SignupPage />
+            </AuthRoute>
+          }
         />
-        <Route path="/" element={<Feed />} />
-        <Route path="/edit" element={<EditPage />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route
+          path="/setup"
+          element={
+            <AuthRoute>
+              <SetupPage />
+            </AuthRoute>
+          }
+        />
+        <Route path="/user/:userID" element={<ProfilePage />} />
+        <Route
+          path="/"
+          element={
+            <AuthRoute>
+              <Feed />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/edit"
+          element={
+            <AuthRoute>
+              <EditPage />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <AuthRoute>
+              <SearchPage />
+            </AuthRoute>
+          }
+        />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 
@@ -54,7 +86,12 @@ const AppWrapper = () => {
   return (
     <DarkModeContext.Provider value={{ changeDarkModeOnClick, darkMode }}>
       <ProfileResultContext.Provider
-        value={{ onProfileClick, onResultClick, profileClicked, resultClicked }}
+        value={{
+          onProfileClick,
+          onResultClick,
+          profileClicked,
+          resultClicked,
+        }}
       >
         <Provider store={store}>
           <ThemeProvider theme={theme}>

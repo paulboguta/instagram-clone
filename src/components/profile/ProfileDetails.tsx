@@ -5,15 +5,18 @@ import { doc, getDoc } from "firebase/firestore";
 import { useEffect } from "react";
 import { useState } from "react";
 import { db } from "../../services/firebase";
-import { useAuth } from "../../hooks/hooks";
+import { useSelector } from "react-redux";
 import { useContext } from "react";
 import { ProfileResultContext } from "../../contexts/ProfileResultContext";
+import { RootState } from "../../store/hooks";
 
 export const ProfileDetails = () => {
   const [username, setUsername] = useState<string>("");
   const [profilePic, setProfilePic] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const currentUser = useAuth();
+  const currentUser = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
   const { profileClicked, resultClicked } = useContext(ProfileResultContext);
   const id = window.location.pathname.slice(6);
   const url = window.location.pathname.split("/").pop();

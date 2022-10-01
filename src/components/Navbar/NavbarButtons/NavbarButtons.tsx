@@ -17,24 +17,23 @@ import { BsPerson, BsPersonFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/hooks";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/hooks";
 
 export const NavbarButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
-  const currentUser = useAuth();
-  const { onProfileClick } = useContext(ProfileResultContext);
-
-  const setUser = async () => {
-    await setUserID(currentUser.uid);
-  };
+  const { onProfileClick, resultClicked } = useContext(ProfileResultContext);
+  const currentUser = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
 
   useEffect(() => {
-    setUser();
-  }, [currentUser]);
+    setUserID(currentUser.uid);
+  }, [currentUser, onProfileClick, resultClicked]);
 
   const onClick = () => {
     onProfileClick();
