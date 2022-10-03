@@ -68,7 +68,7 @@ export const SetupPage = () => {
   return (
     <Wrapper>
       <Form>
-        <Img src={Logo} />
+        <Img alt="logo" src={Logo} />
         <TextField placeholder="username" onChange={onChangeUsernameInput} />
         <Bio onChange={onChangeBioInput} />
         <ProfilePicForm onClickPic={onClickPic} profilepic={profilePic} />

@@ -95,3 +95,5 @@ export const Button = styled.button`
     }
   }
 `;
+
+export const ErrorMessage = styled.p``;

@@ -1,9 +1,14 @@
-import { SearchStyled, Results, Button, Wrapper } from "./Search.styles";
+import {
+  SearchStyled,
+  Results,
+  Button,
+  Wrapper,
+  ErrorMessage,
+} from "./Search.styles";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../services/firebase";
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "../Navbar";
 import { useContext } from "react";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 
@@ -11,6 +16,7 @@ export const Search = () => {
   const [input, setInput] = useState<string>("");
   const [result, setResult] = useState<string | undefined>();
   const [resultClicked, setResultClicked] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   const [id, setId] = useState<string>("");
   const navigate = useNavigate();
@@ -49,25 +55,36 @@ export const Search = () => {
 
   useEffect(() => {
     getData(input);
+
+    setTimeout(() => {
+      typeof result !== "string" && input.length > 0
+        ? setError(true)
+        : setError(false);
+    }, 3000);
   }, [input]);
 
   return (
     <Wrapper>
       <SearchStyled
         placeholder="Search..."
-        id="#search-navbar"
+        id="search-navbar"
         onChange={onChangeInput}
         onKeyDown={onKeyDown}
         value={input}
       />
       {typeof result == "string" && !resultClicked ? (
         <Results>
-          <Button onClick={onClickResult}>
+          <Button onClick={onClickResult} id="search-result">
             <img src={image} />
             <div>@{result}</div>
           </Button>
         </Results>
       ) : null}
+      {error && (
+        <ErrorMessage id="search-error">
+          Wrong username, try another one.
+        </ErrorMessage>
+      )}
     </Wrapper>
   );
 };

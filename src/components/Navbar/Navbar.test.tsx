@@ -6,7 +6,7 @@ import { Navbar } from "./Navbar";
 import { ButtonImg } from "./Navbar.styles";
 
 describe("test navbar", () => {
-  it("contains 4 buttons", () => {
+  it("contains 7 buttons", () => {
     render(
       <BrowserRouter>
         <Provider store={store}>

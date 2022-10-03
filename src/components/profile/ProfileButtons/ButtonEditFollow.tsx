@@ -2,7 +2,11 @@ import styled from "styled-components";
 import { IButtonProps } from "./interfaces";
 
 export const ButtonEditFollow = ({ onClick, text }: IButtonProps) => {
-  return <Wrapper onClick={onClick}>{text}</Wrapper>;
+  return (
+    <Wrapper onClick={onClick} id="button-follow">
+      {text}
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.button`

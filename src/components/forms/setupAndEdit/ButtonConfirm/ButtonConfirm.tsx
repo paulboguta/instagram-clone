@@ -1,7 +1,7 @@
 import { Button } from "./ButtonConfirm.styles";
 
 interface IButtonConfirmProps {
-  onClick(): void;
+  onClick?(): void;
 }
 
 export const ButtonConfirm = ({ onClick }: IButtonConfirmProps) => {

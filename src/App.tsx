@@ -18,47 +18,12 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route
-          path="/signup"
-          element={
-            <AuthRoute>
-              <SignupPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/setup"
-          element={
-            <AuthRoute>
-              <SetupPage />
-            </AuthRoute>
-          }
-        />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/setup" element={<SetupPage />} />
         <Route path="/user/:userID" element={<ProfilePage />} />
-        <Route
-          path="/"
-          element={
-            <AuthRoute>
-              <Feed />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/edit"
-          element={
-            <AuthRoute>
-              <EditPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <AuthRoute>
-              <SearchPage />
-            </AuthRoute>
-          }
-        />
+        <Route path="/" element={<Feed />} />
+        <Route path="/edit" element={<EditPage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </>
   );

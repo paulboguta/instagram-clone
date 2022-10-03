@@ -14,6 +14,20 @@ describe("test navbar", () => {
     it("accepts input", () => {
       cy.get("#search-navbar").type("test type");
     });
+    it("gets username input and shows result based on that", () => {
+      cy.get("#search-navbar").type("secondaccount");
+      cy.get("#search-result").click();
+    });
+    it("redirects to username page while searched", () => {
+      cy.get("#search-navbar").type("secondaccount");
+      cy.get("#search-result").click();
+      cy.url().should("include", "zlYamrqVCbRX3c1qeZAnDO0OiQ52");
+    });
+    it("shows error message when username was not found", () => {
+      cy.get("#search-navbar").type("thridaccount");
+      cy.wait(3500);
+      expect(cy.get("#search-error")).to.exist;
+    });
   });
 
   describe("test buttons", () => {
@@ -24,7 +38,7 @@ describe("test navbar", () => {
       });
       it("test button profile", () => {
         cy.get("#button-nav-profile").click();
-        cy.url().should("include", "/profile");
+        cy.url().should("include", "/user");
       });
       it("test button DMs", () => {
         cy.get("#button-nav-messages").click();
