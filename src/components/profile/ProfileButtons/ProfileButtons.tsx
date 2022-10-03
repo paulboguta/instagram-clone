@@ -38,7 +38,9 @@ export const ProfileButtons = () => {
   const getDocs = async () => {
     const usersRef = doc(db, "users", id);
     onSnapshot(usersRef, (doc) => {
-      if (doc.data()!.followers.includes(userID)) {
+      if (
+        doc.data()!.followers.some((follower: any) => follower.uid === userID)
+      ) {
         setIsFollowed(true);
       } else {
         setIsFollowed(false);

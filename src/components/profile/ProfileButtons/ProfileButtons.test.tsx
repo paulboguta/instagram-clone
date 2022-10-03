@@ -8,15 +8,15 @@ import { AiOutlinePlus } from "react-icons/ai";
 
 describe("test profile buttons", () => {
   it("they handle onClick", () => {
+    const onClick = jest.fn();
     render(<ButtonDmAdd element={<AiOutlinePlus />} />);
     render(<ButtonDmAdd element={<BiMessageSquareAdd />} />);
-    render(<ButtonEditFollow text="Follow" />);
-    render(<ButtonUnfollow text="Unfollow" />);
-    const onClick = jest.fn();
+    render(<ButtonEditFollow text="Follow" onClick={onClick} />);
+    render(<ButtonUnfollow text="Unfollow" onClick={onClick} />);
     const buttonUnfollow = screen.getByText("Unfollow");
     const buttonEditFollow = screen.getByText("Follow");
     fireEvent.click(buttonUnfollow);
     fireEvent.click(buttonEditFollow);
-    expect(onClick).toHaveBeenCalledTimes(0);
+    expect(onClick).toHaveBeenCalledTimes(2);
   });
 });

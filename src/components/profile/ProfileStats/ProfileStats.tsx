@@ -1,6 +1,7 @@
 import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
+import { FollowingFollowersContext } from "../../../contexts/FollowingFollowersContext";
 import { db } from "../../../services/firebase";
 import {
   Wrapper,
@@ -17,6 +18,9 @@ export const ProfileStats = () => {
   const id = window.location.pathname.slice(6);
   const url = window.location.pathname;
   const { profileClicked, resultClicked } = useContext(ProfileResultContext);
+  const { onClickShowFollowersModal, onClickShowFollowingModal } = useContext(
+    FollowingFollowersContext
+  );
 
   const getDocs = async () => {
     const usersRef = doc(db, "users", id);
@@ -36,11 +40,11 @@ export const ProfileStats = () => {
       <Posts>
         <Gray>{posts}</Gray>Posts
       </Posts>
-      <FollowersButton>
+      <FollowersButton onClick={onClickShowFollowersModal}>
         <h2>Followers</h2>
         <Gray>{followersCounter}</Gray>
       </FollowersButton>
-      <FollowingButton>
+      <FollowingButton onClick={onClickShowFollowingModal}>
         <h2>Following</h2>
         <Gray>{followingCounter}</Gray>
       </FollowingButton>
