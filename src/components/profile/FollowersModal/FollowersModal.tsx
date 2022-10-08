@@ -3,7 +3,7 @@ import { FollowersModalButton } from "./FollowersModalButton";
 import { AiOutlineClose } from "react-icons/ai";
 import { IconContext } from "react-icons/lib";
 import { useSelector } from "react-redux";
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import { FollowingFollowersContext } from "../../../contexts/FollowingFollowersContext";
 import { RootState } from "../../../store/hooks";
@@ -58,6 +58,7 @@ export const FollowersModal = ({ header, modal }: IFollowersModalProps) => {
               <FollowersModalButton
                 img={followee.profilePic}
                 username={followee.username}
+                uid={followee.uid}
               />
             );
           })}
@@ -68,6 +69,7 @@ export const FollowersModal = ({ header, modal }: IFollowersModalProps) => {
               <FollowersModalButton
                 img={follower.profilePic}
                 username={follower.username}
+                uid={follower.uid}
               />
             );
           })}
