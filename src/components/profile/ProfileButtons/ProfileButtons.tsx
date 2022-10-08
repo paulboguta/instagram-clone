@@ -16,7 +16,11 @@ import { doUnfollow } from "../../../store/actions/userActions";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../services/firebase";
 
-export const ProfileButtons = () => {
+interface IProfileButtonsProps {
+  onClickAddPost(): void;
+}
+
+export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
   const [isFollowed, setIsFollowed] = useState<boolean>();
@@ -65,7 +69,7 @@ export const ProfileButtons = () => {
   };
 
   const onClickAdd = () => {
-    console.log("add post");
+    onClickAddPost();
   };
 
   useEffect(() => {
@@ -92,7 +96,9 @@ export const ProfileButtons = () => {
       {isOnOwnProfilePage && (
         <ButtonEditFollow onClick={onClickEditProfile} text="Edit Profile" />
       )}
-      {isOnOwnProfilePage && <ButtonDmAdd element={<AiOutlinePlus />} />}
+      {isOnOwnProfilePage && (
+        <ButtonDmAdd element={<AiOutlinePlus />} onClick={onClickAdd} />
+      )}
 
       {!isOnOwnProfilePage && !isFollowed && (
         <ButtonEditFollow onClick={onClickFollow} text="Follow" />

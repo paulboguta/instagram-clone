@@ -13,6 +13,7 @@ import { DarkModeContext } from "./contexts/DarkModeContext";
 import { ProfileResultContext } from "./contexts/ProfileResultContext";
 import { EditPage } from "./pages/EditPage/EditPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
+import { AddPostModal } from "./components/post/AddPostModal/AddPostModal";
 
 const App = () => {
   return (

@@ -86,4 +86,8 @@ export const ButtonClose = styled.button`
   height: 30px;
   width: 30px;
   cursor: pointer;
+
+  svg {
+    color: ${(props) => props.theme.backgroundOpposite};
+  }
 `;

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { IButtonProps } from "./interfaces";
 
-export const ButtonDmAdd = ({ element }: IButtonProps) => {
-  return <Wrapper>{element}</Wrapper>;
+export const ButtonDmAdd = ({ element, onClick }: IButtonProps) => {
+  return <Wrapper onClick={onClick}>{element}</Wrapper>;
 };
 
 const Wrapper = styled.button`

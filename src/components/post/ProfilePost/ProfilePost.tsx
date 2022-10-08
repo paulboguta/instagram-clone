@@ -1,10 +1,13 @@
 import { Wrapper } from "./ProfilePost.styles";
-import Post1 from "../../../assets/dummyPosts/post1.png";
 
-export const ProfilePost = () => {
+interface IProfilePostProps {
+  src: string;
+}
+
+export const ProfilePost = ({ src }: IProfilePostProps) => {
   return (
     <Wrapper>
-      <img src={Post1} />
+      <img src={src} />
     </Wrapper>
   );
 };
