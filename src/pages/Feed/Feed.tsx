@@ -28,8 +28,7 @@ export const Feed = () => {
   useEffect(() => {
     setTimeout(() => {
       getData();
-      console.log("called");
-    }, 500);
+    }, 1000);
   }, [url, onButtonClicked]);
 
   return (

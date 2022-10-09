@@ -1,5 +1,6 @@
-import { ADD_POST } from "../actions/postActions";
+import { ADD_POST, UNLIKE_POST } from "../actions/postActions";
 import { ADD_COMMENT } from "../actions/postActions";
+import { LIKE_POST } from "../actions/postActions";
 
 interface IPost {
   uid: string;
@@ -30,7 +31,8 @@ interface IAction {
   profilePic?: string;
   dateAdded?: Date;
   id?: string;
-  comments?: string;
+  comments?: any[];
+  likes?: any[];
 }
 
 const postReducer = (state = initialState, action: IAction) => {
@@ -58,6 +60,32 @@ const postReducer = (state = initialState, action: IAction) => {
               ...state.posts,
               {
                 comments: action.comments,
+              },
+            ];
+          }
+        }),
+      ];
+    case LIKE_POST:
+      return [
+        state.posts?.map((doc) => {
+          if (doc.id === action.id) {
+            return [
+              ...state.posts,
+              {
+                likes: action.likes,
+              },
+            ];
+          }
+        }),
+      ];
+    case UNLIKE_POST:
+      return [
+        state.posts?.map((doc) => {
+          if (doc.id === action.id) {
+            return [
+              ...state.posts,
+              {
+                likes: action.likes,
               },
             ];
           }

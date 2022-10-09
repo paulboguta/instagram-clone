@@ -9,6 +9,11 @@ import {
 import { BsThreeDots } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
+import { collectionGroup, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "../../../services/firebase";
+import { useEffect, useState } from "react";
+import { RootState } from "../../../store/hooks";
+import { useSelector } from "react-redux";
 
 interface IFeedPostProps {
   username: string;
@@ -31,6 +36,30 @@ export const FeedPost = ({
   id,
   clickHandler,
 }: IFeedPostProps) => {
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const currentUser = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
+
+  const getData = async () => {
+    const posts = query(collectionGroup(db, "posts"), where("id", "==", id));
+    onSnapshot(posts, (doc) => {
+      doc.docs.forEach((post) => {
+        if (
+          post.data()!.likes.some((liker: any) => liker.uid === currentUser.uid)
+        ) {
+          setIsLiked(true);
+        } else {
+          setIsLiked(false);
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    getData();
+  }, [clickHandler]);
+
   return (
     <Wrapper>
       <WrapperTopButtons>
@@ -50,6 +79,7 @@ export const FeedPost = ({
         comments={comments}
         id={id}
         clickHandler={clickHandler}
+        isLiked={isLiked}
       />
     </Wrapper>
   );

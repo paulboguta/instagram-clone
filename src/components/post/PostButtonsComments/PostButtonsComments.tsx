@@ -1,19 +1,21 @@
 import {
   ButtonsLikeCommentWrapper,
   ButtonLike,
-  ButtonComment,
   BoxShadow,
 } from "./PostButtonsComments.styles";
 import { CommentsWrapper } from "../CommentsWrapper/CommentsWrapper";
 import { IconContext } from "react-icons";
-import { AiOutlineHeart } from "react-icons/ai";
-import { BsChat } from "react-icons/bs";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { RootState, useAppDispatch } from "../../../store/hooks";
+import { likePost, unlikePost } from "../../../store/actions/postActions";
+import { useSelector } from "react-redux";
 
 interface IPostButtonsCommentsProps {
   likes: string[];
   comments: string[];
   id: string | undefined;
   clickHandler(): void;
+  isLiked: boolean;
 }
 
 export const PostButtonsComments = ({
@@ -21,19 +23,37 @@ export const PostButtonsComments = ({
   comments,
   id,
   clickHandler,
+  isLiked,
 }: IPostButtonsCommentsProps) => {
+  const dispatch = useAppDispatch();
+  const currentUser = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
+
+  const onClickLike = (event: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(likePost(currentUser.uid, event.currentTarget.id));
+    clickHandler();
+  };
+
+  const onClickUnlike = (event: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(unlikePost(currentUser.uid, event.currentTarget.id));
+    clickHandler();
+  };
+
   return (
     <BoxShadow>
       <ButtonsLikeCommentWrapper>
         <IconContext.Provider value={{ size: "22px" }}>
-          <ButtonLike>
-            <AiOutlineHeart />
-          </ButtonLike>
-        </IconContext.Provider>
-        <IconContext.Provider value={{ size: "20px" }}>
-          <ButtonComment>
-            <BsChat />
-          </ButtonComment>
+          {!isLiked && (
+            <ButtonLike id={id} onClick={onClickLike}>
+              <AiOutlineHeart />
+            </ButtonLike>
+          )}
+          {isLiked && (
+            <ButtonLike id={id} onClick={onClickUnlike}>
+              <AiFillHeart />
+            </ButtonLike>
+          )}
         </IconContext.Provider>
       </ButtonsLikeCommentWrapper>
       <CommentsWrapper
