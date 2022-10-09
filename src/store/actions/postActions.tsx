@@ -1,8 +1,19 @@
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { AppDispatch } from "../hooks";
 
 export const ADD_POST = "ADD_POST";
+export const ADD_COMMENT = "ADD_COMMENT";
 
 export const addPost =
   (uid: string, image: string, description: string) =>
@@ -13,13 +24,18 @@ export const addPost =
     const profilePic = userData.data()!.profilePic;
 
     const postsRef = collection(db, "users", uid, "posts");
-    await addDoc(postsRef, {
+    const docRef = doc(postsRef);
+    const postID = docRef.id;
+    const date = new Date();
+    await setDoc(doc(postsRef, `${docRef.id}`), {
       image: image,
       description: description,
       likes: [],
       comments: [],
       username: username,
       profilePic: profilePic,
+      id: postID,
+      dateAdded: date,
     });
     dispatch({
       type: ADD_POST,
@@ -28,5 +44,40 @@ export const addPost =
       description: description,
       username: username,
       profilePic: profilePic,
+      id: postID,
+      dateAdded: date,
+    });
+  };
+
+export const addComment =
+  (uid: string, id: string, comment: string) =>
+  async (dispatch: AppDispatch) => {
+    const userRef = doc(db, "users", uid);
+    const userData = await getDoc(userRef);
+    const username = userData.data()!.username;
+
+    const postRef = doc(db, `users/${uid}/posts/`, id);
+    const postData = await getDoc(postRef);
+
+    let arr: any[] = [];
+    if (postData.data()!.comments.length > 0) {
+      postData.data()!.comments.map((comment: any[]) => {
+        arr.push(comment);
+      });
+    }
+    arr.push({ uid: uid, username: username, comment: comment });
+
+    await setDoc(
+      postRef,
+      {
+        comments: arr,
+      },
+      { merge: true }
+    );
+
+    dispatch({
+      type: ADD_COMMENT,
+      id: id,
+      comments: arr,
     });
   };

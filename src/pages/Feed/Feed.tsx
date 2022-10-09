@@ -8,7 +8,12 @@ import { FeedPost } from "../../components/post/FeedPost/FeedPost";
 
 export const Feed = () => {
   const [posts, setPosts] = useState<any[]>();
+  const [onButtonClicked, setOnButtonClicked] = useState(false);
   const url = window.location.pathname.split("/").pop();
+
+  const clickHandler = () => {
+    setOnButtonClicked((onButtonClicked) => !onButtonClicked);
+  };
 
   const getData = async () => {
     const allPosts = query(collectionGroup(db, "posts"));
@@ -17,13 +22,15 @@ export const Feed = () => {
     querySnapshot.forEach((doc: any) => {
       arr.push(doc.data());
     });
-    console.log(arr);
     setPosts(arr);
   };
 
   useEffect(() => {
-    getData();
-  }, [url]);
+    setTimeout(() => {
+      getData();
+      console.log("called");
+    }, 500);
+  }, [url, onButtonClicked]);
 
   return (
     <Wrapper>
@@ -38,6 +45,8 @@ export const Feed = () => {
               description={post.description}
               comments={post.comments}
               likes={post.likes}
+              id={post.id}
+              clickHandler={clickHandler}
             />
           );
         })}

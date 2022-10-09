@@ -12,11 +12,15 @@ import { BsChat } from "react-icons/bs";
 interface IPostButtonsCommentsProps {
   likes: string[];
   comments: string[];
+  id: string | undefined;
+  clickHandler(): void;
 }
 
 export const PostButtonsComments = ({
   likes,
   comments,
+  id,
+  clickHandler,
 }: IPostButtonsCommentsProps) => {
   return (
     <BoxShadow>
@@ -32,7 +36,12 @@ export const PostButtonsComments = ({
           </ButtonComment>
         </IconContext.Provider>
       </ButtonsLikeCommentWrapper>
-      <CommentsWrapper likes={likes} comments={comments} />
+      <CommentsWrapper
+        likes={likes}
+        comments={comments}
+        id={id}
+        clickHandler={clickHandler}
+      />
     </BoxShadow>
   );
 };

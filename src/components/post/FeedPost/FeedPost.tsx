@@ -6,11 +6,7 @@ import {
   WrapperTopButtons,
   ButtonEdit,
 } from "./FeedPost.styles";
-
 import { BsThreeDots } from "react-icons/bs";
-
-import Photo1 from "../../../assets/dummyPosts/post1.png";
-import Profile1 from "../../../assets/memoji/Memoji-01.png";
 import { IconContext } from "react-icons";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 
@@ -21,6 +17,8 @@ interface IFeedPostProps {
   image: string;
   comments: string[];
   likes: string[];
+  id?: string;
+  clickHandler(): void;
 }
 
 export const FeedPost = ({
@@ -30,6 +28,8 @@ export const FeedPost = ({
   image,
   comments,
   likes,
+  id,
+  clickHandler,
 }: IFeedPostProps) => {
   return (
     <Wrapper>
@@ -45,7 +45,12 @@ export const FeedPost = ({
         </ButtonEdit>
       </WrapperTopButtons>
       <Img src={image} />
-      <PostButtonsComments likes={likes} comments={comments} />
+      <PostButtonsComments
+        likes={likes}
+        comments={comments}
+        id={id}
+        clickHandler={clickHandler}
+      />
     </Wrapper>
   );
 };

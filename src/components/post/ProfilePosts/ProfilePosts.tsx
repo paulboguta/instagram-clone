@@ -13,6 +13,10 @@ export interface PostData {
   description: string;
   likes: [];
   comments: [];
+  username: string;
+  profilePic: string;
+  dateAdded?: Date;
+  id?: string;
 }
 
 interface IProfilePostsProps {

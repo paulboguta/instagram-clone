@@ -6,10 +6,20 @@ export const GlobalStyle = createGlobalStyle`
   padding: 0;
   box-sizing: border-box;
   font-family: 'Helvetica', sans-serif;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-html, body {
-  height: 100vh;
+::-webkit-scrollbar {
+  display: none;
+}
+
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 /* :root {
     --primary-font-color: rgb(0, 0, 0);

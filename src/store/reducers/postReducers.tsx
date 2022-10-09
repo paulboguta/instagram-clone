@@ -1,4 +1,5 @@
 import { ADD_POST } from "../actions/postActions";
+import { ADD_COMMENT } from "../actions/postActions";
 
 interface IPost {
   uid: string;
@@ -8,6 +9,8 @@ interface IPost {
   comments: [];
   username: string;
   profilePic: string;
+  dateAdded?: Date;
+  id?: string;
 }
 
 interface IPostState {
@@ -25,6 +28,9 @@ interface IAction {
   description?: string;
   username?: string;
   profilePic?: string;
+  dateAdded?: Date;
+  id?: string;
+  comments?: string;
 }
 
 const postReducer = (state = initialState, action: IAction) => {
@@ -40,7 +46,22 @@ const postReducer = (state = initialState, action: IAction) => {
           comments: [],
           username: action.username,
           profilePic: action.profilePic,
+          dateAdded: action.dateAdded,
+          id: action.id,
         },
+      ];
+    case ADD_COMMENT:
+      return [
+        state.posts?.map((doc) => {
+          if (doc.id === action.id) {
+            return [
+              ...state.posts,
+              {
+                comments: action.comments,
+              },
+            ];
+          }
+        }),
       ];
     default:
       return state;

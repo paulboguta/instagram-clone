@@ -7,6 +7,7 @@ export const FeedPosts = styled.div`
   padding-top: 200px;
   height: 100%;
   gap: 30px;
+  background-color: ${(props) => props.theme.backgroundPrimary};
 
   @media (max-width: 768px) {
     padding-top: 30px;

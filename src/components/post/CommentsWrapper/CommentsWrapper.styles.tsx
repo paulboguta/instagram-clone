@@ -50,6 +50,7 @@ export const Comments = styled.div`
 
 export const Comment = styled.div`
   display: flex;
+  align-items: center;
   gap: 8px;
 `;
 

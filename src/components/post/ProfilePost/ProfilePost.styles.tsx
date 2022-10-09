@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.button`
-  height: 245px;
-  width: 245px;
+  height: 250px;
+  width: 250px;
   border: none;
   cursor: pointer;
 
