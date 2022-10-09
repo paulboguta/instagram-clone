@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/hooks";
 import { db } from "../../../services/firebase";
 
-interface PostData {
+export interface PostData {
   image: string;
   uid: string;
   description: string;

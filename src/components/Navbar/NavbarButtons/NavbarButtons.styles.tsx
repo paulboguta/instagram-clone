@@ -20,6 +20,7 @@ export const ButtonNav = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  color: ${(props) => props.theme.fontPrimary};
 
   & :nth-child(2) {
     display: none;

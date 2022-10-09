@@ -7,6 +7,10 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
   font-family: 'Helvetica', sans-serif;
 }
+
+html, body {
+  height: 100vh;
+}
 /* :root {
     --primary-font-color: rgb(0, 0, 0);
     --secondary-font-color: rgb(136, 136, 136);

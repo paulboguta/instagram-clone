@@ -6,6 +6,8 @@ interface IPost {
   description: string;
   likes: [];
   comments: [];
+  username: string;
+  profilePic: string;
 }
 
 interface IPostState {
@@ -21,6 +23,8 @@ interface IAction {
   uid?: string;
   image?: string;
   description?: string;
+  username?: string;
+  profilePic?: string;
 }
 
 const postReducer = (state = initialState, action: IAction) => {
@@ -34,6 +38,8 @@ const postReducer = (state = initialState, action: IAction) => {
           description: action.description,
           likes: [],
           comments: [],
+          username: action.username,
+          profilePic: action.profilePic,
         },
       ];
     default:
