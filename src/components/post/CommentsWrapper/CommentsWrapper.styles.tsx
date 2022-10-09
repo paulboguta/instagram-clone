@@ -12,7 +12,10 @@ export const Wrapper = styled.div`
     width: 98%;
   }
 `;
-export const LikesCount = styled.div`
+export const LikesCount = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 6px;

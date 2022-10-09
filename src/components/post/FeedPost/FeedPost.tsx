@@ -11,9 +11,11 @@ import { IconContext } from "react-icons";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 import { collectionGroup, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../../services/firebase";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RootState } from "../../../store/hooks";
 import { useSelector } from "react-redux";
+import { LikesModal } from "../LikesModal/LikesModal";
+import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 interface IFeedPostProps {
   username: string;
@@ -37,20 +39,25 @@ export const FeedPost = ({
   clickHandler,
 }: IFeedPostProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const { likesModalID, showModalLikes } = useContext(LikesModalContext);
   const currentUser = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
 
   const getData = async () => {
-    const posts = query(collectionGroup(db, "posts"), where("id", "==", id));
+    const posts = query(collectionGroup(db, "posts"));
     onSnapshot(posts, (doc) => {
       doc.docs.forEach((post) => {
-        if (
-          post.data()!.likes.some((liker: any) => liker.uid === currentUser.uid)
-        ) {
-          setIsLiked(true);
-        } else {
-          setIsLiked(false);
+        if (post.data()!.id === id) {
+          if (
+            post
+              .data()!
+              .likes.some((liker: any) => liker.uid === currentUser.uid)
+          ) {
+            setIsLiked(true);
+          } else {
+            setIsLiked(false);
+          }
         }
       });
     });
@@ -62,6 +69,7 @@ export const FeedPost = ({
 
   return (
     <Wrapper>
+      {showModalLikes && <LikesModal id={likesModalID} />}
       <WrapperTopButtons>
         <ButtonPost>
           <ProfileImg src={profilePic} />

@@ -14,6 +14,7 @@ import { ProfileResultContext } from "./contexts/ProfileResultContext";
 import { EditPage } from "./pages/EditPage/EditPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { AddPostModal } from "./components/post/AddPostModal/AddPostModal";
+import { LikesModalContext } from "./contexts/LikesModalContext";
 
 const App = () => {
   return (
@@ -35,6 +36,16 @@ const AppWrapper = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [profileClicked, setProfileClicked] = useState<boolean>(false);
   const [resultClicked, setResultClicked] = useState<boolean>(false);
+  const [showModalLikes, setShowModalLikes] = useState<boolean>(false);
+  const [likesModalID, setLikesModalID] = useState("");
+
+  const onClickShowLikesModal = (id: string) => {
+    setLikesModalID(id);
+    setShowModalLikes(true);
+  };
+  const onClickHideLikesModal = () => {
+    setShowModalLikes(false);
+  };
 
   const changeDarkModeOnClick = () => {
     setDarkMode((darkMode) => !darkMode);
@@ -59,12 +70,21 @@ const AppWrapper = () => {
           resultClicked,
         }}
       >
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <App />
-          </ThemeProvider>
-        </Provider>
+        <LikesModalContext.Provider
+          value={{
+            showModalLikes,
+            onClickHideLikesModal,
+            onClickShowLikesModal,
+            likesModalID,
+          }}
+        >
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle />
+              <App />
+            </ThemeProvider>
+          </Provider>
+        </LikesModalContext.Provider>
       </ProfileResultContext.Provider>
     </DarkModeContext.Provider>
   );

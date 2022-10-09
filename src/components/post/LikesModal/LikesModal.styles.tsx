@@ -3,11 +3,12 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
   box-shadow: ${(props) => props.theme.boxShadowPrimary};
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   flex-direction: column;
   overflow-y: auto;
+  padding-top: 8px;
 
   div {
     margin-top: 5px;
@@ -17,21 +18,13 @@ export const Wrapper = styled.div`
 
   @media (min-width: 1160px) {
     width: 400px;
-    height: 300px;
+    height: 400px;
     top: 35%;
     right: 50%;
     transform: translate(50%, -50%);
     border-radius: 16px;
   }
 
-  @media (min-width: 1560px) {
-    width: 400px;
-    height: 300px;
-    top: 35%;
-    right: 70%;
-    transform: translate(50%, -50%);
-    border-radius: 16px;
-  }
   @media (max-width: 1160px) and (min-width: 768px) {
     width: 400px;
     height: 300px;
@@ -80,7 +73,7 @@ export const Button = styled.button`
 export const ButtonClose = styled.button`
   background-color: transparent;
   border: none;
-  position: absolute;
+  position: fixed;
   left: 10px;
   top: 10px;
   height: 30px;
@@ -90,4 +83,8 @@ export const ButtonClose = styled.button`
   svg {
     color: ${(props) => props.theme.backgroundOpposite};
   }
+`;
+
+export const Likes0Info = styled.div`
+  color: ${(props) => props.theme.fontSecondary};
 `;

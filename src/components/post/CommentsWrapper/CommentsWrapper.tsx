@@ -13,12 +13,12 @@ import {
 
 import { AiOutlineSend } from "react-icons/ai";
 import { IconContext } from "react-icons";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { RootState, useAppDispatch } from "../../../store/hooks";
 import { addComment } from "../../../store/actions/postActions";
 import { useSelector } from "react-redux";
-import { collectionGroup, onSnapshot, query } from "firebase/firestore";
-import { db } from "../../../services/firebase";
+import { useContext } from "react";
+import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 interface ICommentsWrapperProps {
   likes: any[];
@@ -35,6 +35,7 @@ export const CommentsWrapper = ({
 }: ICommentsWrapperProps) => {
   const likesCount = likes.length;
   const [newComment, setNewComment] = useState("");
+  const { onClickShowLikesModal } = useContext(LikesModalContext);
   const dispatch = useAppDispatch();
   const currentUser = useSelector(
     (state: RootState) => state.rootReducer.currentUser
@@ -42,6 +43,11 @@ export const CommentsWrapper = ({
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
+  };
+
+  const onClickLikesCount = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onClickShowLikesModal(event.currentTarget.id);
+    clickHandler();
   };
 
   const onClickAddComment = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,7 +67,9 @@ export const CommentsWrapper = ({
 
   return (
     <Wrapper>
-      <LikesCount>{likesCount} likes</LikesCount>
+      <LikesCount onClick={onClickLikesCount} id={id}>
+        {likesCount} likes
+      </LikesCount>
       <ButtonViewComments>View All Comments</ButtonViewComments>
       <hr />
       <Comments>

@@ -79,6 +79,7 @@ export const likePost =
     const userRef = doc(db, "users", uid);
     const userData = await getDoc(userRef);
     const username = userData.data()!.username;
+    const profilePic = userData.data()!.profilePic;
 
     const postRef = doc(db, `users/${uid}/posts/`, id);
     const postData = await getDoc(postRef);
@@ -89,7 +90,7 @@ export const likePost =
         arr.push(like);
       });
     }
-    arr.push({ uid: uid, username: username });
+    arr.push({ uid: uid, username: username, profilePic: profilePic });
 
     await setDoc(
       postRef,
