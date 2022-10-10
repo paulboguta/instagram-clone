@@ -31,6 +31,7 @@ export const ProfilePosts = ({ confirmed }: IProfilePostsProps) => {
     (state: RootState) => state.rootReducer.currentUser
   );
   const { profileClicked, resultClicked } = useContext(ProfileResultContext);
+
   const id = window.location.pathname.slice(6);
   const url = window.location.pathname.split("/").pop();
 
@@ -59,7 +60,7 @@ export const ProfilePosts = ({ confirmed }: IProfilePostsProps) => {
   return (
     <Posts>
       {posts.map((post: any, key: number) => {
-        return <ProfilePost src={post.image} key={key} />;
+        return <ProfilePost src={post.image} key={key} id={post.id} />;
       })}
     </Posts>
   );

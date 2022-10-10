@@ -8,13 +8,14 @@ import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { AuthRoute } from "./features/auth/AuthRoute";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
-import { useState } from "react";
+import React, { useState } from "react";
 import { DarkModeContext } from "./contexts/DarkModeContext";
 import { ProfileResultContext } from "./contexts/ProfileResultContext";
 import { EditPage } from "./pages/EditPage/EditPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
-import { AddPostModal } from "./components/post/AddPostModal/AddPostModal";
 import { LikesModalContext } from "./contexts/LikesModalContext";
+import { PostPage } from "./pages/PostPage/PostPage";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/" element={<Feed />} />
         <Route path="/edit" element={<EditPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/post/:postID" element={<PostPage />} />
       </Routes>
     </>
   );
@@ -38,6 +40,8 @@ const AppWrapper = () => {
   const [resultClicked, setResultClicked] = useState<boolean>(false);
   const [showModalLikes, setShowModalLikes] = useState<boolean>(false);
   const [likesModalID, setLikesModalID] = useState("");
+  const [postID, setPostID] = useState("");
+  const navigate = useNavigate();
 
   const onClickShowLikesModal = (id: string) => {
     setLikesModalID(id);
@@ -60,6 +64,15 @@ const AppWrapper = () => {
     setResultClicked((resultClicked) => !resultClicked);
   };
 
+  const onClickPost = (
+    id: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    setPostID(id);
+    navigate(`/post/${id}`);
+  };
+
   return (
     <DarkModeContext.Provider value={{ changeDarkModeOnClick, darkMode }}>
       <ProfileResultContext.Provider
@@ -76,6 +89,8 @@ const AppWrapper = () => {
             onClickHideLikesModal,
             onClickShowLikesModal,
             likesModalID,
+            onClickPost,
+            postID,
           }}
         >
           <Provider store={store}>

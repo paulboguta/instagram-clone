@@ -1,12 +1,10 @@
 import { collectionGroup, getDocs, query } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { db } from "../../services/firebase";
 import { PostData } from "../../components/post/ProfilePosts/ProfilePosts";
 import { FeedPosts, Wrapper } from "./Feed.styles";
 import { FeedPost } from "../../components/post/FeedPost/FeedPost";
-import { LikesModal } from "../../components/post/LikesModal/LikesModal";
-import { LikesModalContext } from "../../contexts/LikesModalContext";
 
 export const Feed = () => {
   const [posts, setPosts] = useState<any[]>();

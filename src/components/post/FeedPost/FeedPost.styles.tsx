@@ -81,3 +81,9 @@ export const ButtonEdit = styled(ButtonLike)`
   margin-right: 12px;
   color: ${(props) => props.theme.fontPrimary};
 `;
+
+export const ButtonMoveToPost = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+`;

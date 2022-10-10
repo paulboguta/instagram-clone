@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IBoxShadowProps {
+  hideComments: boolean;
+}
+
 export const ButtonsLikeCommentWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -23,6 +27,12 @@ export const ButtonComment = styled(ButtonLike)`
   padding: 2px;
 `;
 
-export const BoxShadow = styled.div`
+export const BoxShadow = styled.div<IBoxShadowProps>`
   width: 100%;
+
+  @media (max-width: 1200px) {
+    position: ${(props) =>
+      props.hideComments == true ? "absolute" : "static"};
+    bottom: 0;
+  }
 `;

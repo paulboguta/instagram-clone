@@ -16,6 +16,7 @@ interface IPostButtonsCommentsProps {
   id: string | undefined;
   clickHandler(): void;
   isLiked: boolean;
+  hideComments: boolean;
 }
 
 export const PostButtonsComments = ({
@@ -24,6 +25,7 @@ export const PostButtonsComments = ({
   id,
   clickHandler,
   isLiked,
+  hideComments,
 }: IPostButtonsCommentsProps) => {
   const dispatch = useAppDispatch();
   const currentUser = useSelector(
@@ -33,6 +35,7 @@ export const PostButtonsComments = ({
   const onClickLike = (event: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(likePost(currentUser.uid, event.currentTarget.id));
     clickHandler();
+    console.log(currentUser.uid);
   };
 
   const onClickUnlike = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,7 +44,7 @@ export const PostButtonsComments = ({
   };
 
   return (
-    <BoxShadow>
+    <BoxShadow hideComments={hideComments}>
       <ButtonsLikeCommentWrapper>
         <IconContext.Provider value={{ size: "22px" }}>
           {!isLiked && (
@@ -61,6 +64,7 @@ export const PostButtonsComments = ({
         comments={comments}
         id={id}
         clickHandler={clickHandler}
+        hideComments={hideComments}
       />
     </BoxShadow>
   );

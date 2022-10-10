@@ -57,6 +57,7 @@ export const addComment =
     const userRef = doc(db, "users", uid);
     const userData = await getDoc(userRef);
     const username = userData.data()!.username;
+    const profilePic = userData.data()!.profilePic;
 
     const postRef = doc(db, `users/${uid}/posts/`, id);
     const postData = await getDoc(postRef);
@@ -67,7 +68,12 @@ export const addComment =
         arr.push(comment);
       });
     }
-    arr.push({ uid: uid, username: username, comment: comment });
+    arr.push({
+      uid: uid,
+      username: username,
+      comment: comment,
+      profilePic: profilePic,
+    });
 
     await setDoc(
       postRef,

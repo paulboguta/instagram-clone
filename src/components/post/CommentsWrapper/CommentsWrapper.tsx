@@ -5,10 +5,6 @@ import {
   AddCommentWrapper,
   ButtonAddComment,
   CommentInput,
-  Comments,
-  Comment,
-  CommentUser,
-  CommentText,
 } from "./CommentsWrapper.styles";
 
 import { AiOutlineSend } from "react-icons/ai";
@@ -19,12 +15,14 @@ import { addComment } from "../../../store/actions/postActions";
 import { useSelector } from "react-redux";
 import { useContext } from "react";
 import { LikesModalContext } from "../../../contexts/LikesModalContext";
+import { Comments } from "./Comments";
 
 interface ICommentsWrapperProps {
-  likes: any[];
-  comments: any[];
+  likes?: any[];
+  comments?: any[];
   id?: string | undefined;
   clickHandler(): void;
+  hideComments?: boolean;
 }
 
 export const CommentsWrapper = ({
@@ -32,8 +30,9 @@ export const CommentsWrapper = ({
   comments,
   id,
   clickHandler,
+  hideComments,
 }: ICommentsWrapperProps) => {
-  const likesCount = likes.length;
+  const likesCount = likes?.length;
   const [newComment, setNewComment] = useState("");
   const { onClickShowLikesModal } = useContext(LikesModalContext);
   const dispatch = useAppDispatch();
@@ -63,25 +62,18 @@ export const CommentsWrapper = ({
   };
 
   // display only first 2 comments so slice comments arr
-  const slicedComments = comments.slice(0, 2);
+  const slicedComments = comments?.slice(0, 2);
 
   return (
     <Wrapper>
       <LikesCount onClick={onClickLikesCount} id={id}>
         {likesCount} likes
       </LikesCount>
-      <ButtonViewComments>View All Comments</ButtonViewComments>
+      {!hideComments && (
+        <ButtonViewComments>View All Comments</ButtonViewComments>
+      )}
       <hr />
-      <Comments>
-        {slicedComments.map((comment) => {
-          return (
-            <Comment>
-              <CommentUser>@{comment.username}</CommentUser>
-              <CommentText>{comment.comment}</CommentText>
-            </Comment>
-          );
-        })}
-      </Comments>
+      {!hideComments && <Comments comments={comments} />}
       <AddCommentWrapper>
         <CommentInput
           placeholder="Add a comment.."

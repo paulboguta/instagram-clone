@@ -5,8 +5,10 @@ export const Wrapper = styled.div`
   width: 100%;
   padding-left: 8px;
   background-color: ${(props) => props.theme.backgroundPrimary};
+
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
+
   hr {
     opacity: 0.5;
     width: 98%;
@@ -46,9 +48,10 @@ export const ButtonAddComment = styled(ButtonLike)`
   color: ${(props) => props.theme.fontPrimary};
 `;
 
-export const Comments = styled.div`
+export const CommentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 `;
 
 export const Comment = styled.div`
@@ -68,4 +71,33 @@ export const CommentUser = styled.button`
 export const CommentText = styled.div`
   font-size: 12px;
   color: ${(props) => props.theme.fontPrimary};
+`;
+
+export const PostPageComment = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 10px;
+`;
+
+export const PostPageCommentUserPic = styled.img`
+  height: 30px;
+  border-radius: 50%;
+  background-color: #dcbae7;
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(220, 186, 231, 1);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(220, 186, 231, 1);
+  box-shadow: 0px 0px 6px 0px rgba(220, 186, 231, 1);
+`;
+export const PostPageCommentUser = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  color: ${(props) => props.theme.fontPrimary};
+`;
+export const PostPageCommentText = styled.div`
+  color: ${(props) => props.theme.fontSecondary};
+  font-size: 12px;
+  font-weight: 300;
 `;

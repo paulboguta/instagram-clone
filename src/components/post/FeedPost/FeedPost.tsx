@@ -5,13 +5,14 @@ import {
   ProfileImg,
   WrapperTopButtons,
   ButtonEdit,
+  ButtonMoveToPost,
 } from "./FeedPost.styles";
 import { BsThreeDots } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 import { collectionGroup, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../../services/firebase";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RootState } from "../../../store/hooks";
 import { useSelector } from "react-redux";
 import { LikesModal } from "../LikesModal/LikesModal";
@@ -39,7 +40,8 @@ export const FeedPost = ({
   clickHandler,
 }: IFeedPostProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  const { likesModalID, showModalLikes } = useContext(LikesModalContext);
+  const { likesModalID, showModalLikes, onClickPost } =
+    useContext(LikesModalContext);
   const currentUser = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
@@ -63,6 +65,10 @@ export const FeedPost = ({
     });
   };
 
+  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onClickPost(event.currentTarget.id, event);
+  };
+
   useEffect(() => {
     getData();
   }, [clickHandler]);
@@ -81,13 +87,16 @@ export const FeedPost = ({
           </IconContext.Provider>
         </ButtonEdit>
       </WrapperTopButtons>
-      <Img src={image} />
+      <ButtonMoveToPost id={id} onClick={onClick}>
+        <Img src={image} />
+      </ButtonMoveToPost>
       <PostButtonsComments
         likes={likes}
         comments={comments}
         id={id}
         clickHandler={clickHandler}
         isLiked={isLiked}
+        hideComments={false}
       />
     </Wrapper>
   );
