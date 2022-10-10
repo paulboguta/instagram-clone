@@ -1,4 +1,4 @@
-import { doc, onSnapshot } from "firebase/firestore";
+import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import { FollowingFollowersContext } from "../../../contexts/FollowingFollowersContext";
@@ -22,17 +22,26 @@ export const ProfileStats = () => {
     FollowingFollowersContext
   );
 
-  const getDocs = async () => {
+  const getData = async () => {
     const usersRef = doc(db, "users", id);
+
+    // getting all posts from user and displaying number of posts
+    const postsRef = collection(db, `users/${id}/posts`);
+    const posts = await getDocs(postsRef);
+    let arr: any[] = [];
+    posts.forEach((doc) => {
+      arr.push(doc.data()!);
+    });
+    setPosts(arr.length);
+
     onSnapshot(usersRef, (doc) => {
-      setPosts(doc.data()!.postCounter);
       setFollowersCounter(doc.data()!.followers.length);
       setFollowingCounter(doc.data()!.following.length);
     });
   };
 
   useEffect(() => {
-    getDocs();
+    getData();
   }, [resultClicked, profileClicked, url]);
 
   return (
