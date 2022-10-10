@@ -24,7 +24,7 @@ export const Feed = () => {
     querySnapshot.forEach((doc: any) => {
       arr.push(doc.data());
     });
-    setPosts(arr);
+    setPosts(arr.reverse());
   };
 
   useEffect(() => {
