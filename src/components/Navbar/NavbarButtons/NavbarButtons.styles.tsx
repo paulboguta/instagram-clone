@@ -48,6 +48,7 @@ export const ButtonNavDesktop = styled(ButtonNav)`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  color: ${(props) => props.theme.fontPrimary};
 
   @media (max-width: 768px) {
     display: none;
@@ -58,6 +59,7 @@ export const ButtonNavMobile = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  color: ${(props) => props.theme.fontPrimary};
 
   @media (min-width: 768px) {
     display: none;
