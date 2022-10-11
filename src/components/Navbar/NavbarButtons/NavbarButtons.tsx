@@ -22,11 +22,13 @@ import { useContext } from "react";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/hooks";
+import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 export const NavbarButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
   const { onProfileClick, resultClicked } = useContext(ProfileResultContext);
+  const { onClickHideLikesModal } = useContext(LikesModalContext);
   const currentUser = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
@@ -35,39 +37,52 @@ export const NavbarButtons = () => {
     setUserID(currentUser.uid);
   }, [currentUser, onProfileClick, resultClicked]);
 
-  const onClick = () => {
+  const onClickProfile = () => {
     onProfileClick();
     navigate(`/user/${userID}`);
+  };
+
+  const onClickHome = () => {
+    navigate("/");
+  };
+
+  const onClickSearch = () => {
+    navigate("/search");
+  };
+
+  const onClickMessages = () => {
+    navigate("/messages");
+  };
+
+  const onClickNotifications = () => {
+    navigate("/notifications");
   };
 
   return (
     <IconWrapper>
       <IconContext.Provider value={{ size: "24px" }}>
-        <ButtonNav onClick={() => navigate("/")} id="button-nav-home">
+        <ButtonNav onClick={onClickHome} id="button-nav-home">
           <AiOutlineHome />
           <AiFillHome />
         </ButtonNav>
-        <ButtonNavMobile onClick={() => navigate("/search")}>
+        <ButtonNavMobile onClick={onClickSearch}>
           <AiOutlineSearch />
         </ButtonNavMobile>
         <ButtonNavMobile>
           <IoAddCircleOutline />
         </ButtonNavMobile>
-        <ButtonNav
-          onClick={() => navigate("/messages")}
-          id="button-nav-messages"
-        >
+        <ButtonNav onClick={onClickMessages} id="button-nav-messages">
           <AiOutlineMessage />
           <AiFillMessage />
         </ButtonNav>
         <ButtonNavDesktop
-          onClick={() => navigate("/notifications")}
+          onClick={onClickNotifications}
           id="button-nav-notifications"
         >
           <AiOutlineHeart />
           <AiFillHeart />
         </ButtonNavDesktop>
-        <ButtonNav onClick={onClick} id="button-nav-profile">
+        <ButtonNav onClick={onClickProfile} id="button-nav-profile">
           <BsPerson />
           <BsPersonFill />
         </ButtonNav>

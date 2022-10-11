@@ -8,7 +8,7 @@ import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { AuthRoute } from "./features/auth/AuthRoute";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DarkModeContext } from "./contexts/DarkModeContext";
 import { ProfileResultContext } from "./contexts/ProfileResultContext";
 import { EditPage } from "./pages/EditPage/EditPage";
@@ -50,6 +50,12 @@ const AppWrapper = () => {
   const onClickHideLikesModal = () => {
     setShowModalLikes(false);
   };
+
+  // on url change also hide likes modal
+  const url = window.location.pathname.split("/").pop();
+  useEffect(() => {
+    setShowModalLikes(false);
+  }, [url]);
 
   const changeDarkModeOnClick = () => {
     setDarkMode((darkMode) => !darkMode);

@@ -37,8 +37,6 @@ export const Wrapper = styled.div`
 `;
 
 export const Img = styled.img`
-  border-bottom-left-radius: 16px;
-  border-top-left-radius: 16px;
   @media (max-width: 420px) {
     width: 100vw;
     height: 100vw;
@@ -53,6 +51,11 @@ export const Img = styled.img`
   @media (max-width: 1200px) {
     margin-top: 100px;
   }
+
+  @media (min-width: 1200px) {
+    border-bottom-left-radius: 16px;
+    border-top-left-radius: 16px;
+  }
 `;
 export const PostProfileSectionWrapper = styled.div`
   display: grid;
@@ -66,20 +69,10 @@ export const PostProfileSectionWrapper = styled.div`
   width: 100%;
   height: 40%;
 
-  hr {
-    width: 220%;
-    opacity: 0.4;
-    margin-bottom: 4px;
-  }
-
   @media (max-width: 1200px) {
     position: absolute;
     top: -30px;
     left: -120px;
-
-    hr {
-      opacity: 0;
-    }
   }
 `;
 
@@ -136,4 +129,11 @@ export const WrapperComments = styled.div`
   @media (max-width: 1200px) {
     height: 60%;
   }
+`;
+
+export const MarginTop = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
