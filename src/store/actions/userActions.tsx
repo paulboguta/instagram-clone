@@ -1,4 +1,12 @@
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collectionGroup,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { AppDispatch } from "../hooks";
 
@@ -26,13 +34,47 @@ export const doSetup =
     theme: string
   ) =>
   async (dispatch: AppDispatch) => {
+    // update user doc
     const docRef = doc(db, "users", uid);
-
     await updateDoc(docRef, {
       username: username,
       bio: bio,
       profilePic: profilePic,
       theme: theme,
+    });
+
+    // update posts (profilepic, username. in likes and comments also profilepic, username)
+    const allPosts = query(collectionGroup(db, "posts"));
+    const querySnapshot = await getDocs(allPosts);
+
+    querySnapshot.forEach((doc: any) => {
+      console.log(doc.data());
+      // updateDoc(doc(db, "posts", doc.data().id), {
+      //   profilePic: profilePic,
+      //   likes: doc.data()!.likes.map((like: any) => {
+      //     if (like.uid === uid) {
+      //       return {
+      //         username: username,
+      //         profilePic: profilePic,
+      //         uid: like.uid,
+      //       };
+      //     } else {
+      //       return like;
+      //     }
+      //   }),
+      //   comments: doc.data()!.comments.map((comment: any) => {
+      //     if (comment.uid === uid) {
+      //       return {
+      //         username: username,
+      //         profilePic: profilePic,
+      //         uid: comment.uid,
+      //         comment: comment.comment,
+      //       };
+      //     } else {
+      //       return comment;
+      //     }
+      //   }),
+      // });
     });
 
     dispatch({

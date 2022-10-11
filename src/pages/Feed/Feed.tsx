@@ -38,10 +38,8 @@ export const Feed = () => {
         {posts?.map((post) => {
           return (
             <FeedPost
-              username={post.username}
-              profilePic={post.profilePic}
               image={post.image}
-              description={post.description}
+              uid={post.uid}
               comments={post.comments}
               likes={post.likes}
               id={post.id}

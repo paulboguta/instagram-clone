@@ -1,4 +1,10 @@
-import { collectionGroup, getDocs, query } from "firebase/firestore";
+import {
+  collectionGroup,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+} from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LikesModalContext } from "../../contexts/LikesModalContext";
@@ -26,6 +32,9 @@ export const PostPage = () => {
   const [post, setPost] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [userID, setUserID] = useState("");
+  const [username, setUsername] = useState("");
+  const [profilePic, setProfilePic] = useState("");
   const navigate = useNavigate();
   const { likesModalID, showModalLikes, postID } =
     useContext(LikesModalContext);
@@ -41,6 +50,7 @@ export const PostPage = () => {
     querySnapshot.forEach((doc: any) => {
       if (doc.data()!.id === postID) {
         setPost(doc.data());
+        setUserID(doc.data().uid);
         if (
           doc.data()!.likes.some((liker: any) => liker.uid === currentUser.uid)
         ) {
@@ -52,10 +62,18 @@ export const PostPage = () => {
     });
   };
 
+  const getUserData = async () => {
+    const userRef = doc(db, "users", userID);
+    const userData = await getDoc(userRef);
+    setUsername(userData.data()!.username);
+    setProfilePic(userData.data()!.profilePic);
+  };
+
   const clickHandler = () => {};
 
   useEffect(() => {
     setTimeout(() => {
+      getUserData();
       getData();
     }, 500);
   }, [url, clickHandler]);
@@ -63,7 +81,7 @@ export const PostPage = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 1200);
   }, [url]);
 
   const onClickUsernameMoveToUserProfile = (
@@ -85,12 +103,12 @@ export const PostPage = () => {
             <Img src={post?.image} />
             <div>
               <PostProfileSectionWrapper>
-                <ProfilePic src={post?.profilePic} />
+                <ProfilePic src={profilePic} />
                 <Username
                   onClick={onClickUsernameMoveToUserProfile}
                   id={post?.uid}
                 >
-                  @{post?.username}
+                  @{username}
                 </Username>
                 {+windowDim.width > 1200 && (
                   <Description>{post?.description}</Description>

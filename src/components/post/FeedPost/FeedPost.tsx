@@ -10,7 +10,14 @@ import {
 import { BsThreeDots } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
-import { collectionGroup, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collectionGroup,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../../services/firebase";
 import React, { useContext, useEffect, useState } from "react";
 import { RootState } from "../../../store/hooks";
@@ -19,32 +26,37 @@ import { LikesModal } from "../LikesModal/LikesModal";
 import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 interface IFeedPostProps {
-  username: string;
-  profilePic: string;
-  description: string;
   image: string;
   comments: string[];
   likes: string[];
   id?: string;
   clickHandler(): void;
+  uid?: any;
 }
 
 export const FeedPost = ({
-  username,
-  profilePic,
-  description,
-  image,
   comments,
   likes,
+  image,
   id,
+  uid,
   clickHandler,
 }: IFeedPostProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [username, setUsername] = useState("");
+  const [profilePic, setProfilePic] = useState("");
   const { likesModalID, showModalLikes, onClickPost } =
     useContext(LikesModalContext);
   const currentUser = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
+
+  const getUsersData = async () => {
+    const userRef = doc(db, "users", uid);
+    const userData = await getDoc(userRef);
+    setUsername(userData.data()!.username);
+    setProfilePic(userData.data()!.profilePic);
+  };
 
   const getData = async () => {
     const posts = query(collectionGroup(db, "posts"));
@@ -71,6 +83,7 @@ export const FeedPost = ({
 
   useEffect(() => {
     getData();
+    getUsersData();
   }, [clickHandler]);
 
   return (

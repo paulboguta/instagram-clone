@@ -54,7 +54,7 @@ export const CommentsWrapper = styled.div`
   overflow-y: auto;
 `;
 
-export const Comment = styled.div`
+export const CommentStyled = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;

@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { useContext } from "react";
 import { LikesModalContext } from "../../../contexts/LikesModalContext";
 import { Comments } from "./Comments";
+import { useNavigate } from "react-router-dom";
 
 interface ICommentsWrapperProps {
   likes?: any[];
@@ -36,6 +37,7 @@ export const CommentsWrapper = ({
   const [newComment, setNewComment] = useState("");
   const { onClickShowLikesModal } = useContext(LikesModalContext);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const currentUser = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
@@ -47,6 +49,10 @@ export const CommentsWrapper = ({
   const onClickLikesCount = (event: React.MouseEvent<HTMLButtonElement>) => {
     onClickShowLikesModal(event.currentTarget.id);
     clickHandler();
+  };
+
+  const onClickViewComments = (event: React.MouseEvent<HTMLButtonElement>) => {
+    navigate(`/post/${event.currentTarget.id}`);
   };
 
   const onClickAddComment = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -70,7 +76,9 @@ export const CommentsWrapper = ({
         {likesCount} likes
       </LikesCount>
       {!hideComments && (
-        <ButtonViewComments>View All Comments</ButtonViewComments>
+        <ButtonViewComments onClick={onClickViewComments} id={id}>
+          View All Comments
+        </ButtonViewComments>
       )}
       <hr />
       {!hideComments && <Comments comments={comments} />}

@@ -6,7 +6,6 @@ import {
   getDocs,
   query,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { AppDispatch } from "../hooks";
@@ -22,7 +21,6 @@ export const addPost =
     const usersRef = doc(db, "users", uid);
     const userData = await getDoc(usersRef);
     const username = userData.data()!.username;
-    const profilePic = userData.data()!.profilePic;
 
     const postsRef = collection(db, "users", uid, "posts");
     const docRef = doc(postsRef);
@@ -34,7 +32,6 @@ export const addPost =
       likes: [],
       comments: [],
       username: username,
-      profilePic: profilePic,
       id: postID,
       dateAdded: date,
       uid: uid,
@@ -45,7 +42,6 @@ export const addPost =
       image: image,
       description: description,
       username: username,
-      profilePic: profilePic,
       id: postID,
       dateAdded: date,
     });
@@ -54,11 +50,6 @@ export const addPost =
 export const addComment =
   (uid: string, id: string, comment: string) =>
   async (dispatch: AppDispatch) => {
-    const userRef = doc(db, "users", uid);
-    const userData = await getDoc(userRef);
-    const username = userData.data()!.username;
-    const profilePic = userData.data()!.profilePic;
-
     const postRef = doc(db, `users/${uid}/posts/`, id);
     const postData = await getDoc(postRef);
 
@@ -70,9 +61,8 @@ export const addComment =
     }
     arr.push({
       uid: uid,
-      username: username,
+
       comment: comment,
-      profilePic: profilePic,
     });
 
     await setDoc(
@@ -92,11 +82,6 @@ export const addComment =
 
 export const likePost =
   (uid: string, id: string) => async (dispatch: AppDispatch) => {
-    const userRef = doc(db, "users", uid);
-    const userData = await getDoc(userRef);
-    const username = userData.data()!.username;
-    const profilePic = userData.data()!.profilePic;
-
     const allPosts = query(collectionGroup(db, "posts"));
     const querySnapshot = await getDocs(allPosts);
 
@@ -108,7 +93,7 @@ export const likePost =
           if (doc.data()!.likes.length > 0) {
             arr = doc.data()!.likes;
           }
-          arr.push({ uid: uid, username: username, profilePic: profilePic });
+          arr.push({ uid: uid });
           userPost = doc.data()!.uid;
         }
         return;
