@@ -127,7 +127,7 @@ export const WrapperComments = styled.div`
   justify-content: space-between;
   height: 55%;
   @media (max-width: 1200px) {
-    height: 60%;
+    height: 200%;
   }
 `;
 
