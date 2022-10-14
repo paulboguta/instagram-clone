@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import { SignupPage } from "./pages/Signup";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
-import { AuthRoute } from "./features/auth/AuthRoute";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
 import React, { useEffect, useState } from "react";
@@ -16,8 +15,19 @@ import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { LikesModalContext } from "./contexts/LikesModalContext";
 import { PostPage } from "./pages/PostPage/PostPage";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/hooks";
 
 const App = () => {
+    // navigate to signin if user is not signed in
+    const currentUser = useSelector((state: RootState) => state.rootReducer.currentUser)
+    const navigate = useNavigate();
+    useEffect(() => {
+      if(currentUser.uid === "") {
+        navigate("/signup")
+      }
+  
+    }, [])
   return (
     <>
       <Routes>
@@ -78,6 +88,7 @@ const AppWrapper = () => {
     setPostID(id);
     navigate(`/post/${id}`);
   };
+
 
   return (
     <DarkModeContext.Provider value={{ changeDarkModeOnClick, darkMode }}>
