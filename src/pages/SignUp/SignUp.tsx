@@ -13,7 +13,7 @@ import { ErrorMessage } from "styles/globalStyles";
 import { useFormik } from "formik";
 import { login, signup } from "features/auth/auth.service";
 import { useAppDispatch } from "hooks/hooks";
-import { SignupSchema } from "features/validation/validation";
+import { SignupSchema } from "features/validation/auth.validation";
 import { setCurrentUser } from "store/actions/currentUserActions";
 
 export const SignUp = () => {

@@ -8,7 +8,6 @@ export interface IUser {
   followers: Array<string>;
   following: Array<string>;
   theme: string;
-  firstSetupDone: boolean;
 }
 
 export interface IUserState {

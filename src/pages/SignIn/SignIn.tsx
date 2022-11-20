@@ -16,7 +16,7 @@ import { login } from "features/auth/auth.service";
 import { useState } from "react";
 import { useAppDispatch } from "hooks/hooks";
 import { useFormik } from "formik";
-import { SigninSchema } from "features/validation/validation";
+import { SigninSchema } from "features/validation/auth.validation";
 import { setCurrentUser } from "store/actions/currentUserActions";
 
 export const SignIn = () => {
@@ -36,7 +36,7 @@ export const SignIn = () => {
       try {
         const response = await login(email, password);
         dispatch(setCurrentUser(response.user.uid));
-        navigate("/dashboard");
+        navigate("/");
       } catch (e) {
         setUserExists(false);
       }

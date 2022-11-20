@@ -72,40 +72,6 @@ export const doSetup =
     });
   };
 
-export const doFirstSetup =
-  (
-    uid: string,
-    username: string,
-    bio: string,
-    profilePic: string,
-    theme: string
-  ) =>
-  async (dispatch: AppDispatch) => {
-    const docRef = doc(db, "users", uid);
-    await updateDoc(docRef, {
-      username,
-      bio,
-      profilePic,
-      theme,
-      postCounter: 0,
-      likedPosts: [],
-      followers: [],
-      following: [],
-    });
-    dispatch({
-      type: ActionTypes.DO_SETUP,
-      username,
-      bio,
-      uid,
-      profilePic,
-      theme,
-      postCounter: 0,
-      likedPosts: [],
-      followers: [],
-      following: [],
-    });
-  };
-
 export const doFollow =
   (uid1: string, uid2: string) => async (dispatch: AppDispatch) => {
     const docRef = doc(db, "users", uid1);

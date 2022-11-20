@@ -28,13 +28,13 @@ export const NavbarButtons = () => {
   const [userID, setUserID] = useState<string>("");
   const { onProfileClick, resultClicked } = useContext(ProfileResultContext);
   const { onClickHideLikesModal } = useContext(LikesModalContext);
-  const currentUser = useSelector(
+  const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
 
   useEffect(() => {
-    setUserID(currentUser.uid);
-  }, [currentUser, onProfileClick, resultClicked]);
+    setUserID(uid);
+  }, [uid, onProfileClick, resultClicked]);
 
   const onClickProfile = () => {
     onProfileClick();

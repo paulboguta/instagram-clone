@@ -2,38 +2,38 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { SignUp } from "pages/SignUp/SignUp";
 import { GlobalStyle, themeDark, themeLight } from "./styles/globalStyles";
 import store from "./store/store";
-import { SignUp } from "pages/SignUp/SignUp";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
 import { DarkModeContext } from "./contexts/DarkModeContext";
 import { ProfileResultContext } from "./contexts/ProfileResultContext";
-import { EditPage } from "./pages/EditPage/EditPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { LikesModalContext } from "./contexts/LikesModalContext";
 import { PostPage } from "./pages/PostPage/PostPage";
 import { RootState } from "./store/store";
+import { SignIn } from "pages/SignIn/SignIn";
 
 const App = () => {
   // navigate to signin if user is not signed in
-  const currentUser = useSelector(
+  const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
   const navigate = useNavigate();
   useEffect(() => {
-    if (currentUser.uid === "") {
+    if (uid === "") {
       navigate("/signup");
     }
   }, []);
   return (
     <Routes>
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn />} />
       <Route path="/setup" element={<SetupPage />} />
       <Route path="/user/:userID" element={<ProfilePage />} />
       <Route path="/" element={<Feed />} />
-      <Route path="/edit" element={<EditPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/post/:postID" element={<PostPage />} />
     </Routes>
