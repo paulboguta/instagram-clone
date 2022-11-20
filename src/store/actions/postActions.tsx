@@ -1,5 +1,4 @@
 import {
-  collection,
   collectionGroup,
   doc,
   getDoc,
@@ -9,29 +8,17 @@ import {
 } from "firebase/firestore";
 import { ActionTypes } from "store/types";
 import { AppDispatch } from "store/store";
+import { createPost } from "features/posts/profilePosts.service";
 import { db } from "../../services/firebase";
 
 export const addPost =
   (uid: string, image: string, description: string) =>
   async (dispatch: AppDispatch) => {
-    const usersRef = doc(db, "users", uid);
-    const userData = await getDoc(usersRef);
-    const { username } = userData.data()!;
-
-    const postsRef = collection(db, "users", uid, "posts");
-    const docRef = doc(postsRef);
-    const postID = docRef.id;
-    const date = new Date();
-    await setDoc(doc(postsRef, `${docRef.id}`), {
-      image,
-      description,
-      likes: [],
-      comments: [],
-      username,
-      id: postID,
-      dateAdded: date,
+    const { username, postID, date } = await createPost(
       uid,
-    });
+      image,
+      description
+    );
     dispatch({
       type: ActionTypes.ADD_POST,
       uid,

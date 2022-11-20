@@ -87,9 +87,9 @@ export const AddPostModal = ({
             >
               Select Image
             </ButtonDrop>
-            {imageList.map((image, index) => (
+            {imageList.map((imageItem, index) => (
               <div key={index}>
-                <Image src={image.dataURL} alt="" width="100" />
+                <Image src={imageItem.dataURL} alt="" width="100" />
                 <FlexButtonUpdateRemove>
                   <ButtonUpdate onClick={() => onImageUpdate(index)}>
                     Update

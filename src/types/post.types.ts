@@ -5,7 +5,6 @@ export interface IPost {
   likes: [];
   comments: [];
   username: string;
-  profilePic: string;
   dateAdded?: Date;
   id?: string;
 }

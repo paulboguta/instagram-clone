@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getUserProfileData } from "features/users/users.service";
 import { useLocation } from "react-router-dom";
+import { getProfilePosts } from "features/posts/profilePosts.service";
+import { IPost } from "types/post.types";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "services/firebase";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 import Background1 from "../../assets/background/background-1.jpeg";
@@ -16,10 +20,10 @@ export const ProfilePage = () => {
     profilePic: "",
     bio: "",
   });
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
-  const [onClickConfirmAddPost, setOnClickConfirmAddPost] = useState(false);
   const location = useLocation();
   const id = location.pathname.slice(6);
 
@@ -44,8 +48,7 @@ export const ProfilePage = () => {
     setShowAddPost(true);
   };
 
-  const onClickConfirmAddPostHandler = () => {
-    setOnClickConfirmAddPost((prev) => !prev);
+  const onClickConfirmAddPostHandler = async () => {
     setShowAddPost(false);
   };
 
@@ -54,6 +57,17 @@ export const ProfilePage = () => {
     setShowFollowers(false);
     setShowFollowing(false);
   }, [location.pathname]);
+
+  // render posts on load
+  const getProfilePostsData = useCallback(async () => {
+    setPosts(await getProfilePosts(id));
+  }, [id]);
+
+  // listen to live post changes
+  const postsRef = collection(db, "users", id, "posts");
+  onSnapshot(postsRef, async () => {
+    getProfilePostsData();
+  });
 
   useEffect(() => {
     const getData = async () => {
@@ -66,7 +80,8 @@ export const ProfilePage = () => {
       });
     };
     getData();
-  }, [id]);
+    getProfilePostsData();
+  }, [getProfilePostsData, id]);
 
   return (
     <Wrapper>
@@ -87,7 +102,7 @@ export const ProfilePage = () => {
         onClickShowFollowingModal={onClickShowFollowingModal}
       />
       <ProfileButtons onClickAddPost={onClickAddPost} />
-      <ProfilePosts confirmed={onClickConfirmAddPost} />
+      <ProfilePosts data={posts} />
       {showFollowers && (
         <FollowersModal
           header="Followers"
