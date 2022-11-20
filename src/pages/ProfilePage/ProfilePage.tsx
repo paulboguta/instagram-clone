@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserProfileData } from "features/users/users.service";
+import { useLocation } from "react-router-dom";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 import Background1 from "../../assets/background/background-1.jpeg";
@@ -20,14 +21,15 @@ export const ProfilePage = () => {
   const [showFollowing, setShowFollowing] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
   const [onClickConfirmAddPost, setOnClickConfirmAddPost] = useState(false);
-  const id = window.location.pathname.slice(6);
+  const location = useLocation();
+  const id = location.pathname.slice(6);
 
   const onClickShowFollowersModal = () => {
-    setShowFollowers((showFollowers) => !showFollowers);
+    setShowFollowers((prev) => !prev);
   };
 
   const onClickShowFollowingModal = () => {
-    setShowFollowing((showFollowing) => !showFollowing);
+    setShowFollowing((prev) => !prev);
   };
 
   const onClickHideModals = () => {
