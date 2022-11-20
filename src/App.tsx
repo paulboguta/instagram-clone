@@ -1,45 +1,42 @@
-import { GlobalStyle, themeDark, themeLight } from "./styles/globalStyles";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { GlobalStyle, themeDark, themeLight } from "./styles/globalStyles";
 import store from "./store/store";
 import { SignupPage } from "./pages/Signup";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
-import React, { useEffect, useState } from "react";
 import { DarkModeContext } from "./contexts/DarkModeContext";
 import { ProfileResultContext } from "./contexts/ProfileResultContext";
 import { EditPage } from "./pages/EditPage/EditPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { LikesModalContext } from "./contexts/LikesModalContext";
 import { PostPage } from "./pages/PostPage/PostPage";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { RootState } from "./store/hooks";
 
 const App = () => {
-    // navigate to signin if user is not signed in
-    const currentUser = useSelector((state: RootState) => state.rootReducer.currentUser)
-    const navigate = useNavigate();
-    useEffect(() => {
-      if(currentUser.uid === "") {
-        navigate("/signup")
-      }
-  
-    }, [])
+  // navigate to signin if user is not signed in
+  const currentUser = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (currentUser.uid === "") {
+      navigate("/signup");
+    }
+  }, []);
   return (
-    <>
-      <Routes>
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/setup" element={<SetupPage />} />
-        <Route path="/user/:userID" element={<ProfilePage />} />
-        <Route path="/" element={<Feed />} />
-        <Route path="/edit" element={<EditPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/post/:postID" element={<PostPage />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/setup" element={<SetupPage />} />
+      <Route path="/user/:userID" element={<ProfilePage />} />
+      <Route path="/" element={<Feed />} />
+      <Route path="/edit" element={<EditPage />} />
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/post/:postID" element={<PostPage />} />
+    </Routes>
   );
 };
 
@@ -68,48 +65,58 @@ const AppWrapper = () => {
   }, [url]);
 
   const changeDarkModeOnClick = () => {
-    setDarkMode((darkMode) => !darkMode);
-    darkMode ? setTheme(themeDark) : setTheme(themeLight);
+    setDarkMode((prev) => !prev);
+    setTheme(darkMode ? themeDark : themeLight);
   };
 
   const onProfileClick = () => {
-    setProfileClicked((profileClicked) => !profileClicked);
+    setProfileClicked((prev) => !prev);
   };
 
   const onResultClick = () => {
-    setResultClicked((resultClicked) => !resultClicked);
+    setResultClicked((prev) => !prev);
   };
 
-  const onClickPost = (
-    id: string,
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    setPostID(id);
-    navigate(`/post/${id}`);
-  };
+  const onClickPost = useCallback(
+    (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      setPostID(id);
+      navigate(`/post/${id}`);
+    },
+    [navigate]
+  );
 
+  const profileResultValues = useMemo(
+    () => ({
+      onProfileClick,
+      onResultClick,
+      profileClicked,
+      resultClicked,
+    }),
+    [profileClicked, resultClicked]
+  );
+
+  const likesModalValues = useMemo(
+    () => ({
+      showModalLikes,
+      onClickHideLikesModal,
+      onClickShowLikesModal,
+      likesModalID,
+      onClickPost,
+      postID,
+    }),
+    [likesModalID, onClickPost, postID, showModalLikes]
+  );
+
+  const darkModeValues = useMemo(
+    () => ({ changeDarkModeOnClick, darkMode }),
+    [changeDarkModeOnClick, darkMode]
+  );
 
   return (
-    <DarkModeContext.Provider value={{ changeDarkModeOnClick, darkMode }}>
-      <ProfileResultContext.Provider
-        value={{
-          onProfileClick,
-          onResultClick,
-          profileClicked,
-          resultClicked,
-        }}
-      >
-        <LikesModalContext.Provider
-          value={{
-            showModalLikes,
-            onClickHideLikesModal,
-            onClickShowLikesModal,
-            likesModalID,
-            onClickPost,
-            postID,
-          }}
-        >
+    <DarkModeContext.Provider value={darkModeValues}>
+      <ProfileResultContext.Provider value={profileResultValues}>
+        <LikesModalContext.Provider value={likesModalValues}>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
               <GlobalStyle />
