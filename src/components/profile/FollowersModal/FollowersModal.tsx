@@ -13,23 +13,21 @@ import { db } from "../../../services/firebase";
 interface IFollowersModalProps {
   header: string;
   modal: string;
+  id: string;
+  onClickHideModals: () => void;
 }
 
-export const FollowersModal = ({ header, modal }: IFollowersModalProps) => {
-  // 1. get user id + url user id
-  // 2. map through redux users state
-  // 3. render followers/following
-  // 4. get username, profilePic, uid
-
+export const FollowersModal = ({
+  header,
+  modal,
+  id,
+  onClickHideModals,
+}: IFollowersModalProps) => {
   const [following, setFollowing] = useState<string[]>([]);
   const [followers, setFollowers] = useState<string[]>([]);
-  const id = window.location.pathname.slice(6);
-  const url = window.location.pathname.split("/").pop();
-  const currentUser = useSelector(
+  const { currentUser } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
-  const { profileClicked, resultClicked } = useContext(ProfileResultContext);
-  const { onClickHideModals } = useContext(FollowingFollowersContext);
 
   const getDocs = async () => {
     const usersRef = doc(db, "users", id);

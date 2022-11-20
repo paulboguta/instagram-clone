@@ -6,12 +6,16 @@ interface IProfileDetialsProps {
   username: string;
   profilePic: string;
   bio: string;
+  onClickShowFollowersModal: () => void;
+  onClickShowFollowingModal: () => void;
 }
 
 export const ProfileDetails = ({
   username,
   profilePic,
   bio,
+  onClickShowFollowersModal,
+  onClickShowFollowingModal,
 }: IProfileDetialsProps) => {
   return (
     <Wrapper>
@@ -20,7 +24,10 @@ export const ProfileDetails = ({
       <hr />
       <Bio>{bio}</Bio>
       <hr />
-      <ProfileStats />
+      <ProfileStats
+        onClickShowFollowersModal={onClickShowFollowersModal}
+        onClickShowFollowingModal={onClickShowFollowingModal}
+      />
     </Wrapper>
   );
 };

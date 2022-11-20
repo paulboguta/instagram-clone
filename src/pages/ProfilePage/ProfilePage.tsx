@@ -7,7 +7,6 @@ import Background1 from "../../assets/background/background-1.jpeg";
 import { Wrapper, Img } from "./ProfilePage.styles";
 import { ProfileButtons } from "../../components/profile/ProfileButtons/ProfileButtons";
 import { FollowersModal } from "../../components/profile/FollowersModal/FollowersModal";
-import { FollowingFollowersContext } from "../../contexts/FollowingFollowersContext";
 import { AddPostModal } from "../../components/post/AddPostModal/AddPostModal";
 import { ProfilePosts } from "../../components/post/ProfilePosts/ProfilePosts";
 
@@ -50,6 +49,12 @@ export const ProfilePage = () => {
     setShowAddPost(false);
   };
 
+  // hide modals on url change => search/navbar/opening posts/dms etc..
+  useEffect(() => {
+    setShowFollowers(false);
+    setShowFollowing(false);
+  }, [location.pathname]);
+
   useEffect(() => {
     const getData = async () => {
       const data = await getUserProfileData(id);
@@ -71,31 +76,34 @@ export const ProfilePage = () => {
           onClickConfirm={onClickConfirmAddPostHandler}
         />
       )}
-      <FollowingFollowersContext.Provider
-        value={{
-          showFollowers,
-          showFollowing,
-          onClickShowFollowersModal,
-          onClickShowFollowingModal,
-          onClickHideModals,
-        }}
-      >
-        <Navbar />
-        <Img src={Background1} />
-        <ProfileDetails
-          username={user.username}
-          profilePic={user.profilePic}
-          bio={user.bio}
+
+      <Navbar />
+      <Img src={Background1} />
+      <ProfileDetails
+        username={user.username}
+        profilePic={user.profilePic}
+        bio={user.bio}
+        onClickShowFollowersModal={onClickShowFollowersModal}
+        onClickShowFollowingModal={onClickShowFollowingModal}
+      />
+      <ProfileButtons onClickAddPost={onClickAddPost} />
+      <ProfilePosts confirmed={onClickConfirmAddPost} />
+      {showFollowers && (
+        <FollowersModal
+          header="Followers"
+          modal="followers"
+          id={id}
+          onClickHideModals={onClickHideModals}
         />
-        <ProfileButtons onClickAddPost={onClickAddPost} />
-        <ProfilePosts confirmed={onClickConfirmAddPost} />
-        {showFollowers && (
-          <FollowersModal header="Followers" modal="followers" />
-        )}
-        {showFollowing && (
-          <FollowersModal header="Following" modal="following" />
-        )}
-      </FollowingFollowersContext.Provider>
+      )}
+      {showFollowing && (
+        <FollowersModal
+          header="Following"
+          modal="following"
+          id={id}
+          onClickHideModals={onClickHideModals}
+        />
+      )}
     </Wrapper>
   );
 };

@@ -1,35 +1,31 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { Button } from "./FollowersModal.styles";
-import { FollowingFollowersContext } from "../../../contexts/FollowingFollowersContext";
 
 interface IFollowersModalButtonProps {
   img: string;
   username: string;
-  uid?: string;
+  id: string;
+  onClickHideModals: () => void;
 }
 
 export const FollowersModalButton = ({
   img,
   username,
-  uid,
+  id,
+  onClickHideModals,
 }: IFollowersModalButtonProps) => {
   const navigate = useNavigate();
-  const id = window.location.pathname.slice(6);
-  const { onClickHideModals } = useContext(FollowingFollowersContext);
 
   const onClickMoveToThisUser = (event: React.MouseEvent) => {
-    if (event.currentTarget.id === id) {
-      onClickHideModals();
-    } else {
+    if (event.currentTarget.id !== id) {
       navigate(`/user/${event.currentTarget.id}`);
-      onClickHideModals();
     }
+    onClickHideModals();
   };
 
   return (
-    <Button onClick={onClickMoveToThisUser} id={uid}>
-      <img src={img} />
+    <Button onClick={onClickMoveToThisUser} id={id}>
+      <img src={img} alt="profile pic" />
       <div>@{username}</div>
     </Button>
   );
