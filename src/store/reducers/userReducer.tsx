@@ -1,11 +1,4 @@
-import {
-  DO_FIRST_SETUP,
-  DO_SETUP,
-  DO_FOLLOW,
-  DO_UNFOLLOW,
-} from "../actions/userActions";
-
-import { IUserState } from "../types";
+import { ActionTypes, IUserState } from "../types";
 
 const initialState: IUserState = {
   users: [],
@@ -13,7 +6,7 @@ const initialState: IUserState = {
 
 const user = (state = initialState, action: any) => {
   switch (action.type) {
-    case DO_SETUP:
+    case ActionTypes.DO_SETUP:
       return [
         state.users?.map((doc) => {
           if (doc.userID === action.uid) {
@@ -29,7 +22,7 @@ const user = (state = initialState, action: any) => {
         }),
       ];
 
-    case DO_FIRST_SETUP:
+    case ActionTypes.DO_FIRST_SETUP:
       return [
         state.users?.map((doc) => {
           if (doc.userID === action.uid) {
@@ -48,7 +41,7 @@ const user = (state = initialState, action: any) => {
           }
         }),
       ];
-    case DO_FOLLOW:
+    case ActionTypes.DO_FOLLOW:
       return [
         state.users?.map((doc) => {
           if (doc.userID === action.uid1) {
@@ -69,7 +62,7 @@ const user = (state = initialState, action: any) => {
           }
         }),
       ];
-    case DO_UNFOLLOW:
+    case ActionTypes.DO_UNFOLLOW:
       return [
         state.users?.map((doc) => {
           if (doc.userID === action.uid1) {

@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LikesModalContext } from "../../contexts/LikesModalContext";
 import { db } from "../../services/firebase";
-import { RootState } from "../../store/hooks";
+import { RootState } from "store/store";
 import { Comments } from "../../components/post/CommentsWrapper/Comments";
 import { PostButtonsComments } from "../../components/post/PostButtonsComments/PostButtonsComments";
 import {

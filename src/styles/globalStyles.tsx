@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
 * {
@@ -72,3 +72,8 @@ export const themeDark = {
   backgroundGlassNavbar: "rgba(17, 19, 18, 0.8)",
   backgroundGlassNavbar2: "rgba(122, 125, 124, 0.8)",
 };
+
+export const ErrorMessage = styled.p`
+  font-size: 12px;
+  color: red;
+`;

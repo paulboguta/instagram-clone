@@ -4,26 +4,11 @@ import {
   getDoc,
   getDocs,
   query,
-  setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { ActionTypes } from "store/types";
+import { AppDispatch } from "store/store";
 import { db } from "../../services/firebase";
-import { AppDispatch } from "../hooks";
-
-export const SET_USER = "SET_USER";
-export const DO_SETUP = "DO_SETUP";
-export const DO_FIRST_SETUP = "DO_FIRST_SETUP";
-export const DO_FOLLOW = "DO_FOLLOW";
-export const DO_UNFOLLOW = "DO_UNFOLLOW";
-
-export const setUser = (uid: string) => async (dispatch: AppDispatch) => {
-  const usersRef = doc(db, "users", uid);
-  setDoc(usersRef, { userID: uid }, { merge: true });
-  dispatch({
-    type: SET_USER,
-    uid: uid,
-  });
-};
 
 export const doSetup =
   (
@@ -37,10 +22,10 @@ export const doSetup =
     // update user doc
     const docRef = doc(db, "users", uid);
     await updateDoc(docRef, {
-      username: username,
-      bio: bio,
-      profilePic: profilePic,
-      theme: theme,
+      username,
+      bio,
+      profilePic,
+      theme,
     });
 
     // update posts (profilepic, username. in likes and comments also profilepic, username)
@@ -78,12 +63,12 @@ export const doSetup =
     });
 
     dispatch({
-      type: DO_SETUP,
-      username: username,
-      bio: bio,
-      uid: uid,
-      profilePic: profilePic,
-      theme: theme,
+      type: ActionTypes.DO_SETUP,
+      username,
+      bio,
+      uid,
+      profilePic,
+      theme,
     });
   };
 
@@ -98,22 +83,22 @@ export const doFirstSetup =
   async (dispatch: AppDispatch) => {
     const docRef = doc(db, "users", uid);
     await updateDoc(docRef, {
-      username: username,
-      bio: bio,
-      profilePic: profilePic,
-      theme: theme,
+      username,
+      bio,
+      profilePic,
+      theme,
       postCounter: 0,
       likedPosts: [],
       followers: [],
       following: [],
     });
     dispatch({
-      type: DO_SETUP,
-      username: username,
-      bio: bio,
-      uid: uid,
-      profilePic: profilePic,
-      theme: theme,
+      type: ActionTypes.DO_SETUP,
+      username,
+      bio,
+      uid,
+      profilePic,
+      theme,
       postCounter: 0,
       likedPosts: [],
       followers: [],
@@ -154,9 +139,9 @@ export const doFollow =
     });
 
     dispatch({
-      type: DO_FOLLOW,
-      uid1: uid1,
-      uid2: uid2,
+      type: ActionTypes.DO_FOLLOW,
+      uid1,
+      uid2,
     });
   };
 
@@ -171,7 +156,7 @@ export const doUnfollow =
     });
 
     await updateDoc(docRef, {
-      following: following,
+      following,
     });
 
     const docRef2 = doc(db, "users", uid2);
@@ -182,11 +167,11 @@ export const doUnfollow =
       }
     });
     await updateDoc(docRef2, {
-      followers: followers,
+      followers,
     });
     dispatch({
-      type: DO_UNFOLLOW,
-      uid1: uid1,
-      uid2: uid2,
+      type: ActionTypes.DO_UNFOLLOW,
+      uid1,
+      uid2,
     });
   };

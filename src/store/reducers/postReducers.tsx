@@ -1,6 +1,4 @@
-import { ADD_POST, UNLIKE_POST } from "../actions/postActions";
-import { ADD_COMMENT } from "../actions/postActions";
-import { LIKE_POST } from "../actions/postActions";
+import { ActionTypes } from "store/types";
 
 interface IPost {
   uid: string;
@@ -37,7 +35,7 @@ interface IAction {
 
 const postReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
-    case ADD_POST:
+    case ActionTypes.ADD_POST:
       return [
         ...state.posts,
         {
@@ -52,7 +50,7 @@ const postReducer = (state = initialState, action: IAction) => {
           id: action.id,
         },
       ];
-    case ADD_COMMENT:
+    case ActionTypes.ADD_COMMENT:
       return [
         state.posts?.map((doc) => {
           if (doc.id === action.id) {
@@ -65,7 +63,7 @@ const postReducer = (state = initialState, action: IAction) => {
           }
         }),
       ];
-    case LIKE_POST:
+    case ActionTypes.LIKE_POST:
       return [
         state.posts?.map((doc) => {
           if (doc.id === action.id) {
@@ -78,7 +76,7 @@ const postReducer = (state = initialState, action: IAction) => {
           }
         }),
       ];
-    case UNLIKE_POST:
+    case ActionTypes.UNLIKE_POST:
       return [
         state.posts?.map((doc) => {
           if (doc.id === action.id) {

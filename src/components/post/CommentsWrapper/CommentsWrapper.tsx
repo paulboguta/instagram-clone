@@ -1,3 +1,13 @@
+import { AiOutlineSend } from "react-icons/ai";
+import { IconContext } from "react-icons";
+import { ChangeEvent, useState, useContext } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "hooks/hooks";
+import { RootState } from "../../../store/store";
+import { addComment } from "../../../store/actions/postActions";
+import { LikesModalContext } from "../../../contexts/LikesModalContext";
+import { Comments } from "./Comments";
 import {
   Wrapper,
   LikesCount,
@@ -6,17 +16,6 @@ import {
   ButtonAddComment,
   CommentInput,
 } from "./CommentsWrapper.styles";
-
-import { AiOutlineSend } from "react-icons/ai";
-import { IconContext } from "react-icons";
-import { ChangeEvent, useState } from "react";
-import { RootState, useAppDispatch } from "../../../store/hooks";
-import { addComment } from "../../../store/actions/postActions";
-import { useSelector } from "react-redux";
-import { useContext } from "react";
-import { LikesModalContext } from "../../../contexts/LikesModalContext";
-import { Comments } from "./Comments";
-import { useNavigate } from "react-router-dom";
 
 interface ICommentsWrapperProps {
   likes?: any[];

@@ -1,4 +1,12 @@
 import { ChangeEvent, useState } from "react";
+import ImageUploading, { ImageListType } from "react-images-uploading";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "hooks/hooks";
+import { IconContext } from "react-icons";
+import { AiOutlineClose } from "react-icons/ai";
+import { RootState } from "../../../store/store";
+import { ButtonClose } from "../../profile/FollowersModal/FollowersModal.styles";
+import { ButtonConfirm } from "../../forms";
 import {
   Description,
   Wrapper,
@@ -9,15 +17,7 @@ import {
   ButtonRemove,
   FlexButtonUpdateRemove,
 } from "./AddPostModal.styles";
-import { ButtonConfirm } from "../../forms";
-import ImageUploading, { ImageListType } from "react-images-uploading";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/hooks";
-import { ButtonClose } from "../../profile/FollowersModal/FollowersModal.styles";
-import { IconContext } from "react-icons";
-import { AiOutlineClose } from "react-icons/ai";
 import { addPost } from "../../../store/actions/postActions";
-import { useAppDispatch } from "../../../store/hooks";
 
 interface IAddPostModalProps {
   onClick(): void;

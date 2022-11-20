@@ -4,7 +4,7 @@ import { Provider, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { GlobalStyle, themeDark, themeLight } from "./styles/globalStyles";
 import store from "./store/store";
-import { SignupPage } from "./pages/Signup";
+import { SignUp } from "pages/SignUp/SignUp";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
@@ -14,7 +14,7 @@ import { EditPage } from "./pages/EditPage/EditPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { LikesModalContext } from "./contexts/LikesModalContext";
 import { PostPage } from "./pages/PostPage/PostPage";
-import { RootState } from "./store/hooks";
+import { RootState } from "./store/store";
 
 const App = () => {
   // navigate to signin if user is not signed in
@@ -29,7 +29,7 @@ const App = () => {
   }, []);
   return (
     <Routes>
-      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/signup" element={<SignUp />} />
       <Route path="/setup" element={<SetupPage />} />
       <Route path="/user/:userID" element={<ProfilePage />} />
       <Route path="/" element={<Feed />} />

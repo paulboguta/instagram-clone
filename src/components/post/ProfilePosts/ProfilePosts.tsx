@@ -1,10 +1,10 @@
-import { Posts } from "./ProfilePosts.style";
-import { ProfilePost } from "../ProfilePost/ProfilePost";
 import { collection, getDocs, query } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/hooks";
+import { RootState } from "store/store";
+import { Posts } from "./ProfilePosts.style";
+import { ProfilePost } from "../ProfilePost/ProfilePost";
+import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import { db } from "../../../services/firebase";
 
 export interface PostData {

@@ -1,14 +1,15 @@
+import { IconContext } from "react-icons";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { useAppDispatch } from "hooks/hooks";
+import { useSelector } from "react-redux";
 import {
   ButtonsLikeCommentWrapper,
   ButtonLike,
   BoxShadow,
 } from "./PostButtonsComments.styles";
 import { CommentsWrapper } from "../CommentsWrapper/CommentsWrapper";
-import { IconContext } from "react-icons";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { RootState, useAppDispatch } from "../../../store/hooks";
+import { RootState } from "../../../store/store";
 import { likePost, unlikePost } from "../../../store/actions/postActions";
-import { useSelector } from "react-redux";
 
 interface IPostButtonsCommentsProps {
   likes: string[];

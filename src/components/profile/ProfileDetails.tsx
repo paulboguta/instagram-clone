@@ -1,14 +1,12 @@
-import { ProfileImg } from "./ProfileImg/ProfileImg";
-import { ProfileStats } from "./ProfileStats/ProfileStats";
-import { Wrapper, Username, Bio } from "./ProfileDetails.styled";
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect } from "react";
-import { useState } from "react";
-import { db } from "../../services/firebase";
+import { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
-import { useContext } from "react";
+import { RootState } from "store/store";
+import { db } from "../../services/firebase";
+import { Wrapper, Username, Bio } from "./ProfileDetails.styled";
+import { ProfileStats } from "./ProfileStats/ProfileStats";
+import { ProfileImg } from "./ProfileImg/ProfileImg";
 import { ProfileResultContext } from "../../contexts/ProfileResultContext";
-import { RootState } from "../../store/hooks";
 
 export const ProfileDetails = () => {
   const [username, setUsername] = useState<string>("");

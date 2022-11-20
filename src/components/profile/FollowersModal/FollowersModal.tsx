@@ -1,13 +1,13 @@
-import { Wrapper, ButtonClose } from "./FollowersModal.styles";
-import { FollowersModalButton } from "./FollowersModalButton";
 import { AiOutlineClose } from "react-icons/ai";
 import { IconContext } from "react-icons/lib";
 import { useSelector } from "react-redux";
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { RootState } from "store/store";
+import { Wrapper, ButtonClose } from "./FollowersModal.styles";
+import { FollowersModalButton } from "./FollowersModalButton";
 import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import { FollowingFollowersContext } from "../../../contexts/FollowingFollowersContext";
-import { RootState } from "../../../store/hooks";
-import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../services/firebase";
 
 interface IFollowersModalProps {

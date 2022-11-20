@@ -1,5 +1,4 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { setUser, SET_USER } from "../actions/userActions";
+import { ActionTypes } from "store/types";
 
 interface ICurrentUser {
   uid: string;
@@ -16,7 +15,7 @@ interface IAction {
 
 const currentUser = (state = initialState, action: IAction) => {
   switch (action.type) {
-    case SET_USER:
+    case ActionTypes.SET_USER:
       return {
         uid: action.uid,
       };

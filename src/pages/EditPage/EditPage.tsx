@@ -1,18 +1,20 @@
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
 import { Wrapper, Form, Img } from "../SetupPage/SetupPage.styles";
 import Logo from "../../assets/logo.png";
-import { TextField } from "../../components/forms";
-import { Bio } from "../../components/forms";
-import { ProfilePicForm } from "../../components/forms";
-import { ButtonConfirm } from "../../components/forms";
-import { ToggleDarkMode } from "../../components/forms";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { useAuth } from "../../hooks/hooks";
-import { useAppDispatch } from "../../store/hooks";
-import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Bio,
+  ProfilePicForm,
+  ButtonConfirm,
+  ToggleDarkMode,
+} from "../../components/forms";
+import { useAuth, useAppDispatch } from "../../hooks/hooks";
+
 import { DarkModeContext } from "../../contexts/DarkModeContext";
 import { doSetup } from "../../store/actions/userActions";
 import { db } from "../../services/firebase";
-import { doc, getDoc } from "firebase/firestore";
 
 export const EditPage = () => {
   const [username, setUsername] = useState<string>("");

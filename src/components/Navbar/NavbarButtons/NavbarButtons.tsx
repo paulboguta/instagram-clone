@@ -1,10 +1,4 @@
 import {
-  IconWrapper,
-  ButtonNav,
-  ButtonNavMobile,
-  ButtonNavDesktop,
-} from "./NavbarButtons.styles";
-import {
   AiOutlineHome,
   AiOutlineHeart,
   AiFillHeart,
@@ -17,11 +11,16 @@ import { BsPerson, BsPersonFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
+import { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/hooks";
+import { RootState } from "store/store";
+import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
+import {
+  IconWrapper,
+  ButtonNav,
+  ButtonNavMobile,
+  ButtonNavDesktop,
+} from "./NavbarButtons.styles";
 import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 export const NavbarButtons = () => {

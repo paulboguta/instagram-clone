@@ -1,14 +1,15 @@
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Wrapper, Form, Img } from "./SetupPage.styles";
 import Logo from "../../assets/logo.png";
-import { TextField } from "../../components/forms";
-import { Bio } from "../../components/forms";
-import { ProfilePicForm } from "../../components/forms";
-import { ButtonConfirm } from "../../components/forms";
-import { ToggleDarkMode } from "../../components/forms";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { useAppDispatch } from "../../store/hooks";
-import { useAuth } from "../../hooks/hooks";
-import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Bio,
+  ProfilePicForm,
+  ButtonConfirm,
+  ToggleDarkMode,
+} from "../../components/forms";
+import { useAppDispatch, useAuth } from "../../hooks/hooks";
 import { doFirstSetup } from "../../store/actions/userActions";
 
 import { DarkModeContext } from "../../contexts/DarkModeContext";

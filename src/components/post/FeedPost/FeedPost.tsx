@@ -20,7 +20,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../services/firebase";
 import React, { useContext, useEffect, useState } from "react";
-import { RootState } from "../../../store/hooks";
+import { RootState } from "store/store";
 import { useSelector } from "react-redux";
 import { LikesModal } from "../LikesModal/LikesModal";
 import { LikesModalContext } from "../../../contexts/LikesModalContext";

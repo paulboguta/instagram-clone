@@ -7,41 +7,37 @@ import {
   query,
   setDoc,
 } from "firebase/firestore";
+import { ActionTypes } from "store/types";
+import { AppDispatch } from "store/store";
 import { db } from "../../services/firebase";
-import { AppDispatch } from "../hooks";
-
-export const ADD_POST = "ADD_POST";
-export const ADD_COMMENT = "ADD_COMMENT";
-export const LIKE_POST = "LIKE_POST";
-export const UNLIKE_POST = "UNLIKE_POST";
 
 export const addPost =
   (uid: string, image: string, description: string) =>
   async (dispatch: AppDispatch) => {
     const usersRef = doc(db, "users", uid);
     const userData = await getDoc(usersRef);
-    const username = userData.data()!.username;
+    const { username } = userData.data()!;
 
     const postsRef = collection(db, "users", uid, "posts");
     const docRef = doc(postsRef);
     const postID = docRef.id;
     const date = new Date();
     await setDoc(doc(postsRef, `${docRef.id}`), {
-      image: image,
-      description: description,
+      image,
+      description,
       likes: [],
       comments: [],
-      username: username,
+      username,
       id: postID,
       dateAdded: date,
-      uid: uid,
+      uid,
     });
     dispatch({
-      type: ADD_POST,
-      uid: uid,
-      image: image,
-      description: description,
-      username: username,
+      type: ActionTypes.ADD_POST,
+      uid,
+      image,
+      description,
+      username,
       id: postID,
       dateAdded: date,
     });
@@ -53,16 +49,16 @@ export const addComment =
     const postRef = doc(db, `users/${uid}/posts/`, id);
     const postData = await getDoc(postRef);
 
-    let arr: any[] = [];
+    const arr: any[] = [];
     if (postData.data()!.comments.length > 0) {
       postData.data()!.comments.map((comment: any[]) => {
         arr.push(comment);
       });
     }
     arr.push({
-      uid: uid,
+      uid,
 
-      comment: comment,
+      comment,
     });
 
     await setDoc(
@@ -74,8 +70,8 @@ export const addComment =
     );
 
     dispatch({
-      type: ADD_COMMENT,
-      id: id,
+      type: ActionTypes.ADD_COMMENT,
+      id,
       comments: arr,
     });
   };
@@ -93,10 +89,9 @@ export const likePost =
           if (doc.data()!.likes.length > 0) {
             arr = doc.data()!.likes;
           }
-          arr.push({ uid: uid });
+          arr.push({ uid });
           userPost = doc.data()!.uid;
         }
-        return;
       });
       const postRef = doc(db, `users/${userPost}/posts`, id);
 
@@ -112,7 +107,7 @@ export const likePost =
     manageData();
 
     dispatch({
-      type: LIKE_POST,
+      type: ActionTypes.LIKE_POST,
       likes: arr,
     });
   };
@@ -122,7 +117,7 @@ export const unlikePost =
     const allPosts = query(collectionGroup(db, "posts"));
     const querySnapshot = await getDocs(allPosts);
 
-    let arr: any[] = [];
+    const arr: any[] = [];
     let userPost: string;
     const manageData = async () => {
       querySnapshot.forEach((doc) => {
@@ -149,8 +144,8 @@ export const unlikePost =
     manageData();
 
     dispatch({
-      type: UNLIKE_POST,
+      type: ActionTypes.UNLIKE_POST,
       likes: arr,
-      id: id,
+      id,
     });
   };

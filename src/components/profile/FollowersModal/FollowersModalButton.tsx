@@ -1,6 +1,6 @@
-import { Button } from "./FollowersModal.styles";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
+import { Button } from "./FollowersModal.styles";
 import { FollowingFollowersContext } from "../../../contexts/FollowingFollowersContext";
 
 interface IFollowersModalButtonProps {
