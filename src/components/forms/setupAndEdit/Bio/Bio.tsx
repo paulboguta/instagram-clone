@@ -14,7 +14,7 @@ export const Bio = ({ onChange, text }: IBioProps) => {
         id="setup-bio"
         onChange={onChange}
         value={text}
-      ></textarea>
+      />
       <p>Bio has to be maximmum 120 characters.</p>
       <p>You can set up this later the default bio will be created</p>
     </Wrapper>

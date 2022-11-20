@@ -1,11 +1,11 @@
 import { createContext } from "react";
 
-export type DarkModeContext = {
+interface IDarkModeContext {
   darkMode: boolean;
   changeDarkModeOnClick(): void;
-};
+}
 
-export const DarkModeContext = createContext<DarkModeContext>({
+export const DarkModeContext = createContext<IDarkModeContext>({
   darkMode: false,
   changeDarkModeOnClick: () => {},
 });

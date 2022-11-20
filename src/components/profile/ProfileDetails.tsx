@@ -1,36 +1,18 @@
-import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState, useContext } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "store/store";
-import { db } from "../../services/firebase";
 import { Wrapper, Username, Bio } from "./ProfileDetails.styled";
 import { ProfileStats } from "./ProfileStats/ProfileStats";
 import { ProfileImg } from "./ProfileImg/ProfileImg";
-import { ProfileResultContext } from "../../contexts/ProfileResultContext";
 
-export const ProfileDetails = () => {
-  const [username, setUsername] = useState<string>("");
-  const [profilePic, setProfilePic] = useState<string>("");
-  const [bio, setBio] = useState<string>("");
-  const currentUser = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
-  const { profileClicked, resultClicked } = useContext(ProfileResultContext);
-  const id = window.location.pathname.slice(6);
-  const url = window.location.pathname.split("/").pop();
+interface IProfileDetialsProps {
+  username: string;
+  profilePic: string;
+  bio: string;
+}
 
-  const getDocs = async () => {
-    const usersRef = doc(db, "users", id);
-    const data = await getDoc(usersRef);
-    setUsername(data.data()!.username);
-    setProfilePic(data.data()!.profilePic);
-    setBio(data.data()!.bio);
-  };
-
-  useEffect(() => {
-    getDocs();
-  }, [currentUser, profileClicked, url, resultClicked]);
-
+export const ProfileDetails = ({
+  username,
+  profilePic,
+  bio,
+}: IProfileDetialsProps) => {
   return (
     <Wrapper>
       <ProfileImg profileImg={profilePic} />

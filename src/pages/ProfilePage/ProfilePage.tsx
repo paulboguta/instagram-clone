@@ -1,20 +1,26 @@
+import { useEffect, useState } from "react";
+import { getUserProfileData } from "features/users/users.service";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 import Background1 from "../../assets/background/background-1.jpeg";
 import { Wrapper, Img } from "./ProfilePage.styles";
 import { ProfileButtons } from "../../components/profile/ProfileButtons/ProfileButtons";
-import { ProfilePost } from "../../components/post";
 import { FollowersModal } from "../../components/profile/FollowersModal/FollowersModal";
-import { useState } from "react";
 import { FollowingFollowersContext } from "../../contexts/FollowingFollowersContext";
 import { AddPostModal } from "../../components/post/AddPostModal/AddPostModal";
 import { ProfilePosts } from "../../components/post/ProfilePosts/ProfilePosts";
 
 export const ProfilePage = () => {
+  const [user, setUser] = useState({
+    username: "",
+    profilePic: "",
+    bio: "",
+  });
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
   const [onClickConfirmAddPost, setOnClickConfirmAddPost] = useState(false);
+  const id = window.location.pathname.slice(6);
 
   const onClickShowFollowersModal = () => {
     setShowFollowers((showFollowers) => !showFollowers);
@@ -38,9 +44,22 @@ export const ProfilePage = () => {
   };
 
   const onClickConfirmAddPostHandler = () => {
-    setOnClickConfirmAddPost((onClickAddPost) => !onClickAddPost);
+    setOnClickConfirmAddPost((prev) => !prev);
     setShowAddPost(false);
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getUserProfileData(id);
+
+      setUser({
+        username: data.data()!.username,
+        profilePic: data.data()!.profilePic,
+        bio: data.data()!.bio,
+      });
+    };
+    getData();
+  }, [id]);
 
   return (
     <Wrapper>
@@ -61,7 +80,11 @@ export const ProfilePage = () => {
       >
         <Navbar />
         <Img src={Background1} />
-        <ProfileDetails />
+        <ProfileDetails
+          username={user.username}
+          profilePic={user.profilePic}
+          bio={user.bio}
+        />
         <ProfileButtons onClickAddPost={onClickAddPost} />
         <ProfilePosts confirmed={onClickConfirmAddPost} />
         {showFollowers && (

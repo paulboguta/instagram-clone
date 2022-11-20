@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 import { Provider, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { SignUp } from "pages/SignUp/SignUp";
+import { SignIn } from "pages/SignIn/SignIn";
 import { GlobalStyle, themeDark, themeLight } from "./styles/globalStyles";
 import store from "./store/store";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
@@ -14,7 +15,6 @@ import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { LikesModalContext } from "./contexts/LikesModalContext";
 import { PostPage } from "./pages/PostPage/PostPage";
 import { RootState } from "./store/store";
-import { SignIn } from "pages/SignIn/SignIn";
 
 const App = () => {
   // navigate to signin if user is not signed in
