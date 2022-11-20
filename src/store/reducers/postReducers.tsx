@@ -1,20 +1,5 @@
 import { ActionTypes } from "store/types";
-
-interface IPost {
-  uid: string;
-  image: string;
-  description: string;
-  likes: [];
-  comments: [];
-  username: string;
-  profilePic: string;
-  dateAdded?: Date;
-  id?: string;
-}
-
-interface IPostState {
-  posts: IPost[];
-}
+import { IPostState } from "types/post.types";
 
 const initialState: IPostState = {
   posts: [],

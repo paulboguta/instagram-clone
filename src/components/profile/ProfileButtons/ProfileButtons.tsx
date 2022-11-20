@@ -1,18 +1,28 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useEffect, useState, useContext } from "react";
-import { useAppDispatch } from "hooks/hooks";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { doc, onSnapshot } from "firebase/firestore";
+import { checkIfFollowed } from "features/users/users.service";
 import { ButtonDmAdd } from "./ButtonDmAdd";
 import { ButtonEditFollow } from "./ButtonEditFollow";
 import { ButtonUnfollow } from "./ButtonUnfollow";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import { RootState } from "../../../store/store";
 import { doFollow, doUnfollow } from "../../../store/actions/userActions";
 import { db } from "../../../services/firebase";
+
+export const Wrapper = styled.div`
+  @media (min-width: 1160px) {
+    display: flex;
+    justify-content: flex-end;
+    height: 30px;
+    margin-right: 90px;
+  }
+  display: flex;
+  gap: 20px;
+`;
 
 interface IProfileButtonsProps {
   onClickAddPost(): void;
@@ -20,72 +30,45 @@ interface IProfileButtonsProps {
 
 export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
   const navigate = useNavigate();
-  const [userID, setUserID] = useState<string>("");
-  const [isFollowed, setIsFollowed] = useState<boolean>();
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [isOnOwnProfilePage, setIsOnOwnProfilePage] = useState<boolean>(false);
-  const { profileClicked, resultClicked } = useContext(ProfileResultContext);
   const dispatch = useAppDispatch();
-  const currentUser = useSelector(
+  const { uid } = useAppSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
 
-  const id = window.location.pathname.slice(6);
-  const url = window.location.pathname.split("/").pop();
-
-  const setUser = () => {
-    setUserID(currentUser.uid);
-  };
-
-  const getDocs = async () => {
-    const usersRef = doc(db, "users", id);
-    onSnapshot(usersRef, (doc) => {
-      if (
-        doc.data()!.followers.some((follower: any) => follower.uid === userID)
-      ) {
-        setIsFollowed(true);
-      } else {
-        setIsFollowed(false);
-      }
-    });
-  };
+  const location = useLocation();
+  const id = location.pathname.slice(6);
 
   const onClickEditProfile = () => {
     navigate("/edit");
   };
 
   const onClickFollow = () => {
-    dispatch(doFollow(userID, id));
+    dispatch(doFollow(uid, id));
   };
 
   const onClickUnfollow = () => {
-    dispatch(doUnfollow(userID, id));
+    dispatch(doUnfollow(uid, id));
   };
 
-  const onClickDm = () => {
-    console.log("dm");
-  };
+  // const onClickDm = () => {
+  //   console.log("dm");
+  // };
 
   const onClickAdd = () => {
     onClickAddPost();
   };
 
+  // listen for live changes when user clicks follow/unfollow
+  const usersRef = doc(db, "users", id);
+  onSnapshot(usersRef, (document) => {
+    setIsFollowed(checkIfFollowed(document, uid));
+  });
+
   useEffect(() => {
-    setUser();
-    if (userID === id) {
-      setIsOnOwnProfilePage(true);
-    } else {
-      setIsOnOwnProfilePage(false);
-    }
-    getDocs();
-  }, [
-    currentUser,
-    isOnOwnProfilePage,
-    profileClicked,
-    resultClicked,
-    url,
-    onClickFollow,
-    onClickUnfollow,
-  ]);
+    setIsOnOwnProfilePage(uid === id);
+  }, [id, uid]);
 
   return (
     <Wrapper>
@@ -106,14 +89,3 @@ export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
     </Wrapper>
   );
 };
-
-export const Wrapper = styled.div`
-  @media (min-width: 1160px) {
-    display: flex;
-    justify-content: flex-end;
-    height: 30px;
-    margin-right: 90px;
-  }
-  display: flex;
-  gap: 20px;
-`;

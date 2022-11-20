@@ -1,14 +1,9 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { IconContext } from "react-icons/lib";
-import { useSelector } from "react-redux";
-import { useState, useContext, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { RootState } from "store/store";
+import { useState, useEffect, useMemo } from "react";
+import { getUserProfileData } from "features/users/users.service";
 import { Wrapper, ButtonClose } from "./FollowersModal.styles";
 import { FollowersModalButton } from "./FollowersModalButton";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
-import { FollowingFollowersContext } from "../../../contexts/FollowingFollowersContext";
-import { db } from "../../../services/firebase";
 
 interface IFollowersModalProps {
   header: string;
@@ -25,49 +20,53 @@ export const FollowersModal = ({
 }: IFollowersModalProps) => {
   const [following, setFollowing] = useState<string[]>([]);
   const [followers, setFollowers] = useState<string[]>([]);
-  const { currentUser } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
-
-  const getDocs = async () => {
-    const usersRef = doc(db, "users", id);
-    const data = await getDoc(usersRef);
-    setFollowing(data.data()!.following);
-    setFollowers(data.data()!.followers);
-  };
 
   useEffect(() => {
-    getDocs();
-  }, [currentUser, profileClicked, url, resultClicked]);
+    const getData = async () => {
+      const data = await getUserProfileData(id);
+      setFollowing(data.data()!.following);
+      setFollowers(data.data()!.followers);
+    };
+    getData();
+  }, [id]);
+
+  const IconValues = useMemo(
+    () => ({
+      size: "24px",
+    }),
+    []
+  );
 
   return (
     <Wrapper>
       <ButtonClose onClick={onClickHideModals}>
-        <IconContext.Provider value={{ size: "24px" }}>
+        <IconContext.Provider value={IconValues}>
           <AiOutlineClose />
         </IconContext.Provider>
       </ButtonClose>
       <div>{header}</div>
       <>
-        {modal == "following" &&
-          following.length > 0 &&
+        {modal === "following" &&
+          following.length &&
           following.map((followee: any) => {
             return (
               <FollowersModalButton
                 img={followee.profilePic}
                 username={followee.username}
-                uid={followee.uid}
+                id={followee.uid}
+                onClickHideModals={onClickHideModals}
               />
             );
           })}
-        {modal == "followers" &&
-          followers.length > 0 &&
+        {modal === "followers" &&
+          followers.length &&
           followers.map((follower: any) => {
             return (
               <FollowersModalButton
                 img={follower.profilePic}
                 username={follower.username}
-                uid={follower.uid}
+                id={follower.uid}
+                onClickHideModals={onClickHideModals}
               />
             );
           })}

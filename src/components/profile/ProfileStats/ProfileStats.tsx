@@ -1,7 +1,9 @@
-import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
-import { useEffect, useState, useContext } from "react";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
-import { db } from "../../../services/firebase";
+import { getUsersPostsAndFollowers } from "features/users/users.service";
+import { collection, doc, onSnapshot } from "firebase/firestore";
+
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { db } from "services/firebase";
 import {
   Wrapper,
   Posts,
@@ -22,31 +24,33 @@ export const ProfileStats = ({
   const [posts, setPosts] = useState<number>(0);
   const [followersCounter, setFollowersCounter] = useState<number>(0);
   const [followingCounter, setFollowingCounter] = useState<number>(0);
-  const id = window.location.pathname.slice(6);
-  const url = window.location.pathname;
-  const { profileClicked, resultClicked } = useContext(ProfileResultContext);
-
-  const getData = async () => {
-    const usersRef = doc(db, "users", id);
-
-    // getting all posts from user and displaying number of posts
-    const postsRef = collection(db, `users/${id}/posts`);
-    const posts = await getDocs(postsRef);
-    const arr: any[] = [];
-    posts.forEach((doc) => {
-      arr.push(doc.data()!);
-    });
-    setPosts(arr.length);
-
-    onSnapshot(usersRef, (doc) => {
-      setFollowersCounter(doc.data()!.followers.length);
-      setFollowingCounter(doc.data()!.following.length);
-    });
-  };
+  const location = useLocation();
+  const id = location.pathname.slice(6);
 
   useEffect(() => {
+    const getData = async () => {
+      // get data on load
+      const data = await getUsersPostsAndFollowers(id);
+      setPosts(data.posts);
+      setFollowersCounter(data.followers);
+      setFollowingCounter(data.following);
+
+      // listen to live changes of following/followers
+      const usersRef = doc(db, "users", id);
+      onSnapshot(usersRef, (user) => {
+        setFollowersCounter(user.data()!.followers.length);
+        setFollowingCounter(user.data()!.following.length);
+      });
+    };
     getData();
-  }, [resultClicked, profileClicked, url]);
+  }, [id]);
+
+  // listen to live changes of posts
+  const postsRef = collection(db, `users/${id}/posts`);
+  onSnapshot(postsRef, async () => {
+    const dataPosts = await getUsersPostsAndFollowers(id);
+    setPosts(dataPosts.posts);
+  });
 
   return (
     <Wrapper>

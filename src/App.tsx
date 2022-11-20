@@ -18,15 +18,15 @@ import { RootState } from "./store/store";
 
 const App = () => {
   // navigate to signin if user is not signed in
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (uid === "") {
-      navigate("/signup");
-    }
-  }, []);
+  // const { uid } = useSelector(
+  //   (state: RootState) => state.rootReducer.currentUser
+  // );
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (uid === "") {
+  //     navigate("/signup");
+  //   }
+  // }, []);
   return (
     <Routes>
       <Route path="/signup" element={<SignUp />} />
