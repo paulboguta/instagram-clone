@@ -1,21 +1,18 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBTOSMhSAH1ZAp_Akoe2-Jn6jZbIqx9TCk",
-  authDomain: "instagram-d534e.firebaseapp.com",
-  projectId: "instagram-d534e",
-  storageBucket: "instagram-d534e.appspot.com",
-  messagingSenderId: "676808198167",
-  appId: "1:676808198167:web:09908d82fe199910cfb452",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_ID,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-const db = getFirestore(app);
-
-export { auth, provider, db };
+export const auth = getAuth(app);
+export const db = getFirestore(app);
