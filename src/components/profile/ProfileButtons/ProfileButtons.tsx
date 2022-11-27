@@ -41,7 +41,7 @@ export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
   const id = location.pathname.slice(6);
 
   const onClickEditProfile = () => {
-    navigate("/edit");
+    navigate("/setup");
   };
 
   const onClickFollow = () => {
@@ -73,18 +73,17 @@ export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
   return (
     <Wrapper>
       {isOnOwnProfilePage && (
-        <ButtonEditFollow onClick={onClickEditProfile} text="Edit Profile" />
+        <>
+          <ButtonEditFollow onClick={onClickEditProfile} text="Edit Profile" />
+          <ButtonDmAdd element={<AiOutlinePlus />} onClick={onClickAdd} />
+        </>
       )}
-      {isOnOwnProfilePage && (
-        <ButtonDmAdd element={<AiOutlinePlus />} onClick={onClickAdd} />
-      )}
-
-      {!isOnOwnProfilePage && !isFollowed && (
-        <ButtonEditFollow onClick={onClickFollow} text="Follow" />
-      )}
-      {!isOnOwnProfilePage && isFollowed && (
-        <ButtonUnfollow onClick={onClickUnfollow} text="Unfollow" />
-      )}
+      {!isOnOwnProfilePage &&
+        (!isFollowed ? (
+          <ButtonEditFollow onClick={onClickFollow} text="Follow" />
+        ) : (
+          <ButtonUnfollow onClick={onClickUnfollow} text="Unfollow" />
+        ))}
       {!isOnOwnProfilePage && <ButtonDmAdd element={<BiMessageSquareAdd />} />}
     </Wrapper>
   );

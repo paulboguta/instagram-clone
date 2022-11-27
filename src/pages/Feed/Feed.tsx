@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPost } from "types/post.types";
-import { checkIfPostIsLiked, getFeedPosts } from "features/posts/posts.service";
-import { RootState } from "store/store";
-import { useSelector } from "react-redux";
+import { getFeedPosts } from "features/posts/posts.service";
 import { useAppDispatch } from "hooks/hooks";
 import { getFeedPostsAction } from "store/actions/postActions";
 import { FeedPost } from "components/post/FeedPost/FeedPost";
