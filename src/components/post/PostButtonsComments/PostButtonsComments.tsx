@@ -2,6 +2,8 @@ import { IconContext } from "react-icons";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useAppDispatch } from "hooks/hooks";
 import { useSelector } from "react-redux";
+import { IComment, ILike } from "types/post.types";
+import { useMemo } from "react";
 import {
   ButtonsLikeCommentWrapper,
   ButtonLike,
@@ -9,13 +11,12 @@ import {
 } from "./PostButtonsComments.styles";
 import { CommentsWrapper } from "../CommentsWrapper/CommentsWrapper";
 import { RootState } from "../../../store/store";
-import { likePost, unlikePost } from "../../../store/actions/postActions";
+import { likePostAction, unlikePost } from "../../../store/actions/postActions";
 
 interface IPostButtonsCommentsProps {
-  likes: string[];
-  comments: string[];
+  likes: ILike[];
+  comments: IComment[];
   id: string | undefined;
-  clickHandler(): void;
   isLiked: boolean;
   hideComments: boolean;
 }
@@ -24,7 +25,6 @@ export const PostButtonsComments = ({
   likes,
   comments,
   id,
-  clickHandler,
   isLiked,
   hideComments,
 }: IPostButtonsCommentsProps) => {
@@ -34,20 +34,24 @@ export const PostButtonsComments = ({
   );
 
   const onClickLike = (event: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(likePost(currentUser.uid, event.currentTarget.id));
-    clickHandler();
-    console.log(currentUser.uid);
+    dispatch(likePostAction(currentUser.uid, event.currentTarget.id));
   };
 
   const onClickUnlike = (event: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(unlikePost(currentUser.uid, event.currentTarget.id));
-    clickHandler();
   };
+
+  const IconValue = useMemo(
+    () => ({
+      size: "22px",
+    }),
+    []
+  );
 
   return (
     <BoxShadow hideComments={hideComments}>
       <ButtonsLikeCommentWrapper>
-        <IconContext.Provider value={{ size: "22px" }}>
+        <IconContext.Provider value={IconValue}>
           {!isLiked && (
             <ButtonLike id={id} onClick={onClickLike}>
               <AiOutlineHeart />
@@ -64,7 +68,6 @@ export const PostButtonsComments = ({
         likes={likes}
         comments={comments}
         id={id}
-        clickHandler={clickHandler}
         hideComments={hideComments}
       />
     </BoxShadow>

@@ -1,11 +1,13 @@
 import { AiOutlineSend } from "react-icons/ai";
 import { IconContext } from "react-icons";
-import { ChangeEvent, useState, useContext } from "react";
+import { ChangeEvent, useState, useContext, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "hooks/hooks";
+import { IComment, ILike } from "types/post.types";
+import { validateComment } from "features/validation/comment.validation";
 import { RootState } from "../../../store/store";
-import { addComment } from "../../../store/actions/postActions";
+import { addCommentAction } from "../../../store/actions/postActions";
 import { LikesModalContext } from "../../../contexts/LikesModalContext";
 import { Comments } from "./Comments";
 import {
@@ -18,18 +20,16 @@ import {
 } from "./CommentsWrapper.styles";
 
 interface ICommentsWrapperProps {
-  likes?: any[];
-  comments?: any[];
-  id?: string | undefined;
-  clickHandler(): void;
-  hideComments?: boolean;
+  likes: ILike[];
+  comments: IComment[];
+  id: string | undefined;
+  hideComments: boolean;
 }
 
 export const CommentsWrapper = ({
   likes,
   comments,
   id,
-  clickHandler,
   hideComments,
 }: ICommentsWrapperProps) => {
   const likesCount = likes?.length;
@@ -37,7 +37,7 @@ export const CommentsWrapper = ({
   const { onClickShowLikesModal } = useContext(LikesModalContext);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector(
+  const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
 
@@ -47,7 +47,6 @@ export const CommentsWrapper = ({
 
   const onClickLikesCount = (event: React.MouseEvent<HTMLButtonElement>) => {
     onClickShowLikesModal(event.currentTarget.id);
-    clickHandler();
   };
 
   const onClickViewComments = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,19 +54,22 @@ export const CommentsWrapper = ({
   };
 
   const onClickAddComment = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (newComment.length < 2 || newComment.length > 20) {
-      alert(
-        "Comment has to be at least 2 characters and maximum 20 characters"
-      );
-    } else {
-      dispatch(addComment(currentUser.uid, event.currentTarget.id, newComment));
+    if (validateComment(newComment)) {
+      console.log("validated :D");
+      dispatch(addCommentAction(uid, event.currentTarget.id, newComment));
       setNewComment("");
-      clickHandler();
     }
   };
 
+  const IconValue = useMemo(
+    () => ({
+      size: "20px",
+    }),
+    []
+  );
+
   // display only first 2 comments so slice comments arr
-  const slicedComments = comments?.slice(0, 2);
+  // const slicedComments = comments?.slice(0, 2);
 
   return (
     <Wrapper>
@@ -88,7 +90,7 @@ export const CommentsWrapper = ({
           value={newComment}
         />
         <ButtonAddComment id={id} onClick={onClickAddComment}>
-          <IconContext.Provider value={{ size: "20px" }}>
+          <IconContext.Provider value={IconValue}>
             <AiOutlineSend />
           </IconContext.Provider>
         </ButtonAddComment>

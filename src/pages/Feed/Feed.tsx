@@ -1,51 +1,41 @@
-import { collectionGroup, getDocs, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { IPost } from "types/post.types";
+import { checkIfPostIsLiked, getFeedPosts } from "features/posts/posts.service";
+import { RootState } from "store/store";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "hooks/hooks";
+import { getFeedPostsAction } from "store/actions/postActions";
+import { FeedPost } from "components/post/FeedPost/FeedPost";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { db } from "../../services/firebase";
-import { PostData } from "../../components/post/ProfilePosts/ProfilePosts";
 import { FeedPosts, Wrapper } from "./Feed.styles";
-import { FeedPost } from "../../components/post/FeedPost/FeedPost";
 
 export const Feed = () => {
-  const [posts, setPosts] = useState<any[]>();
-  const [onButtonClicked, setOnButtonClicked] = useState(false);
-  const url = window.location.pathname.split("/").pop();
-
-  const clickHandler = () => {
-    setOnButtonClicked((onButtonClicked) => !onButtonClicked);
-  };
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { uid } = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
 
   const getData = async () => {
-    const allPosts = query(collectionGroup(db, "posts"));
-    const querySnapshot = await getDocs(allPosts);
-    const arr: PostData[] = [];
-    querySnapshot.forEach((doc: any) => {
-      arr.push(doc.data());
+    const postsData = await getFeedPosts();
+    dispatch(getFeedPostsAction(postsData));
+    setPosts(postsData);
+    postsData.forEach((post: IPost) => {
+      setIsLiked(checkIfPostIsLiked(post, uid));
     });
-    setPosts(arr.reverse());
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1000);
-  }, [url, onButtonClicked]);
+    getData();
+  }, []);
 
   return (
     <Wrapper>
       <Navbar />
       <FeedPosts>
         {posts?.map((post) => {
-          return (
-            <FeedPost
-              image={post.image}
-              uid={post.uid}
-              comments={post.comments}
-              likes={post.likes}
-              id={post.id}
-              clickHandler={clickHandler}
-            />
-          );
+          return <FeedPost isLiked={isLiked} id={post.id} />;
         })}
       </FeedPosts>
     </Wrapper>

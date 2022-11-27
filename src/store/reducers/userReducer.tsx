@@ -10,7 +10,7 @@ const user = (state = initialState, action: any) => {
     case ActionTypes.DO_SETUP:
       return [
         state.users?.map((doc) => {
-          if (doc.userID === action.uid) {
+          if (doc.uid === action.uid) {
             return [
               ...state.users,
               {
@@ -26,7 +26,7 @@ const user = (state = initialState, action: any) => {
     case ActionTypes.DO_FIRST_SETUP:
       return [
         state.users?.map((doc) => {
-          if (doc.userID === action.uid) {
+          if (doc.uid === action.uid) {
             return [
               ...state.users,
               {
@@ -45,7 +45,7 @@ const user = (state = initialState, action: any) => {
     case ActionTypes.DO_FOLLOW:
       return [
         state.users?.map((doc) => {
-          if (doc.userID === action.uid1) {
+          if (doc.uid === action.uid1) {
             return [
               ...state.users,
               {
@@ -53,7 +53,7 @@ const user = (state = initialState, action: any) => {
               },
             ];
           }
-          if (doc.userID === action.uid2) {
+          if (doc.uid === action.uid2) {
             return [
               ...state.users,
               {
@@ -66,7 +66,7 @@ const user = (state = initialState, action: any) => {
     case ActionTypes.DO_UNFOLLOW:
       return [
         state.users?.map((doc) => {
-          if (doc.userID === action.uid1) {
+          if (doc.uid === action.uid1) {
             return [
               ...state.users,
               {
@@ -76,7 +76,7 @@ const user = (state = initialState, action: any) => {
               },
             ];
           }
-          if (doc.userID === action.uid2) {
+          if (doc.uid === action.uid2) {
             return [
               ...state.users,
               {

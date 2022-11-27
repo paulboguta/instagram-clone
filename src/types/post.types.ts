@@ -12,3 +12,12 @@ export interface IPost {
 export interface IPostState {
   posts: IPost[];
 }
+
+export interface IComment {
+  uid: string;
+  comment: string;
+}
+
+export interface ILike {
+  uid: string;
+}

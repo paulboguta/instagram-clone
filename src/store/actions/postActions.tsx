@@ -1,24 +1,28 @@
 import {
   collectionGroup,
   doc,
-  getDoc,
   getDocs,
   query,
   setDoc,
 } from "firebase/firestore";
 import { ActionTypes } from "store/types";
 import { AppDispatch } from "store/store";
-import { createPost } from "features/posts/profilePosts.service";
+import { addComment, createPost } from "features/posts/posts.service";
+import { IPost } from "types/post.types";
 import { db } from "../../services/firebase";
+
+export const getFeedPostsAction =
+  (posts: IPost[]) => (dispatch: AppDispatch) => {
+    dispatch({
+      type: ActionTypes.GET_FEED_POSTS,
+      posts,
+    });
+  };
 
 export const addPost =
   (uid: string, image: string, description: string) =>
   async (dispatch: AppDispatch) => {
-    const { username, postID, date } = await createPost(
-      uid,
-      image,
-      description
-    );
+    const { username, postID } = await createPost(uid, image, description);
     dispatch({
       type: ActionTypes.ADD_POST,
       uid,
@@ -26,36 +30,14 @@ export const addPost =
       description,
       username,
       id: postID,
-      dateAdded: date,
     });
   };
 
-export const addComment =
+export const addCommentAction =
   (uid: string, id: string, comment: string) =>
   async (dispatch: AppDispatch) => {
-    const postRef = doc(db, `users/${uid}/posts/`, id);
-    const postData = await getDoc(postRef);
-
-    const arr: any[] = [];
-    if (postData.data()!.comments.length > 0) {
-      postData.data()!.comments.map((comment: any[]) => {
-        arr.push(comment);
-      });
-    }
-    arr.push({
-      uid,
-
-      comment,
-    });
-
-    await setDoc(
-      postRef,
-      {
-        comments: arr,
-      },
-      { merge: true }
-    );
-
+    const arr = await addComment(uid, id, comment);
+    console.log(arr);
     dispatch({
       type: ActionTypes.ADD_COMMENT,
       id,
@@ -63,7 +45,7 @@ export const addComment =
     });
   };
 
-export const likePost =
+export const likePostAction =
   (uid: string, id: string) => async (dispatch: AppDispatch) => {
     const allPosts = query(collectionGroup(db, "posts"));
     const querySnapshot = await getDocs(allPosts);

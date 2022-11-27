@@ -1,3 +1,10 @@
+import { BsThreeDots } from "react-icons/bs";
+import { IconContext } from "react-icons";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { getUserDataForThisPost } from "features/posts/posts.service";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
+import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 import {
   Wrapper,
   Img,
@@ -7,95 +14,55 @@ import {
   ButtonEdit,
   ButtonMoveToPost,
 } from "./FeedPost.styles";
-import { BsThreeDots } from "react-icons/bs";
-import { IconContext } from "react-icons";
-import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
-import {
-  collectionGroup,
-  doc,
-  getDoc,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import { db } from "../../../services/firebase";
-import React, { useContext, useEffect, useState } from "react";
-import { RootState } from "store/store";
-import { useSelector } from "react-redux";
 import { LikesModal } from "../LikesModal/LikesModal";
 import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 interface IFeedPostProps {
-  image: string;
-  comments: string[];
-  likes: string[];
-  id?: string;
-  clickHandler(): void;
-  uid?: any;
+  id: string | undefined;
+  isLiked: boolean;
 }
 
-export const FeedPost = ({
-  comments,
-  likes,
-  image,
-  id,
-  uid,
-  clickHandler,
-}: IFeedPostProps) => {
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [username, setUsername] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+export const FeedPost = ({ id, isLiked }: IFeedPostProps) => {
+  const [postData, setPostData] = useState({
+    username: "",
+    profilePic: "",
+  });
   const { likesModalID, showModalLikes, onClickPost } =
     useContext(LikesModalContext);
-  const currentUser = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
-
-  const getUsersData = async () => {
-    const userRef = doc(db, "users", uid);
-    const userData = await getDoc(userRef);
-    setUsername(userData.data()!.username);
-    setProfilePic(userData.data()!.profilePic);
-  };
-
-  const getData = async () => {
-    const posts = query(collectionGroup(db, "posts"));
-    onSnapshot(posts, (doc) => {
-      doc.docs.forEach((post) => {
-        if (post.data()!.id === id) {
-          if (
-            post
-              .data()!
-              .likes.some((liker: any) => liker.uid === currentUser.uid)
-          ) {
-            setIsLiked(true);
-          } else {
-            setIsLiked(false);
-          }
-        }
-      });
-    });
-  };
 
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onClickPost(event.currentTarget.id, event);
   };
 
+  const { uid, comments, likes, image } = useSelector((state: RootState) =>
+    state.rootReducer.postReducer.posts.find((post) => {
+      return post.id === id;
+    })
+  );
+
   useEffect(() => {
-    getData();
-    getUsersData();
-  }, [clickHandler]);
+    getUserDataForThisPost(uid).then((res) =>
+      setPostData({ username: res.username, profilePic: res.profilePic })
+    );
+  }, [uid]);
+
+  const IconValue = useMemo(
+    () => ({
+      size: "20px",
+    }),
+    []
+  );
 
   return (
     <Wrapper>
       {showModalLikes && <LikesModal id={likesModalID} />}
       <WrapperTopButtons>
         <ButtonPost>
-          <ProfileImg src={profilePic} />
-          <div>@{username}</div>
+          <ProfileImg src={postData.profilePic} />
+          <div>@{postData.username}</div>
         </ButtonPost>
         <ButtonEdit>
-          <IconContext.Provider value={{ size: "20px" }}>
+          <IconContext.Provider value={IconValue}>
             <BsThreeDots />
           </IconContext.Provider>
         </ButtonEdit>
@@ -107,9 +74,8 @@ export const FeedPost = ({
         likes={likes}
         comments={comments}
         id={id}
-        clickHandler={clickHandler}
-        isLiked={isLiked}
         hideComments={false}
+        isLiked={isLiked}
       />
     </Wrapper>
   );

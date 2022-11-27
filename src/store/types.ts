@@ -1,5 +1,6 @@
 export enum ActionTypes {
   // posts
+  GET_FEED_POSTS = "GET_FEED_POSTS",
   ADD_POST = "ADD_POST",
   ADD_COMMENT = "ADD_COMMENT",
   LIKE_POST = "LIKE_POST",

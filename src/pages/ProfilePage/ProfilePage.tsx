@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { getUserProfileData } from "features/users/users.service";
 import { useLocation } from "react-router-dom";
-import { getProfilePosts } from "features/posts/profilePosts.service";
+import { getProfilePosts } from "features/posts/posts.service";
 import { IPost } from "types/post.types";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "services/firebase";
