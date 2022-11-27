@@ -1,11 +1,10 @@
-import { Wrapper, Button, ButtonClose, Likes0Info } from "./LikesModal.styles";
 import { useContext, useEffect, useState } from "react";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
-import { LikesModalContext } from "../../../contexts/LikesModalContext";
 import { collectionGroup, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../../services/firebase";
 import { IconContext } from "react-icons";
 import { AiOutlineClose } from "react-icons/ai";
+import { Wrapper, Button, ButtonClose, Likes0Info } from "./LikesModal.styles";
+import { LikesModalContext } from "../../../contexts/LikesModalContext";
+import { db } from "../../../services/firebase";
 import { LikesModalButton } from "./LikesModalButton";
 
 interface ILikesModalProps {
@@ -15,7 +14,6 @@ interface ILikesModalProps {
 export const LikesModal = ({ id }: ILikesModalProps) => {
   const [likes, setLikes] = useState<any[]>();
 
-  const { profileClicked, resultClicked } = useContext(ProfileResultContext);
   const { onClickHideLikesModal, onClickShowLikesModal } =
     useContext(LikesModalContext);
 

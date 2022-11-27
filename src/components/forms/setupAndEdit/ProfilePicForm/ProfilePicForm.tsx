@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Wrapper,
   ButtonPreview,
@@ -6,13 +7,11 @@ import {
   ButtonConfirm,
   Button,
 } from "./ProfilePicForm.styles";
-import { Memojis } from "../../../../assets/memoji/index";
-import { MemojisPreview } from "../../../../assets/memoji";
-import { useState } from "react";
+import { Memojis, MemojisPreview } from "../../../../assets/memoji/index";
 
 interface IProfilePicFormProps {
-  onClickPic?(event: React.MouseEvent<HTMLButtonElement>): void;
-  profilepic?: string | undefined;
+  onClickPic(event: React.MouseEvent<HTMLButtonElement>): void;
+  profilepic: string | undefined;
 }
 
 export const ProfilePicForm = ({
@@ -20,44 +19,40 @@ export const ProfilePicForm = ({
   profilepic,
 }: IProfilePicFormProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
-  const [picChosen, setPicChosen] = useState<boolean>(false);
 
-  const onClick = () => {
+  const onClickChoose = () => {
     setClicked(true);
-    setPicChosen(false);
   };
 
-  const onConfirm = () => {
+  const onClickConfirm = () => {
     setClicked(false);
-    setPicChosen(true);
   };
-
   return (
     <Wrapper>
-      {!picChosen ? (
-        <ButtonPreview onClick={onClick} id="button-preview">
-          {MemojisPreview.map((memoji, index: number) => {
-            return <img src={memoji} key={index} />;
+      {!profilepic!.length ? (
+        <ButtonPreview onClick={onClickChoose} id="button-preview">
+          {MemojisPreview.map((memoji) => {
+            return <img src={memoji} key={memoji} alt="memoji" />;
           })}
         </ButtonPreview>
       ) : (
-        <ButtonPreview onClick={onClick}>
-          <img src={profilepic} />
+        <ButtonPreview onClick={onClickChoose}>
+          <img src={profilepic} alt="chosen memoji" />
         </ButtonPreview>
       )}
       <p>Select your profile picture</p>
       {clicked && (
         <WrapperForm>
           <WrapperMemojis data-test-target="component-name:WrapperMemojis">
-            {Memojis.map((memoji, key: number) => {
+            {Memojis.map((memoji) => {
               return (
-                <Button key={key} onClick={onClickPic} id="button-memoji">
-                  <img src={memoji} />
+                <Button key={memoji} onClick={onClickPic} id="button-memoji">
+                  <img src={memoji} alt="memoji" />
                 </Button>
               );
             })}
           </WrapperMemojis>
-          <ButtonConfirm onClick={onConfirm} id="button-confirm-memoji">
+          <ButtonConfirm onClick={onClickConfirm} id="button-confirm-memoji">
             Confirm
           </ButtonConfirm>
         </WrapperForm>

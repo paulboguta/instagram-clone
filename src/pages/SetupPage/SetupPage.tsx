@@ -25,9 +25,7 @@ export const SetupPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { darkMode } = useContext(DarkModeContext);
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const user = useSelector((state: RootState) => state.rootReducer.currentUser);
 
   const onChangeUsernameInput = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -45,12 +43,20 @@ export const SetupPage = () => {
     setTheme(darkMode ? "themeDark" : "themeLight");
   }, [darkMode]);
 
+  useEffect(() => {
+    if (user.bio.length || user.username.length || user.profilePic.length) {
+      setUsername(user.username);
+      setBio(user.bio);
+      setProfilePic(user.profilePic);
+    }
+  }, [user.bio, user.profilePic, user.username]);
+
   const onClickConfirm = () => {
     if (validateSetup(username, bio, profilePic)) {
       if (bio.length < 2) {
         setBio(`Hello it's @${username}!`);
       }
-      dispatch(doSetup(uid, username, bio, profilePic, theme));
+      dispatch(doSetup(user.uid, username, bio, profilePic, theme));
       navigate("/");
     }
   };
@@ -59,8 +65,12 @@ export const SetupPage = () => {
     <Wrapper>
       <Form>
         <Img alt="logo" src={Logo} />
-        <TextField placeholder="username" onChange={onChangeUsernameInput} />
-        <Bio onChange={onChangeBioInput} />
+        <TextField
+          placeholder="username"
+          onChange={onChangeUsernameInput}
+          value={username}
+        />
+        <Bio onChange={onChangeBioInput} text={bio} />
         <ProfilePicForm onClickPic={onClickPic} profilepic={profilePic} />
         <ToggleDarkMode />
         <ButtonConfirm onClick={onClickConfirm} />

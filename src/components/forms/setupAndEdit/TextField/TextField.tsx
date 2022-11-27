@@ -2,9 +2,9 @@ import { ChangeEvent } from "react";
 import { WrapperInput, Wrapper } from "./TextField.styles";
 
 interface ITextFieldProps {
-  placeholder?: string;
-  onChange?(event: ChangeEvent<HTMLInputElement>): void;
-  value?: string;
+  placeholder: string;
+  onChange(event: ChangeEvent<HTMLInputElement>): void;
+  value: string;
 }
 
 export const TextField = ({
@@ -18,7 +18,6 @@ export const TextField = ({
         <div>@</div>
         <hr />
         <input
-          role="input"
           placeholder={placeholder}
           onChange={onChange}
           value={value}

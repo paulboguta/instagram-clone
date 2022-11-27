@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 import {
   IconWrapper,
   ButtonNav,
@@ -26,7 +25,6 @@ import { LikesModalContext } from "../../../contexts/LikesModalContext";
 export const NavbarButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
-  const { onProfileClick, resultClicked } = useContext(ProfileResultContext);
   const { onClickHideLikesModal } = useContext(LikesModalContext);
   const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
@@ -34,10 +32,9 @@ export const NavbarButtons = () => {
 
   useEffect(() => {
     setUserID(uid);
-  }, [uid, onProfileClick, resultClicked]);
+  }, [uid]);
 
   const onClickProfile = () => {
-    onProfileClick();
     navigate(`/user/${userID}`);
   };
 

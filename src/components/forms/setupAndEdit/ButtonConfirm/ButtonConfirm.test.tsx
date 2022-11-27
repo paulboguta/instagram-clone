@@ -3,7 +3,8 @@ import { ButtonConfirm } from "./ButtonConfirm";
 
 describe("test setups' button confirm", () => {
   it("renders a button", () => {
-    render(<ButtonConfirm />);
+    const onClick = jest.fn();
+    render(<ButtonConfirm onClick={onClick} />);
     const button = screen.getByText("Confirm");
     expect(button).toBeInTheDocument();
   });

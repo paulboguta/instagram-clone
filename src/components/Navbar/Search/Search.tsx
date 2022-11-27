@@ -1,3 +1,7 @@
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../../services/firebase";
 import {
   SearchStyled,
   Results,
@@ -5,12 +9,6 @@ import {
   Wrapper,
   ErrorMessage,
 } from "./Search.styles";
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../services/firebase";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { ProfileResultContext } from "../../../contexts/ProfileResultContext";
 
 export const Search = () => {
   const [input, setInput] = useState<string>("");
@@ -20,7 +18,6 @@ export const Search = () => {
   const [image, setImage] = useState<string>("");
   const [id, setId] = useState<string>("");
   const navigate = useNavigate();
-  const { onResultClick } = useContext(ProfileResultContext);
 
   const getData = async (input: string) => {
     const querySnapshot = await getDocs(collection(db, "users"));
@@ -46,7 +43,6 @@ export const Search = () => {
   };
 
   const onClickResult = () => {
-    onResultClick();
     setResultClicked((resultClicked) => !resultClicked);
     setInput("");
     setResult(undefined);
@@ -72,7 +68,7 @@ export const Search = () => {
         onKeyDown={onKeyDown}
         value={input}
       />
-      {typeof result == "string" && !resultClicked ? (
+      {typeof result === "string" && !resultClicked ? (
         <Results>
           <Button onClick={onClickResult} id="search-result">
             <img src={image} />
