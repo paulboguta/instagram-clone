@@ -11,19 +11,11 @@ import { FeedPosts, Wrapper } from "./Feed.styles";
 
 export const Feed = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
-
   const getData = async () => {
     const postsData = await getFeedPosts();
     dispatch(getFeedPostsAction(postsData));
     setPosts(postsData);
-    postsData.forEach((post: IPost) => {
-      setIsLiked(checkIfPostIsLiked(post, uid));
-    });
   };
 
   useEffect(() => {
@@ -35,7 +27,7 @@ export const Feed = () => {
       <Navbar />
       <FeedPosts>
         {posts?.map((post) => {
-          return <FeedPost isLiked={isLiked} id={post.id} />;
+          return <FeedPost id={post.id} />;
         })}
       </FeedPosts>
     </Wrapper>

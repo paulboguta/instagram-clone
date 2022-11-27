@@ -11,7 +11,10 @@ import {
 } from "./PostButtonsComments.styles";
 import { CommentsWrapper } from "../CommentsWrapper/CommentsWrapper";
 import { RootState } from "../../../store/store";
-import { likePostAction, unlikePost } from "../../../store/actions/postActions";
+import {
+  likePostAction,
+  unlikePostAction,
+} from "../../../store/actions/postActions";
 
 interface IPostButtonsCommentsProps {
   likes: ILike[];
@@ -31,16 +34,16 @@ export const PostButtonsComments = ({
   postUid,
 }: IPostButtonsCommentsProps) => {
   const dispatch = useAppDispatch();
-  const currentUser = useSelector(
+  const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
 
   const onClickLike = (event: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(likePostAction(currentUser.uid, event.currentTarget.id));
+    dispatch(likePostAction(postUid, uid, event.currentTarget.id));
   };
 
   const onClickUnlike = (event: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(unlikePost(currentUser.uid, event.currentTarget.id));
+    dispatch(unlikePostAction(postUid, uid, event.currentTarget.id));
   };
 
   const IconValue = useMemo(

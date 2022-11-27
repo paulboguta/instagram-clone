@@ -42,7 +42,6 @@ const postReducer = (state = initialState, action: AnyAction) => {
     case ActionTypes.ADD_COMMENT:
       return {
         posts: state.posts?.map((doc) => {
-          console.log(doc.id, action.id);
           if (doc.id === action.id) {
             return {
               ...doc,
@@ -52,34 +51,30 @@ const postReducer = (state = initialState, action: AnyAction) => {
           return { ...doc };
         }),
       };
-    // case ActionTypes.LIKE_POST:
-    //   return [
-    //     state.posts?.map((doc) => {
-    //       if (doc.id === action.id) {
-    //         return [
-    //           ...state.posts,
-    //           {
-    //             likes: action.likes,
-    //           },
-    //         ];
-    //       }
-    //       return [...state.posts];
-    //     }),
-    //   ];
-    // case ActionTypes.UNLIKE_POST:
-    //   return [
-    //     state.posts?.map((doc) => {
-    //       if (doc.id === action.id) {
-    //         return [
-    //           ...state.posts,
-    //           {
-    //             likes: action.likes,
-    //           },
-    //         ];
-    //       }
-    //       return [...state.posts];
-    //     }),
-    //   ];
+    case ActionTypes.LIKE_POST:
+      return {
+        posts: state.posts?.map((doc) => {
+          if (doc.id === action.id) {
+            return {
+              ...doc,
+              likes: action.likes,
+            };
+          }
+          return { ...doc };
+        }),
+      };
+    case ActionTypes.UNLIKE_POST:
+      return {
+        posts: state.posts?.map((doc) => {
+          if (doc.id === action.id) {
+            return {
+              ...doc,
+              likes: action.likes,
+            };
+          }
+          return { ...doc };
+        }),
+      };
     default:
       return state;
   }

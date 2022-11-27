@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { getUserDataForThisPost } from "features/posts/posts.service";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
+import { checkIfPostIsLiked } from "utils/post.utils";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 import {
   Wrapper,
@@ -19,13 +20,13 @@ import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 interface IFeedPostProps {
   id: string | undefined;
-  isLiked: boolean;
 }
 
-export const FeedPost = ({ id, isLiked }: IFeedPostProps) => {
+export const FeedPost = ({ id }: IFeedPostProps) => {
   const [postData, setPostData] = useState({
     username: "",
     profilePic: "",
+    isLiked: false,
   });
   const { likesModalID, showModalLikes, onClickPost } =
     useContext(LikesModalContext);
@@ -40,11 +41,19 @@ export const FeedPost = ({ id, isLiked }: IFeedPostProps) => {
     })
   );
 
+  const userID = useSelector(
+    (state: RootState) => state.rootReducer.currentUser.uid
+  );
+
   useEffect(() => {
     getUserDataForThisPost(uid).then((res) =>
-      setPostData({ username: res.username, profilePic: res.profilePic })
+      setPostData({
+        username: res.username,
+        profilePic: res.profilePic,
+        isLiked: checkIfPostIsLiked(likes, userID),
+      })
     );
-  }, [uid]);
+  }, [uid, likes, userID]);
 
   const IconValue = useMemo(
     () => ({
@@ -75,7 +84,7 @@ export const FeedPost = ({ id, isLiked }: IFeedPostProps) => {
         comments={comments}
         id={id}
         hideComments={false}
-        isLiked={isLiked}
+        isLiked={postData.isLiked}
         postUid={uid}
       />
     </Wrapper>

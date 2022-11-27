@@ -10,7 +10,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "services/firebase";
-import { IComment, ILike, IPost } from "types/post.types";
+import { IPost } from "types/post.types";
 
 export const getProfilePosts = async (id: string) => {
   const postsRef = collection(db, "users", id, "posts");
@@ -49,10 +49,6 @@ export const getFeedPosts = async () => {
     });
   });
   return arr.reverse();
-};
-
-export const checkIfPostIsLiked = (post: IPost, uid: string) => {
-  return post.likes.some((liker: ILike) => liker.uid === uid);
 };
 
 export const getUserDataForThisPost = async (uid: string) => {
