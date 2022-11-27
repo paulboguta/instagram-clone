@@ -24,12 +24,14 @@ interface ICommentsWrapperProps {
   comments: IComment[];
   id: string | undefined;
   hideComments: boolean;
+  postUid: string;
 }
 
 export const CommentsWrapper = ({
   likes,
   comments,
   id,
+  postUid,
   hideComments,
 }: ICommentsWrapperProps) => {
   const likesCount = likes?.length;
@@ -56,7 +58,9 @@ export const CommentsWrapper = ({
   const onClickAddComment = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (validateComment(newComment)) {
       console.log("validated :D");
-      dispatch(addCommentAction(uid, event.currentTarget.id, newComment));
+      dispatch(
+        addCommentAction(postUid, uid, event.currentTarget.id, newComment)
+      );
       setNewComment("");
     }
   };

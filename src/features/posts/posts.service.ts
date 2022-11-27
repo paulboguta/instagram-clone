@@ -89,28 +89,3 @@ export const createPost = async (
 
   return { postID, username, date };
 };
-
-export const addComment = async (uid: string, id: string, comment: string) => {
-  const postRef = doc(db, "users", uid, "posts", id);
-  const postData = await getDoc(postRef);
-  const arr: IComment[] = [];
-  if (postData.data()!.comments.length > 0) {
-    postData.data()!.comments.map((item: IComment) => {
-      return arr.push(item);
-    });
-  }
-  arr.push({
-    uid,
-    comment,
-  });
-
-  await setDoc(
-    postRef,
-    {
-      comments: arr,
-    },
-    { merge: true }
-  );
-
-  return arr;
-};

@@ -19,6 +19,7 @@ interface IPostButtonsCommentsProps {
   id: string | undefined;
   isLiked: boolean;
   hideComments: boolean;
+  postUid: string;
 }
 
 export const PostButtonsComments = ({
@@ -27,6 +28,7 @@ export const PostButtonsComments = ({
   id,
   isLiked,
   hideComments,
+  postUid,
 }: IPostButtonsCommentsProps) => {
   const dispatch = useAppDispatch();
   const currentUser = useSelector(
@@ -69,6 +71,7 @@ export const PostButtonsComments = ({
         comments={comments}
         id={id}
         hideComments={hideComments}
+        postUid={postUid}
       />
     </BoxShadow>
   );

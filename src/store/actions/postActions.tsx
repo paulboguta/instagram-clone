@@ -7,8 +7,9 @@ import {
 } from "firebase/firestore";
 import { ActionTypes } from "store/types";
 import { AppDispatch } from "store/store";
-import { addComment, createPost } from "features/posts/posts.service";
+import { createPost } from "features/posts/posts.service";
 import { IPost } from "types/post.types";
+import { addComment } from "features/posts/comments.service";
 import { db } from "../../services/firebase";
 
 export const getFeedPostsAction =
@@ -34,10 +35,9 @@ export const addPost =
   };
 
 export const addCommentAction =
-  (uid: string, id: string, comment: string) =>
+  (postUid: string, uid: string, id: string, comment: string) =>
   async (dispatch: AppDispatch) => {
-    const arr = await addComment(uid, id, comment);
-    console.log(arr);
+    const arr = await addComment(postUid, uid, id, comment);
     dispatch({
       type: ActionTypes.ADD_COMMENT,
       id,

@@ -76,6 +76,7 @@ export const FeedPost = ({ id, isLiked }: IFeedPostProps) => {
         id={id}
         hideComments={false}
         isLiked={isLiked}
+        postUid={uid}
       />
     </Wrapper>
   );
