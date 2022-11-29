@@ -28,6 +28,14 @@ const currentUser = (state = initialState, action: AnyAction): IUser => {
         followers: action.followers,
         following: action.following,
       };
+    case ActionTypes.DO_SETUP:
+      return {
+        ...state,
+        username: action.username,
+        bio: action.bio,
+        profilePic: action.profilePic,
+        theme: action.theme,
+      };
     default:
       return state;
   }

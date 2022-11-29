@@ -2,12 +2,12 @@ import {
   collection,
   doc,
   DocumentData,
-  DocumentSnapshot,
   getDoc,
   getDocs,
+  QueryDocumentSnapshot,
 } from "firebase/firestore";
 import { db } from "services/firebase";
-import { IFollower } from "types/user.types";
+import { IUser } from "types/user.types";
 
 export const getUserProfileData = async (id: string) => {
   const usersRef = doc(db, "users", id);
@@ -29,11 +29,23 @@ export const getUsersPostsAndFollowers = async (id: string) => {
   return data;
 };
 
-export const checkIfFollowed = (
-  document: DocumentSnapshot<DocumentData>,
-  uid: string
-) => {
-  return document
-    .data()!
-    .followers.some((follower: IFollower) => follower.uid === uid);
+export const getAllUsers = async () => {
+  const usersRef = collection(db, "users");
+  const users = await getDocs(usersRef);
+  const arr: IUser[] = [];
+
+  users.forEach((user: QueryDocumentSnapshot<DocumentData>) => {
+    arr.push({
+      username: user.data()!.username,
+      profilePic: user.data()!.profilePic,
+      bio: user.data()!.bio,
+      uid: user.data()!.uid,
+      postCounter: user.data()!.postCounter,
+      likedPosts: user.data()!.likedPosts,
+      followers: user.data()!.followers,
+      following: user.data()!.following,
+      theme: user.data()!.theme,
+    });
+  });
+  return arr;
 };

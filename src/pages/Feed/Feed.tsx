@@ -4,20 +4,29 @@ import { getFeedPosts } from "features/posts/posts.service";
 import { useAppDispatch } from "hooks/hooks";
 import { getFeedPostsAction } from "store/actions/postActions";
 import { FeedPost } from "components/post/FeedPost/FeedPost";
+import { getAllUsers } from "features/users/users.service";
+import { getAllUsersAction } from "store/actions/userActions";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { FeedPosts, Wrapper } from "./Feed.styles";
 
 export const Feed = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const dispatch = useAppDispatch();
-  const getData = async () => {
+
+  const getPostsData = async () => {
     const postsData = await getFeedPosts();
     dispatch(getFeedPostsAction(postsData));
     setPosts(postsData);
   };
 
+  const getUsersData = async () => {
+    const usersData = await getAllUsers();
+    dispatch(getAllUsersAction(usersData));
+  };
+
   useEffect(() => {
-    getData();
+    getPostsData();
+    getUsersData();
   }, []);
 
   return (

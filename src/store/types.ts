@@ -6,6 +6,7 @@ export enum ActionTypes {
   LIKE_POST = "LIKE_POST",
   UNLIKE_POST = "UNLIKE_POST",
   // users
+  GET_ALL_USERS = "GET_ALL_USERS",
   SET_USER = "SET_USER",
   DO_SETUP = "DO_SETUP",
   DO_FIRST_SETUP = "DO_FIRST_SETUP",

@@ -5,7 +5,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { doc, onSnapshot } from "firebase/firestore";
-import { checkIfFollowed } from "features/users/users.service";
+import { checkIfFollowed } from "utils/user.utils";
 import { ButtonDmAdd } from "./ButtonDmAdd";
 import { ButtonEditFollow } from "./ButtonEditFollow";
 import { ButtonUnfollow } from "./ButtonUnfollow";

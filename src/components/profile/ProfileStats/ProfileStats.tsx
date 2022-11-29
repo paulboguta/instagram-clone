@@ -27,30 +27,31 @@ export const ProfileStats = ({
   const location = useLocation();
   const id = location.pathname.slice(6);
 
-  useEffect(() => {
-    const getData = async () => {
-      // get data on load
-      const data = await getUsersPostsAndFollowers(id);
-      setPosts(data.posts);
-      setFollowersCounter(data.followers);
-      setFollowingCounter(data.following);
+  // const getData = async () => {
+  //   // get data on load
+  //   const data = await getUsersPostsAndFollowers(id);
+  //   setPosts(data.posts);
+  //   setFollowersCounter(data.followers.length);
+  //   setFollowingCounter(data.following.length);
+  // };
 
-      // listen to live changes of following/followers
-      const usersRef = doc(db, "users", id);
-      onSnapshot(usersRef, (user) => {
-        setFollowersCounter(user.data()!.followers.length);
-        setFollowingCounter(user.data()!.following.length);
-      });
-    };
-    getData();
-  }, [id]);
+  // // listen to live changes of following/followers
+  // const usersRef = doc(db, "users", id);
+  // onSnapshot(usersRef, (user) => {
+  //   setFollowersCounter(user.data()!.followers.length);
+  //   setFollowingCounter(user.data()!.following.length);
+  // });
 
-  // listen to live changes of posts
-  const postsRef = collection(db, `users/${id}/posts`);
-  onSnapshot(postsRef, async () => {
-    const dataPosts = await getUsersPostsAndFollowers(id);
-    setPosts(dataPosts.posts);
-  });
+  // // listen to live changes of posts
+  // const postsRef = collection(db, `users/${id}/posts`);
+  // onSnapshot(postsRef, async () => {
+  //   const dataPosts = await getUsersPostsAndFollowers(id);
+  //   setPosts(dataPosts.posts);
+  // });
+
+  // useEffect(() => {
+  //   getData();
+  // }, [id]);
 
   return (
     <Wrapper>

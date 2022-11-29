@@ -1,16 +1,11 @@
-import {
-  collectionGroup,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  updateDoc,
-} from "firebase/firestore";
 import { ActionTypes } from "store/types";
 import { AppDispatch } from "store/store";
-import { db } from "../../services/firebase";
+import { doSetup } from "features/users/setup.service";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "services/firebase";
+import { IUser } from "types/user.types";
 
-export const doSetup =
+export const doSetupAction =
   (
     uid: string,
     username: string,
@@ -19,49 +14,7 @@ export const doSetup =
     theme: string
   ) =>
   async (dispatch: AppDispatch) => {
-    // update user doc
-    const docRef = doc(db, "users", uid);
-    await updateDoc(docRef, {
-      username,
-      bio,
-      profilePic,
-      theme,
-    });
-
-    // update posts (profilepic, username. in likes and comments also profilepic, username)
-    const allPosts = query(collectionGroup(db, "posts"));
-    const querySnapshot = await getDocs(allPosts);
-
-    querySnapshot.forEach((doc: any) => {
-      console.log(doc.data());
-      // updateDoc(doc(db, "posts", doc.data().id), {
-      //   profilePic: profilePic,
-      //   likes: doc.data()!.likes.map((like: any) => {
-      //     if (like.uid === uid) {
-      //       return {
-      //         username: username,
-      //         profilePic: profilePic,
-      //         uid: like.uid,
-      //       };
-      //     } else {
-      //       return like;
-      //     }
-      //   }),
-      //   comments: doc.data()!.comments.map((comment: any) => {
-      //     if (comment.uid === uid) {
-      //       return {
-      //         username: username,
-      //         profilePic: profilePic,
-      //         uid: comment.uid,
-      //         comment: comment.comment,
-      //       };
-      //     } else {
-      //       return comment;
-      //     }
-      //   }),
-      // });
-    });
-
+    await doSetup(uid, username, bio, profilePic, theme);
     dispatch({
       type: ActionTypes.DO_SETUP,
       username,
@@ -69,6 +22,14 @@ export const doSetup =
       uid,
       profilePic,
       theme,
+    });
+  };
+
+export const getAllUsersAction =
+  (users: IUser[]) => async (dispatch: AppDispatch) => {
+    dispatch({
+      type: ActionTypes.GET_ALL_USERS,
+      users,
     });
   };
 

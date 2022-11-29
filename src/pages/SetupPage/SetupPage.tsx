@@ -13,7 +13,7 @@ import {
   ToggleDarkMode,
 } from "../../components/forms";
 import { useAppDispatch } from "../../hooks/hooks";
-import { doSetup } from "../../store/actions/userActions";
+import { doSetupAction } from "../../store/actions/userActions";
 
 import { DarkModeContext } from "../../contexts/DarkModeContext";
 
@@ -56,7 +56,7 @@ export const SetupPage = () => {
       if (bio.length < 2) {
         setBio(`Hello it's @${username}!`);
       }
-      dispatch(doSetup(user.uid, username, bio, profilePic, theme));
+      dispatch(doSetupAction(user.uid, username, bio, profilePic, theme));
       navigate("/");
     }
   };
