@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IFeedPostsStyleProps {
+  loading: boolean;
+}
+
 export const FeedPosts = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,7 +19,7 @@ export const FeedPosts = styled.div`
   }
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<IFeedPostsStyleProps>`
   background-color: ${(props) => props.theme.backgroundPrimary};
-  height: 100%;
+  height: ${(props) => (props.loading ? "100vh" : "100%")};
 `;

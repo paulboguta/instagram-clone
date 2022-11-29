@@ -10,6 +10,7 @@ import { Navbar } from "../../components/Navbar/Navbar";
 import { FeedPosts, Wrapper } from "./Feed.styles";
 
 export const Feed = () => {
+  const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<IPost[]>([]);
   const dispatch = useAppDispatch();
 
@@ -26,11 +27,11 @@ export const Feed = () => {
 
   useEffect(() => {
     getPostsData();
-    getUsersData();
+    getUsersData().then(() => setLoading(false));
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper loading={loading}>
       <Navbar />
       <FeedPosts>
         {posts?.map((post) => {
