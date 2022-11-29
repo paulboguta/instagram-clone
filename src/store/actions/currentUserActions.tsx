@@ -19,3 +19,11 @@ export const setCurrentUser =
       });
     }
   };
+
+export const setThemeMode =
+  (theme: string) => async (dispatch: AppDispatch) => {
+    dispatch({
+      type: ActionTypes.SET_THEME,
+      theme,
+    });
+  };

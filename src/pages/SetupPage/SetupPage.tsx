@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateSetup } from "features/validation/setup.validation";
 import { useSelector } from "react-redux";
@@ -15,18 +15,16 @@ import {
 import { useAppDispatch } from "../../hooks/hooks";
 import { doSetupAction } from "../../store/actions/userActions";
 
-import { DarkModeContext } from "../../contexts/DarkModeContext";
-
 export const SetupPage = () => {
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePic, setProfilePic] = useState<string>("");
-  const [theme, setTheme] = useState<string>("themeLight");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { darkMode } = useContext(DarkModeContext);
   const user = useSelector((state: RootState) => state.rootReducer.currentUser);
-
+  const { theme } = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
   const onChangeUsernameInput = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -38,10 +36,6 @@ export const SetupPage = () => {
   const onClickPic = (event: React.MouseEvent<HTMLButtonElement>) => {
     setProfilePic(event.currentTarget.firstElementChild!.getAttribute("src")!);
   };
-
-  useEffect(() => {
-    setTheme(darkMode ? "themeDark" : "themeLight");
-  }, [darkMode]);
 
   useEffect(() => {
     if (user.bio.length || user.username.length || user.profilePic.length) {

@@ -3,16 +3,15 @@ import { Provider } from "react-redux";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { SignUp } from "pages/SignUp/SignUp";
 import { SignIn } from "pages/SignIn/SignIn";
+import { Theme } from "styles/Theme";
 import { GlobalStyle } from "./styles/globalStyles";
 import store from "./store/store";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
-import { DarkModeContext } from "./contexts/DarkModeContext";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { LikesModalContext } from "./contexts/LikesModalContext";
 import { PostPage } from "./pages/PostPage/PostPage";
-import { Theme } from "styles/Theme";
 
 const App = () => {
   // navigate to signin if user is not signed in
@@ -39,7 +38,6 @@ const App = () => {
 };
 
 const AppWrapper = () => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
   const [showModalLikes, setShowModalLikes] = useState<boolean>(false);
   const [likesModalID, setLikesModalID] = useState("");
   const [postID, setPostID] = useState("");
@@ -58,10 +56,6 @@ const AppWrapper = () => {
   useEffect(() => {
     setShowModalLikes(false);
   }, [url]);
-
-  const changeDarkModeOnClick = useCallback(() => {
-    setDarkMode((prev) => !prev);
-  }, [darkMode]);
 
   const onClickPost = useCallback(
     (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
@@ -84,22 +78,15 @@ const AppWrapper = () => {
     [likesModalID, onClickPost, postID, showModalLikes]
   );
 
-  const darkModeValues = useMemo(
-    () => ({ changeDarkModeOnClick, darkMode }),
-    [changeDarkModeOnClick, darkMode]
-  );
-
   return (
-    <DarkModeContext.Provider value={darkModeValues}>
-      <Theme>
-        <LikesModalContext.Provider value={likesModalValues}>
-          <Provider store={store}>
-            <GlobalStyle />
-            <App />
-          </Provider>
-        </LikesModalContext.Provider>
-      </Theme>
-    </DarkModeContext.Provider>
+    <LikesModalContext.Provider value={likesModalValues}>
+      <Provider store={store}>
+        <Theme>
+          <GlobalStyle />
+          <App />
+        </Theme>
+      </Provider>
+    </LikesModalContext.Provider>
   );
 };
 

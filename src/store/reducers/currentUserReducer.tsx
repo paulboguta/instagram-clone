@@ -44,7 +44,11 @@ const currentUser = (state = initialState, action: AnyAction): ICurrentUser => {
         ...state,
         following: action.newFollowing,
       };
-
+    case ActionTypes.SET_THEME:
+      return {
+        ...state,
+        theme: action.theme,
+      };
     default:
       return state;
   }

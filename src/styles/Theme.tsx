@@ -1,5 +1,5 @@
-import { DarkModeContext } from "contexts/DarkModeContext";
-import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
 import { ThemeProvider } from "styled-components";
 import { ITheme } from "./style.types";
 
@@ -40,12 +40,13 @@ export const themeDark: ITheme = {
 };
 
 export const Theme: React.FC<IThemeProps> = ({ children }: IThemeProps) => {
-  const [theme, setTheme] = useState<ITheme>(themeLight);
-  const { darkMode } = useContext(DarkModeContext);
+  const { theme } = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
 
-  useEffect(() => {
-    setTheme(darkMode ? themeLight : themeDark);
-  }, [darkMode]);
-
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme === "themeDark" ? themeDark : themeLight}>
+      {children}
+    </ThemeProvider>
+  );
 };

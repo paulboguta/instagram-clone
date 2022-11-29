@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { useContext } from "react";
-import { DarkModeContext } from "../../../../contexts/DarkModeContext";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
+import { setThemeMode } from "store/actions/currentUserActions";
+import { useAppDispatch } from "hooks/hooks";
 import { ReactComponent as IconDark } from "../../../../assets/icons/dark.svg";
 import { ReactComponent as IconLight } from "../../../../assets/icons/light.svg";
 
@@ -37,13 +39,19 @@ const Circle = styled.div<ICircleStyle>`
 `;
 
 export const ToggleDarkMode = () => {
-  const { darkMode, changeDarkModeOnClick } = useContext(DarkModeContext);
+  const { theme } = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
+  const dispatch = useAppDispatch();
+  const setTheme = () => {
+    dispatch(setThemeMode(theme === "themeLight" ? "themeDark" : "themeLight"));
+  };
 
-  const toggle = darkMode ? "#fff" : "transparent";
-  const toggle2 = darkMode ? "transparent" : "#fff";
+  const toggle = theme === "themeLight" ? "#fff" : "transparent";
+  const toggle2 = theme === "themeDark" ? "#fff" : "transparent";
 
   return (
-    <Button onClick={changeDarkModeOnClick}>
+    <Button onClick={setTheme}>
       <IconDark />
       <WrapperToggle>
         <Circle toggle={toggle2} />
