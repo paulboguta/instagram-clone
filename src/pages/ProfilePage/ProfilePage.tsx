@@ -1,9 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getProfilePosts } from "features/posts/posts.service";
-import { IPost } from "types/post.types";
-import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "services/firebase";
 import { useAppDispatch } from "hooks/hooks";
 import { setCurrentProfileAction } from "store/actions/currentProfileAction";
 import { useSelector } from "react-redux";
@@ -18,13 +14,15 @@ import { AddPostModal } from "../../components/post/AddPostModal/AddPostModal";
 import { ProfilePosts } from "../../components/post/ProfilePosts/ProfilePosts";
 
 export const ProfilePage = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
   const dispatch = useAppDispatch();
   const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
+  );
+  const { posts } = useSelector(
+    (state: RootState) => state.rootReducer.currentProfileReducer
   );
   const location = useLocation();
   const id = location.pathname.slice(6);
@@ -60,25 +58,9 @@ export const ProfilePage = () => {
     setShowFollowing(false);
   }, [location.pathname]);
 
-  // render posts on load
-  const getProfilePostsData = useCallback(async () => {
-    setPosts(await getProfilePosts(id));
-  }, [id]);
-
-  // listen to live post changes
-  const postsRef = collection(db, "users", id, "posts");
-  onSnapshot(postsRef, async () => {
-    getProfilePostsData();
-  });
-
-  const getData = useCallback(async () => {
+  useEffect(() => {
     dispatch(setCurrentProfileAction(id, uid));
   }, [dispatch, id, uid]);
-
-  useEffect(() => {
-    getProfilePostsData();
-    getData();
-  }, [getData, getProfilePostsData, id]);
 
   return (
     <Wrapper>

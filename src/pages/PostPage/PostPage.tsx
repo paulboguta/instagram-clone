@@ -1,15 +1,11 @@
-import {
-  collectionGroup,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-} from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { LikesModalContext } from "../../contexts/LikesModalContext";
-import { db } from "../../services/firebase";
 import { RootState } from "store/store";
+import { useNavigate } from "react-router-dom";
+import { checkIfPostIsLiked } from "utils/post.utils";
+import { getUserProfileData } from "features/users/users.service";
+import { IPost } from "types/post.types";
+import { LikesModalContext } from "../../contexts/LikesModalContext";
 import { Comments } from "../../components/post/CommentsWrapper/Comments";
 import { PostButtonsComments } from "../../components/post/PostButtonsComments/PostButtonsComments";
 import {
@@ -24,65 +20,40 @@ import {
   MarginTop,
 } from "./PostPage.styles";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { useNavigate } from "react-router-dom";
 import { useWindowDimensions } from "../../hooks/hooks";
 import { LikesModal } from "../../components/post/LikesModal/LikesModal";
 
 export const PostPage = () => {
-  const [post, setPost] = useState<any>();
   const [loading, setLoading] = useState(true);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [userID, setUserID] = useState("");
-  const [username, setUsername] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const [isLiked, setIsLiked] = useState(false);
+  const [user, setUser] = useState({
+    username: "",
+    profilePic: "",
+  });
   const navigate = useNavigate();
   const { likesModalID, showModalLikes, postID } =
     useContext(LikesModalContext);
-  const currentUser = useSelector(
+  const {
+    image,
+    description,
+    uid: postOwner,
+    id,
+    likes,
+    comments,
+  } = useSelector((state: RootState) =>
+    state.rootReducer.postReducer.posts.find((post: IPost) => {
+      return post.id === postID;
+    })
+  );
+  const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
   const windowDim = useWindowDimensions();
-  const url = window.location.pathname.split("/").pop();
 
-  const getData = async () => {
-    const allPosts = query(collectionGroup(db, "posts"));
-    const querySnapshot = await getDocs(allPosts);
-    querySnapshot.forEach((doc: any) => {
-      if (doc.data()!.id === postID) {
-        setPost(doc.data());
-        setUserID(doc.data().uid);
-        if (
-          doc.data()!.likes.some((liker: any) => liker.uid === currentUser.uid)
-        ) {
-          setIsLiked(true);
-        } else {
-          setIsLiked(false);
-        }
-      }
-    });
-  };
-
-  const getUserData = async () => {
-    const userRef = doc(db, "users", userID);
-    const userData = await getDoc(userRef);
-    setUsername(userData.data()!.username);
-    setProfilePic(userData.data()!.profilePic);
-  };
-
-  const clickHandler = () => {};
-
-  useEffect(() => {
-    setTimeout(() => {
-      getUserData();
-      getData();
-    }, 500);
-  }, [url, clickHandler]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1200);
-  }, [url]);
+  const getData = useCallback(async () => {
+    const { username, profilePic } = await getUserProfileData(postOwner);
+    setUser({ username, profilePic });
+  }, [postOwner]);
 
   const onClickUsernameMoveToUserProfile = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -91,6 +62,11 @@ export const PostPage = () => {
     navigate(`/user/${event.currentTarget.id}`);
   };
 
+  useEffect(() => {
+    setIsLiked(checkIfPostIsLiked(likes, uid));
+    getData().then(() => setLoading(false));
+  }, [getData, likes, uid]);
+
   return (
     <WrapperAll>
       <Navbar />
@@ -98,34 +74,35 @@ export const PostPage = () => {
         <MarginTop>
           {showModalLikes && <LikesModal id={likesModalID} />}
         </MarginTop>
+
         {!loading && (
           <>
-            <Img src={post?.image} />
+            <Img src={image} />
             <div>
               <PostProfileSectionWrapper>
-                <ProfilePic src={profilePic} />
+                <ProfilePic src={user.profilePic} />
                 <Username
                   onClick={onClickUsernameMoveToUserProfile}
-                  id={post?.uid}
+                  id={postOwner}
                 >
-                  @{username}
+                  @{user.username}
                 </Username>
-                {+windowDim.width > 1200 && (
-                  <Description>{post?.description}</Description>
+                {windowDim.width > 1200 && (
+                  <Description>{description}</Description>
                 )}
               </PostProfileSectionWrapper>
               <WrapperComments>
-                <Comments comments={post?.comments} hideComments={true} />
-                {+windowDim.width < 1200 && (
-                  <Description>{post?.description}</Description>
+                <Comments comments={comments} hideComments />
+                {windowDim.width < 1200 && (
+                  <Description>{description}</Description>
                 )}
                 <PostButtonsComments
-                  likes={post?.likes}
-                  comments={post?.comments}
-                  id={postID}
+                  likes={likes}
+                  comments={comments}
+                  id={id}
                   isLiked={isLiked}
-                  clickHandler={clickHandler}
-                  hideComments={true}
+                  postUid={postOwner}
+                  hideComments
                 />
               </WrapperComments>
             </div>

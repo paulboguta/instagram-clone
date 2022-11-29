@@ -7,10 +7,10 @@ const initialState: ICurrentProfile = {
   profilePic: "",
   bio: "",
   uid: "",
-  postCounter: 0,
   followers: [],
   following: [],
   isOnOwnProfile: false,
+  posts: [],
 };
 
 const currentProfileReducer = (
@@ -24,10 +24,10 @@ const currentProfileReducer = (
         username: action.username,
         bio: action.bio,
         profilePic: action.profilePic,
-        postCounter: action.postCounter,
         followers: action.followers,
         following: action.following,
         isOnOwnProfile: action.isOnOwnProfile,
+        posts: action.posts,
       };
     case ActionTypes.DO_FOLLOW:
       return {
@@ -38,6 +38,22 @@ const currentProfileReducer = (
       return {
         ...state,
         followers: action.newFollowers,
+      };
+    case ActionTypes.ADD_POST:
+      return {
+        ...state,
+        posts: [
+          ...state.posts,
+          {
+            uid: action.uid,
+            image: action.image,
+            description: action.description,
+            likes: [],
+            comments: [],
+            username: action.username,
+            id: action.id,
+          },
+        ],
       };
 
     default:

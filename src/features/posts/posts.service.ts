@@ -85,3 +85,23 @@ export const createPost = async (
 
   return { postID, username, date };
 };
+
+export const getThisPost = async (id: string) => {
+  const allPosts = query(collectionGroup(db, "posts"));
+  const posts = await getDocs(allPosts);
+  const arr: IPost[] = [];
+  posts.forEach((post) => {
+    if (post.data()!.id === id)
+      arr.push({
+        comments: post.data()!.comments,
+        dateAdded: post.data()!.dateAdded,
+        description: post.data()!.description,
+        id: post.data()!.id,
+        image: post.data()!.image,
+        likes: post.data()!.likes,
+        uid: post.data()!.uid,
+        username: post.data()!.username,
+      });
+  });
+  return arr[0];
+};

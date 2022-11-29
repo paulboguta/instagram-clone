@@ -1,20 +1,19 @@
 import { AnyAction } from "redux";
 import { ActionTypes } from "store/types";
-import { IUser } from "types/user.types";
+import { ICurrentUser } from "types/user.types";
 
-const initialState: IUser = {
+const initialState: ICurrentUser = {
   username: "",
   profilePic: "",
   bio: "",
   uid: "",
-  postCounter: 0,
   likedPosts: [],
   followers: [],
   following: [],
   theme: "",
 };
 
-const currentUser = (state = initialState, action: AnyAction): IUser => {
+const currentUser = (state = initialState, action: AnyAction): ICurrentUser => {
   switch (action.type) {
     case ActionTypes.SET_CURRENT_USER:
       return {
@@ -23,7 +22,6 @@ const currentUser = (state = initialState, action: AnyAction): IUser => {
         bio: action.bio,
         profilePic: action.profilePic,
         theme: action.theme,
-        postCounter: action.postCounter,
         likedPosts: action.likedPosts,
         followers: action.followers,
         following: action.following,

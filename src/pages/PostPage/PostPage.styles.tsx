@@ -48,6 +48,11 @@ export const Img = styled.img`
     height: 420px;
   }
 
+  @media (min-width: 1200px) {
+    width: 500px;
+    height: 500px;
+  }
+
   @media (max-width: 1200px) {
     margin-top: 100px;
   }

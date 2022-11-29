@@ -12,7 +12,7 @@ import { IUser } from "types/user.types";
 export const getUserProfileData = async (id: string) => {
   const usersRef = doc(db, "users", id);
   const data = await getDoc(usersRef);
-  return data;
+  return data.data()!;
 };
 
 export const getUserPostsCounter = async (id: string) => {
@@ -46,7 +46,6 @@ export const getAllUsers = async () => {
       profilePic: user.data()!.profilePic,
       bio: user.data()!.bio,
       uid: user.data()!.uid,
-      postCounter: user.data()!.postCounter,
       likedPosts: user.data()!.likedPosts,
       followers: user.data()!.followers,
       following: user.data()!.following,

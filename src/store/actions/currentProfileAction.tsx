@@ -1,11 +1,13 @@
+import { getProfilePosts } from "features/posts/posts.service";
 import { getUserProfileData } from "features/users/users.service";
 import { AppDispatch } from "store/store";
 import { ActionTypes } from "store/types";
 
 export const setCurrentProfileAction =
   (uid: string, currentUserId: string) => async (dispatch: AppDispatch) => {
-    const user = (await getUserProfileData(uid)).data();
+    const user = await getUserProfileData(uid);
     const isOnOwnProfile = currentUserId === uid;
+    const posts = await getProfilePosts(uid);
     if (user) {
       dispatch({
         type: ActionTypes.SET_CURRENT_PROFILE,
@@ -13,10 +15,10 @@ export const setCurrentProfileAction =
         username: user.username,
         bio: user.bio,
         profilePic: user.profilePic,
-        postCounter: user.postCounter,
         followers: user.followers,
         following: user.following,
         isOnOwnProfile,
+        posts,
       });
     }
   };

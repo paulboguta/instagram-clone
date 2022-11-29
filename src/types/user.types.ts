@@ -1,9 +1,10 @@
+import { IPost } from "./post.types";
+
 export interface IUser {
   username: string;
   profilePic: string;
   bio: string;
   uid: string;
-  postCounter: number;
   likedPosts: IFollower[];
   followers: IFollower[];
   following: IFollower[];
@@ -23,8 +24,19 @@ export interface ICurrentProfile {
   username: string;
   bio: string;
   profilePic: string;
-  postCounter: number;
   followers: IFollower[];
   following: IFollower[];
   isOnOwnProfile: boolean;
+  posts: IPost[];
+}
+
+export interface ICurrentUser {
+  uid: string;
+  username: string;
+  bio: string;
+  profilePic: string;
+  likedPosts: IFollower[];
+  followers: IFollower[];
+  following: IFollower[];
+  theme: string;
 }

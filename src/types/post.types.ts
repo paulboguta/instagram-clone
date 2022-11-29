@@ -6,7 +6,7 @@ export interface IPost {
   comments: [];
   username: string;
   dateAdded?: Date;
-  id?: string;
+  id: string;
 }
 
 export interface IPostState {
