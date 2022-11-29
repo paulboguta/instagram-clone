@@ -1,22 +1,21 @@
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
 import { Wrapper, Username, Bio } from "./ProfileDetails.styled";
 import { ProfileStats } from "./ProfileStats/ProfileStats";
 import { ProfileImg } from "./ProfileImg/ProfileImg";
 
 interface IProfileDetialsProps {
-  username: string;
-  profilePic: string;
-  bio: string;
   onClickShowFollowersModal: () => void;
   onClickShowFollowingModal: () => void;
 }
 
 export const ProfileDetails = ({
-  username,
-  profilePic,
-  bio,
   onClickShowFollowersModal,
   onClickShowFollowingModal,
 }: IProfileDetialsProps) => {
+  const { username, profilePic, bio } = useSelector(
+    (state: RootState) => state.rootReducer.currentProfileReducer
+  );
   return (
     <Wrapper>
       <ProfileImg profileImg={profilePic} />

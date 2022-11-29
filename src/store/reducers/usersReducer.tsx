@@ -25,52 +25,42 @@ const usersReducer = (state = initialState, action: any) => {
           return { ...user };
         }),
       };
-    // case ActionTypes.DO_FOLLOW:
-    //   return [
-    //     state.users?.map((doc) => {
-    //       if (doc.uid === action.uid1) {
-    //         return [
-    //           ...state.users,
-    //           {
-    //             following: doc.following.push(action.uid2),
-    //           },
-    //         ];
-    //       }
-    //       if (doc.uid === action.uid2) {
-    //         return [
-    //           ...state.users,
-    //           {
-    //             followers: doc.followers.push(action.uid1),
-    //           },
-    //         ];
-    //       }
-    //     }),
-    //   ];
-    // case ActionTypes.DO_UNFOLLOW:
-    //   return [
-    //     state.users?.map((doc) => {
-    //       if (doc.uid === action.uid1) {
-    //         return [
-    //           ...state.users,
-    //           {
-    //             following: doc.following.filter((word: string) => {
-    //               return word !== action.uid2;
-    //             }),
-    //           },
-    //         ];
-    //       }
-    //       if (doc.uid === action.uid2) {
-    //         return [
-    //           ...state.users,
-    //           {
-    //             followers: doc.followers.filter((word: string) => {
-    //               return word !== action.uid1;
-    //             }),
-    //           },
-    //         ];
-    //       }
-    //     }),
-    //   ];
+    case ActionTypes.DO_FOLLOW:
+      return {
+        users: state.users?.map((doc) => {
+          if (doc.uid === action.uid1) {
+            return {
+              ...doc,
+              following: action.newFollowing,
+            };
+          }
+          if (doc.uid === action.uid2) {
+            return {
+              ...doc,
+              followers: action.newFollowers,
+            };
+          }
+          return { ...doc };
+        }),
+      };
+    case ActionTypes.DO_UNFOLLOW:
+      return {
+        users: state.users?.map((doc) => {
+          if (doc.uid === action.uid1) {
+            return {
+              ...doc,
+              following: action.newFollowing,
+            };
+          }
+          if (doc.uid === action.uid2) {
+            return {
+              ...doc,
+              followers: action.newFollowers,
+            };
+          }
+          return { ...doc };
+        }),
+      };
 
     default:
       return state;

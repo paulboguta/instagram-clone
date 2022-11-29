@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { getUserProfileData } from "features/users/users.service";
 import { useLocation } from "react-router-dom";
 import { getProfilePosts } from "features/posts/posts.service";
 import { IPost } from "types/post.types";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "services/firebase";
+import { useAppDispatch } from "hooks/hooks";
+import { setCurrentProfileAction } from "store/actions/currentProfileAction";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 import Background1 from "../../assets/background/background-1.jpeg";
@@ -15,15 +18,14 @@ import { AddPostModal } from "../../components/post/AddPostModal/AddPostModal";
 import { ProfilePosts } from "../../components/post/ProfilePosts/ProfilePosts";
 
 export const ProfilePage = () => {
-  const [user, setUser] = useState({
-    username: "",
-    profilePic: "",
-    bio: "",
-  });
   const [posts, setPosts] = useState<IPost[]>([]);
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
+  const dispatch = useAppDispatch();
+  const { uid } = useSelector(
+    (state: RootState) => state.rootReducer.currentUser
+  );
   const location = useLocation();
   const id = location.pathname.slice(6);
 
@@ -69,19 +71,14 @@ export const ProfilePage = () => {
     getProfilePostsData();
   });
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getUserProfileData(id);
+  const getData = useCallback(async () => {
+    dispatch(setCurrentProfileAction(id, uid));
+  }, [dispatch, id, uid]);
 
-      setUser({
-        username: data.data()!.username,
-        profilePic: data.data()!.profilePic,
-        bio: data.data()!.bio,
-      });
-    };
-    getData();
+  useEffect(() => {
     getProfilePostsData();
-  }, [getProfilePostsData, id]);
+    getData();
+  }, [getData, getProfilePostsData, id]);
 
   return (
     <Wrapper>
@@ -95,9 +92,6 @@ export const ProfilePage = () => {
       <Navbar />
       <Img src={Background1} />
       <ProfileDetails
-        username={user.username}
-        profilePic={user.profilePic}
-        bio={user.bio}
         onClickShowFollowersModal={onClickShowFollowersModal}
         onClickShowFollowingModal={onClickShowFollowingModal}
       />

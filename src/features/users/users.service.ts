@@ -15,6 +15,12 @@ export const getUserProfileData = async (id: string) => {
   return data;
 };
 
+export const getUserPostsCounter = async (id: string) => {
+  const postsRef = collection(db, "users", id, "posts");
+  const data = await getDocs(postsRef);
+  return data.docs.length;
+};
+
 export const getUsersPostsAndFollowers = async (id: string) => {
   const usersRef = doc(db, "users", id);
   const user = await getDoc(usersRef);

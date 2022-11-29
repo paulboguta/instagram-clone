@@ -1,50 +1,43 @@
 import { AnyAction } from "redux";
 import { ActionTypes } from "store/types";
-import { IUser } from "types/user.types";
+import { ICurrentProfile } from "types/user.types";
 
-const initialState: IUser = {
+const initialState: ICurrentProfile = {
   username: "",
   profilePic: "",
   bio: "",
   uid: "",
   postCounter: 0,
-  likedPosts: [],
   followers: [],
   following: [],
-  theme: "",
+  isOnOwnProfile: false,
 };
 
-const currentUser = (state = initialState, action: AnyAction): IUser => {
+const currentProfileReducer = (
+  state = initialState,
+  action: AnyAction
+): ICurrentProfile => {
   switch (action.type) {
-    case ActionTypes.SET_CURRENT_USER:
+    case ActionTypes.SET_CURRENT_PROFILE:
       return {
         uid: action.uid,
         username: action.username,
         bio: action.bio,
         profilePic: action.profilePic,
-        theme: action.theme,
         postCounter: action.postCounter,
-        likedPosts: action.likedPosts,
         followers: action.followers,
         following: action.following,
-      };
-    case ActionTypes.DO_SETUP:
-      return {
-        ...state,
-        username: action.username,
-        bio: action.bio,
-        profilePic: action.profilePic,
-        theme: action.theme,
+        isOnOwnProfile: action.isOnOwnProfile,
       };
     case ActionTypes.DO_FOLLOW:
       return {
         ...state,
-        following: action.newFollowing,
+        followers: action.newFollowers,
       };
     case ActionTypes.DO_UNFOLLOW:
       return {
         ...state,
-        following: action.newFollowing,
+        followers: action.newFollowers,
       };
 
     default:
@@ -52,4 +45,4 @@ const currentUser = (state = initialState, action: AnyAction): IUser => {
   }
 };
 
-export default currentUser;
+export default currentProfileReducer;

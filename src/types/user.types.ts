@@ -4,9 +4,9 @@ export interface IUser {
   bio: string;
   uid: string;
   postCounter: number;
-  likedPosts: Array<string>;
-  followers: Array<string>;
-  following: Array<string>;
+  likedPosts: IFollower[];
+  followers: IFollower[];
+  following: IFollower[];
   theme: string;
 }
 
@@ -15,7 +15,16 @@ export interface IUserState {
 }
 
 export interface IFollower {
-  profilePic: string;
+  uid: string;
+}
+
+export interface ICurrentProfile {
   uid: string;
   username: string;
+  bio: string;
+  profilePic: string;
+  postCounter: number;
+  followers: IFollower[];
+  following: IFollower[];
+  isOnOwnProfile: boolean;
 }
