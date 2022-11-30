@@ -22,21 +22,14 @@ export const Wrapper = styled.div`
   transform: translate(50%, -50%);
   border-radius: 16px;
 
-  @media (min-width: 1160px) {
+  @media (min-width: 768px) {
     width: 400px;
     height: 400px;
-    top: 35%;
   }
 
-  @media (max-width: 1160px) and (min-width: 768px) {
-    width: 400px;
-    height: 300px;
-    top: 80%;
-  }
   @media (max-width: 768px) {
     width: 300px;
-    height: 500px;
-    top: 50%;
+    height: 400px;
   }
 `;
 
@@ -70,7 +63,7 @@ export const Button = styled.button`
 export const ButtonClose = styled.button`
   background-color: transparent;
   border: none;
-  position: fixed;
+  position: absolute;
   left: 10px;
   top: 10px;
   height: 30px;

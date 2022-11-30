@@ -47,6 +47,7 @@ export const Feed = ({
         {posts?.map((post) => {
           return (
             <FeedPost
+              key={post.id}
               id={post.id}
               onClickShowModalLikes={onClickShowModalLikes}
               onClickHideModalLikes={onClickHideModalLikes}

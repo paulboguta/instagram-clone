@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { ILikesModalProps } from "types/likesModal.types";
 import { ILike, IPost } from "types/post.types";
+import uuid from "react-uuid";
 import { Wrapper, ButtonClose, Likes0Info } from "./LikesModal.styles";
 import { LikesModalButton } from "./LikesModalButton";
 
@@ -38,7 +39,7 @@ export const LikesModal = ({ id, onClickHideModalLikes }: ILikesModal) => {
         likes.map((like: ILike) => {
           return (
             <LikesModalButton
-              key={like.uid}
+              key={uuid()}
               uid={like.uid}
               onClickHideModalLikes={onClickHideModalLikes}
             />

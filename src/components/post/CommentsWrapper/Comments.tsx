@@ -1,4 +1,5 @@
 import { IComment } from "types/post.types";
+import uuid from "react-uuid";
 import { CommentsWrapper } from "./CommentsWrapper.styles";
 import { Comment } from "./Comment";
 
@@ -11,7 +12,7 @@ export const Comments = ({ comments, hideComments }: any) => {
         ? slicedComments?.map((comment: IComment) => {
             return (
               <Comment
-                key={comment.uid}
+                key={uuid()}
                 hideComments={hideComments}
                 uid={comment.uid}
                 comment={comment.comment}
@@ -21,7 +22,7 @@ export const Comments = ({ comments, hideComments }: any) => {
         : comments?.map((comment: IComment) => {
             return (
               <Comment
-                key={comment.uid}
+                key={uuid()}
                 hideComments={hideComments}
                 uid={comment.uid}
                 comment={comment.comment}
