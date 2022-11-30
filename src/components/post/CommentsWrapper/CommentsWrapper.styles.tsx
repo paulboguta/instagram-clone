@@ -24,19 +24,11 @@ export const LikesCount = styled.button`
   color: ${(props) => props.theme.fontPrimary};
 `;
 
-export const AddCommentWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding-inline: 8px;
-  margin-top: 6px;
-  padding-bottom: 16px;
-`;
-
-export const CommentInput = styled.input`
+export const CommentInputStyled = styled.input`
   border: none;
   outline: none;
   background-color: ${(props) => props.theme.backgroundPrimary};
+  color: ${(props) => props.theme.fontPrimary};
 `;
 
 export const ButtonViewComments = styled(ButtonLike)`
