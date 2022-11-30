@@ -14,16 +14,6 @@ import { PostPage } from "./pages/PostPage/PostPage";
 
 const App = () => {
   // navigate to signin if user is not signed in
-  // const { uid } = useSelector(
-  //   (state: RootState) => state.rootReducer.currentUser
-  // );
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (uid === "") {
-  //     navigate("/signup");
-  //   }
-  // }, []);
-
   const [showModalLikes, setShowModalLikes] = useState<boolean>(false);
   const [postID, setPostID] = useState("");
 
