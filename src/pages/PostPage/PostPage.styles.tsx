@@ -148,6 +148,11 @@ export const WrapperComments = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   height: 55%;
+
+  @media (max-width: 1200px) {
+    min-height: 130px;
+    max-height: 55%;
+  }
 `;
 
 export const MarginTop = styled.div`

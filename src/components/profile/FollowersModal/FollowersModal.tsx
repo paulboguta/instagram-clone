@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { IFollower, IUser } from "types/user.types";
+import uuid from "react-uuid";
 import { Wrapper, ButtonClose } from "./FollowersModal.styles";
 import { FollowersModalButton } from "./FollowersModalButton";
 
@@ -47,6 +48,7 @@ export const FollowersModal = ({
           following.map((followee: IFollower) => {
             return (
               <FollowersModalButton
+                key={uuid()}
                 id={followee.uid}
                 onClickHideModals={onClickHideModals}
               />
@@ -57,6 +59,7 @@ export const FollowersModal = ({
           followers.map((follower: IFollower) => {
             return (
               <FollowersModalButton
+                key={uuid()}
                 id={follower.uid}
                 onClickHideModals={onClickHideModals}
               />

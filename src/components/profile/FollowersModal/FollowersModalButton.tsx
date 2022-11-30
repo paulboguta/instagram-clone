@@ -22,9 +22,7 @@ export const FollowersModalButton = ({
   );
 
   const onClickMoveToThisUser = (event: React.MouseEvent) => {
-    if (event.currentTarget.id !== id) {
-      navigate(`/user/${event.currentTarget.id}`);
-    }
+    navigate(`/user/${event.currentTarget.id}`);
     onClickHideModals();
   };
 

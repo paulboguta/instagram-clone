@@ -14,12 +14,11 @@ interface ILikesModal extends ILikesModalProps {
 }
 
 export const LikesModal = ({ id, onClickHideModalLikes }: ILikesModal) => {
-  const { likes, id: postID } = useSelector((state: RootState) =>
+  const { likes } = useSelector((state: RootState) =>
     state.rootReducer.postReducer.posts.find((post: IPost) => {
       return post.id === id;
     })
   );
-  console.log(id, likes, postID);
 
   const IconValue = useMemo(
     () => ({

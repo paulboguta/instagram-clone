@@ -1,7 +1,7 @@
-import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../../services/firebase";
+import { RootState } from "store/store";
+import { IUser } from "types/user.types";
 import {
   CommentStyled,
   CommentText,
@@ -13,20 +13,13 @@ import {
 } from "./CommentsWrapper.styles";
 
 export const Comment = ({ uid, hideComments, comment }: any) => {
-  const [username, setUsername] = useState("");
-  const [profilePic, setProfilePic] = useState("");
   const navigate = useNavigate();
 
-  const getUsersData = async () => {
-    const userRef = doc(db, "users", uid);
-    const userData = await getDoc(userRef);
-    setUsername(userData.data()!.username);
-    setProfilePic(userData.data()!.profilePic);
-  };
-
-  useEffect(() => {
-    getUsersData();
-  }, []);
+  const { profilePic, username } = useSelector((state: RootState) =>
+    state.rootReducer.usersReducer.users.find((user: IUser) => {
+      return user.uid === uid;
+    })
+  );
 
   const onClickUsernameMoveToUserProfile = (
     event: React.MouseEvent<HTMLButtonElement>

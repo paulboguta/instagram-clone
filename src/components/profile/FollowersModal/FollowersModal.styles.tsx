@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
     margin-top: 5px;
     margin-bottom: 10px;
     font-size: 18px;
+    color: ${(props) => props.theme.fontPrimary};
   }
 
   @media (min-width: 1160px) {
