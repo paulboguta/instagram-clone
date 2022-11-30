@@ -10,18 +10,40 @@ const mockData = {
 
 describe("test followers modal", () => {
   it("renders header with props", () => {
-    render(<FollowersModal modal="followers" header="Followers" />);
+    const onClick = jest.fn();
+    render(
+      <FollowersModal
+        onClickHideModals={onClick}
+        id="id"
+        modal="followers"
+        header="Followers"
+      />
+    );
     const header = screen.getByText("Followers");
     expect(header).toBeInTheDocument();
   });
   it("renders header with props 2", () => {
-    render(<FollowersModal modal="following" header="Following" />);
+    const onClick = jest.fn();
+    render(
+      <FollowersModal
+        onClickHideModals={onClick}
+        id="id"
+        modal="following"
+        header="Following"
+      />
+    );
     const header = screen.getByText("Following");
     expect(header).toBeInTheDocument();
   });
   it("renders buttons with: profile image and username", () => {
+    const onClick = jest.fn();
     render(
-      <FollowersModalButton img={mockData.img} username={mockData.username} />
+      <FollowersModalButton
+        onClickHideModals={onClick}
+        id="id"
+        img={mockData.img}
+        username={mockData.username}
+      />
     );
     const username = screen.getByText("@mockusername");
     expect(username).toBeInTheDocument();
