@@ -1,20 +1,25 @@
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "store/store";
+import { IUser } from "types/user.types";
 import { Button } from "./FollowersModal.styles";
 
 interface IFollowersModalButtonProps {
-  img: string;
-  username: string;
   id: string;
   onClickHideModals: () => void;
 }
 
 export const FollowersModalButton = ({
-  img,
-  username,
   id,
   onClickHideModals,
 }: IFollowersModalButtonProps) => {
   const navigate = useNavigate();
+
+  const { profilePic, username } = useSelector((state: RootState) =>
+    state.rootReducer.usersReducer.users.find((user: IUser) => {
+      return user.uid === id;
+    })
+  );
 
   const onClickMoveToThisUser = (event: React.MouseEvent) => {
     if (event.currentTarget.id !== id) {
@@ -25,7 +30,7 @@ export const FollowersModalButton = ({
 
   return (
     <Button onClick={onClickMoveToThisUser} id={id}>
-      <img src={img} alt="profile pic" />
+      <img src={profilePic} alt="profile pic" />
       <div>@{username}</div>
     </Button>
   );

@@ -1,7 +1,9 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { IconContext } from "react-icons/lib";
-import { useState, useEffect, useMemo } from "react";
-import { getUserProfileData } from "features/users/users.service";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
+import { IFollower, IUser } from "types/user.types";
 import { Wrapper, ButtonClose } from "./FollowersModal.styles";
 import { FollowersModalButton } from "./FollowersModalButton";
 
@@ -18,17 +20,11 @@ export const FollowersModal = ({
   id,
   onClickHideModals,
 }: IFollowersModalProps) => {
-  const [following, setFollowing] = useState<string[]>([]);
-  const [followers, setFollowers] = useState<string[]>([]);
-
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getUserProfileData(id);
-      setFollowing(data.data()!.following);
-      setFollowers(data.data()!.followers);
-    };
-    getData();
-  }, [id]);
+  const { following, followers } = useSelector((state: RootState) =>
+    state.rootReducer.usersReducer.users.find((user: IUser) => {
+      return user.uid === id;
+    })
+  );
 
   const IconValues = useMemo(
     () => ({
@@ -48,11 +44,9 @@ export const FollowersModal = ({
       <>
         {modal === "following" &&
           following.length &&
-          following.map((followee: any) => {
+          following.map((followee: IFollower) => {
             return (
               <FollowersModalButton
-                img={followee.profilePic}
-                username={followee.username}
                 id={followee.uid}
                 onClickHideModals={onClickHideModals}
               />
@@ -60,11 +54,9 @@ export const FollowersModal = ({
           })}
         {modal === "followers" &&
           followers.length &&
-          followers.map((follower: any) => {
+          followers.map((follower: IFollower) => {
             return (
               <FollowersModalButton
-                img={follower.profilePic}
-                username={follower.username}
                 id={follower.uid}
                 onClickHideModals={onClickHideModals}
               />
