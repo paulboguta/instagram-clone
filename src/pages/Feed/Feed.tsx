@@ -8,9 +8,6 @@ import { getAllUsers } from "features/users/users.service";
 import { getAllUsersAction } from "store/actions/userActions";
 import { ILikesModalProps } from "types/likesModal.types";
 import { LikesModal } from "components/post/LikesModal/LikesModal";
-import { RootState } from "store/store";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { FeedPosts, Wrapper } from "./Feed.styles";
 
@@ -34,16 +31,6 @@ export const Feed = ({
     const usersData = await getAllUsers();
     dispatch(getAllUsersAction(usersData));
   };
-
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (uid === "") {
-      navigate("/signup");
-    }
-  }, []);
 
   useEffect(() => {
     getPostsData();
