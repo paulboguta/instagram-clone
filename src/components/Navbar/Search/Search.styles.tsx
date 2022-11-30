@@ -45,7 +45,7 @@ export const Results = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
   box-shadow: ${(props) => props.theme.boxShadowPrimary};
   width: 260px;
-  height: 100px;
+  min-height: 100px;
   margin-top: 10px;
   border-radius: 16px;
   right: 50%;
@@ -54,8 +54,8 @@ export const Results = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-
+  align-items: flex-start;
+  gap: 7px;
   @media (max-width: 768px) {
     width: 80%;
     position: static;
@@ -66,11 +66,14 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   background-color: transparent;
   border: none;
   cursor: pointer;
   color: ${(props) => props.theme.fontSecondary};
+  margin-left: 20%;
+  @media (max-width: 768px) {
+    margin-left: 40%;
+  }
 
   div {
     padding-top: 3px;

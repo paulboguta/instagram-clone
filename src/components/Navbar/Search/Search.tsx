@@ -1,63 +1,29 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../../services/firebase";
-import {
-  SearchStyled,
-  Results,
-  Button,
-  Wrapper,
-  ErrorMessage,
-} from "./Search.styles";
+import { requestSearchUsers } from "utils/search.utils";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
+import { IUser } from "types/user.types";
+import { SearchStyled, Results, Button, Wrapper } from "./Search.styles";
 
 export const Search = () => {
   const [input, setInput] = useState<string>("");
-  const [result, setResult] = useState<string | undefined>();
-  const [resultClicked, setResultClicked] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
-  const [image, setImage] = useState<string>("");
-  const [id, setId] = useState<string>("");
+  const [result, setResult] = useState<IUser[]>([]);
   const navigate = useNavigate();
 
-  const getData = async (input: string) => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    querySnapshot.forEach((doc) => {
-      if (input === doc.data().username) {
-        setResult(doc.data().username);
-        setImage(doc.data().profilePic);
-        setId(doc.data().userID);
-        console.log(doc.data().username);
-      }
-    });
-  };
+  const { users } = useSelector(
+    (state: RootState) => state.rootReducer.usersReducer
+  );
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
-    setResultClicked(false);
+    setResult(requestSearchUsers(event.target.value, users));
   };
 
-  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Backspace") {
-      setResult(undefined);
-    }
-  };
-
-  const onClickResult = () => {
-    setResultClicked((resultClicked) => !resultClicked);
+  const onClickResult = (uid: string) => {
     setInput("");
-    setResult(undefined);
-    navigate(`/user/${id}`);
+    navigate(`/user/${uid}`);
   };
-
-  useEffect(() => {
-    getData(input);
-
-    setTimeout(() => {
-      typeof result !== "string" && input.length > 0
-        ? setError(true)
-        : setError(false);
-    }, 3000);
-  }, [input]);
 
   return (
     <Wrapper>
@@ -65,22 +31,26 @@ export const Search = () => {
         placeholder="Search..."
         id="search-navbar"
         onChange={onChangeInput}
-        onKeyDown={onKeyDown}
         value={input}
+        autoComplete="off"
       />
-      {typeof result === "string" && !resultClicked ? (
+      {input.length ? (
         <Results>
-          <Button onClick={onClickResult} id="search-result">
-            <img src={image} />
-            <div>@{result}</div>
-          </Button>
+          {/* display max 5 users while searching */}
+          {result.slice(0, 5).map((user: IUser) => {
+            return (
+              <Button
+                onClick={() => onClickResult(user.uid)}
+                id="search-result"
+                key={user.uid}
+              >
+                <img src={user.profilePic} alt="profile pic" />
+                <div>@{user.username}</div>
+              </Button>
+            );
+          })}
         </Results>
       ) : null}
-      {error && (
-        <ErrorMessage id="search-error">
-          Wrong username, try another one.
-        </ErrorMessage>
-      )}
     </Wrapper>
   );
 };

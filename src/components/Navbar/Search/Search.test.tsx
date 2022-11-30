@@ -1,9 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { Search } from "./Search";
 import { BrowserRouter } from "react-router-dom";
+import React, { useState } from "react";
 import { SearchStyled, Results, Button, ErrorMessage } from "./Search.styles";
-import { useState } from "react";
-import React from "react";
+import { Search } from "./Search";
 
 describe("test searchbar", () => {
   describe("test input", () => {

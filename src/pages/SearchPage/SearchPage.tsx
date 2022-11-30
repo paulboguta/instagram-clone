@@ -1,10 +1,10 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search } from "../../components/Navbar/Search/Search";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { NavbarButtons } from "../../components/Navbar/NavbarButtons/NavbarButtons";
 import { Wrapper, WrapperNav } from "./SearchPage.styles";
-import { useEffect } from "react";
 import { useWindowDimensions } from "../../hooks/hooks";
-import { useNavigate } from "react-router-dom";
+
 export const SearchPage = () => {
   const navigate = useNavigate();
   const windowDimensions = useWindowDimensions();
@@ -15,7 +15,7 @@ export const SearchPage = () => {
     if (windowDimensions.width > 768) {
       navigate("/");
     }
-  }, [windowDimensions]);
+  }, [navigate, windowDimensions]);
 
   return (
     <Wrapper>

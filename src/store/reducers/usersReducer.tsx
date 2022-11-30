@@ -5,7 +5,7 @@ const initialState: IUserState = {
   users: [],
 };
 
-const usersReducer = (state = initialState, action: any) => {
+const usersReducer = (state = initialState, action: any): IUserState => {
   switch (action.type) {
     case ActionTypes.GET_ALL_USERS:
       return { users: action.users };
