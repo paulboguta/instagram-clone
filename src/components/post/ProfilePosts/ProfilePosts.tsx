@@ -14,7 +14,7 @@ export const ProfilePosts = ({ data }: IProfilePostsProps) => {
         data
           .sort((a, b) => +b.dateAdded! - +a.dateAdded!)
           .map((post: IPost) => {
-            return <ProfilePost src={post.image} key={post.id} id={post.id!} />;
+            return <ProfilePost src={post.image} key={post.id} />;
           })
       }
     </Posts>

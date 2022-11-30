@@ -1,10 +1,12 @@
 import { BsThreeDots } from "react-icons/bs";
 import { IconContext } from "react-icons";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { getUserDataForThisPost } from "features/posts/posts.service";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { checkIfPostIsLiked } from "utils/post.utils";
+import { useNavigate } from "react-router-dom";
+import { ILikesModalProps } from "types/likesModal.types";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 import {
   Wrapper,
@@ -15,24 +17,21 @@ import {
   ButtonEdit,
   ButtonMoveToPost,
 } from "./FeedPost.styles";
-import { LikesModal } from "../LikesModal/LikesModal";
-import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
-interface IFeedPostProps {
-  id: string | undefined;
+interface IFeedPostProps extends ILikesModalProps {
+  id: string;
 }
 
-export const FeedPost = ({ id }: IFeedPostProps) => {
+export const FeedPost = ({ id, onClickShowModalLikes }: IFeedPostProps) => {
   const [postData, setPostData] = useState({
     username: "",
     profilePic: "",
     isLiked: false,
   });
-  const { likesModalID, showModalLikes, onClickPost } =
-    useContext(LikesModalContext);
+  const navigate = useNavigate();
 
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    onClickPost(event.currentTarget.id, event);
+    navigate(`/post/${event.currentTarget.id}`);
   };
 
   const { uid, comments, likes, image } = useSelector((state: RootState) =>
@@ -64,7 +63,6 @@ export const FeedPost = ({ id }: IFeedPostProps) => {
 
   return (
     <Wrapper>
-      {showModalLikes && <LikesModal id={likesModalID} />}
       <WrapperTopButtons>
         <ButtonPost id={id} onClick={onClick}>
           <ProfileImg src={postData.profilePic} />
@@ -86,6 +84,7 @@ export const FeedPost = ({ id }: IFeedPostProps) => {
         hideComments={false}
         isLiked={postData.isLiked}
         postUid={uid}
+        onClickShowModalLikes={onClickShowModalLikes}
       />
     </Wrapper>
   );

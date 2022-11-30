@@ -1,20 +1,18 @@
-import React, { useContext } from "react";
-import { LikesModalContext } from "../../../contexts/LikesModalContext";
+import { useNavigate } from "react-router-dom";
 import { Wrapper } from "./ProfilePost.styles";
 
 interface IProfilePostProps {
   src: string;
-  id: string;
 }
 
-export const ProfilePost = ({ src, id }: IProfilePostProps) => {
-  const { onClickPost } = useContext(LikesModalContext);
+export const ProfilePost = ({ src }: IProfilePostProps) => {
+  const navigate = useNavigate();
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    onClickPost(id, event);
+    navigate(`/post/${event.currentTarget.id}`);
   };
   return (
     <Wrapper onClick={onClick}>
-      <img src={src} />
+      <img src={src} alt="profile img" />
     </Wrapper>
   );
 };

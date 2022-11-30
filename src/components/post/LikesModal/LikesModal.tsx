@@ -1,51 +1,52 @@
-import { useContext, useEffect, useState } from "react";
-import { collectionGroup, getDocs, query, where } from "firebase/firestore";
+import { useMemo } from "react";
 import { IconContext } from "react-icons";
 import { AiOutlineClose } from "react-icons/ai";
-import { Wrapper, Button, ButtonClose, Likes0Info } from "./LikesModal.styles";
-import { LikesModalContext } from "../../../contexts/LikesModalContext";
-import { db } from "../../../services/firebase";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
+import { ILikesModalProps } from "types/likesModal.types";
+import { ILike, IPost } from "types/post.types";
+import { Wrapper, ButtonClose, Likes0Info } from "./LikesModal.styles";
 import { LikesModalButton } from "./LikesModalButton";
 
-interface ILikesModalProps {
-  id: string;
+interface ILikesModal extends ILikesModalProps {
+  id: string | undefined;
 }
 
-export const LikesModal = ({ id }: ILikesModalProps) => {
-  const [likes, setLikes] = useState<any[]>();
+export const LikesModal = ({ id, onClickHideModalLikes }: ILikesModal) => {
+  const { likes, id: postID } = useSelector((state: RootState) =>
+    state.rootReducer.postReducer.posts.find((post: IPost) => {
+      return post.id === id;
+    })
+  );
+  console.log(id, likes, postID);
 
-  const { onClickHideLikesModal, onClickShowLikesModal } =
-    useContext(LikesModalContext);
+  const IconValue = useMemo(
+    () => ({
+      size: "24px",
+    }),
+    []
+  );
 
-  const getData = async () => {
-    const postsRef = query(collectionGroup(db, "posts"));
-    const data = await getDocs(postsRef);
-    data.docs.forEach((doc) => {
-      if (doc.data()!.id === id) {
-        setLikes(doc.data()!.likes);
-      }
-    });
-  };
-
-  useEffect(() => {
-    getData();
-  }, [onClickShowLikesModal]);
   return (
     <Wrapper>
-      <ButtonClose onClick={onClickHideLikesModal}>
-        <IconContext.Provider value={{ size: "24px" }}>
+      <ButtonClose onClick={onClickHideModalLikes}>
+        <IconContext.Provider value={IconValue}>
           <AiOutlineClose />
         </IconContext.Provider>
       </ButtonClose>
-      <>
-        {typeof likes !== "undefined" && likes.length > 0 ? (
-          likes.map((like: any, key: number) => {
-            return <LikesModalButton key={key} uid={like.uid} />;
-          })
-        ) : (
-          <Likes0Info>0 likes for now...</Likes0Info>
-        )}
-      </>
+      {likes.length ? (
+        likes.map((like: ILike) => {
+          return (
+            <LikesModalButton
+              key={like.uid}
+              uid={like.uid}
+              onClickHideModalLikes={onClickHideModalLikes}
+            />
+          );
+        })
+      ) : (
+        <Likes0Info>0 likes for now...</Likes0Info>
+      )}
     </Wrapper>
   );
 };

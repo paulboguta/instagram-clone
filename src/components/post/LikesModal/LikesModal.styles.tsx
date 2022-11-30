@@ -4,9 +4,11 @@ export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
   box-shadow: ${(props) => props.theme.boxShadowPrimary};
   position: fixed;
+  z-index: 999;
   display: flex;
   align-items: center;
   flex-direction: column;
+  gap: 10px;
   overflow-y: auto;
   padding-top: 8px;
 
@@ -15,31 +17,26 @@ export const Wrapper = styled.div`
     margin-bottom: 10px;
     font-size: 18px;
   }
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border-radius: 16px;
 
   @media (min-width: 1160px) {
     width: 400px;
     height: 400px;
     top: 35%;
-    right: 50%;
-    transform: translate(50%, -50%);
-    border-radius: 16px;
   }
 
   @media (max-width: 1160px) and (min-width: 768px) {
     width: 400px;
     height: 300px;
     top: 80%;
-    right: 50%;
-    transform: translate(50%, -50%);
-    border-radius: 16px;
   }
   @media (max-width: 768px) {
     width: 300px;
     height: 500px;
     top: 50%;
-    right: 50%;
-    transform: translate(50%, -50%);
-    border-radius: 16px;
   }
 `;
 

@@ -1,40 +1,33 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { ILikesModalProps } from "types/likesModal.types";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
+import { IUser } from "types/user.types";
 import { Button } from "./LikesModal.styles";
-import { LikesModalContext } from "../../../contexts/LikesModalContext";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../services/firebase";
 
-export const LikesModalButton = ({ uid }: any) => {
+interface ILikesModalButtonProps extends ILikesModalProps {
+  uid: string;
+}
+
+export const LikesModalButton = ({
+  uid,
+  onClickHideModalLikes,
+}: ILikesModalButtonProps) => {
   const navigate = useNavigate();
-  const id = window.location.pathname.slice(6);
-  const { onClickHideLikesModal } = useContext(LikesModalContext);
-  const [username, setUsername] = useState("");
-  const [img, setImg] = useState("");
-
-  const getUserData = async () => {
-    const userRef = doc(db, "users", uid);
-    const userData = await getDoc(userRef);
-    setUsername(userData.data()!.username);
-    setImg(userData.data()!.profilePic);
-  };
-
-  useEffect(() => {
-    getUserData();
-  }, []);
+  const { username, profilePic } = useSelector((state: RootState) =>
+    state.rootReducer.usersReducer.users.find((user: IUser) => {
+      return user.uid === uid;
+    })
+  );
 
   const onClickMoveToThisUser = (event: React.MouseEvent) => {
-    if (event.currentTarget.id === id) {
-      onClickHideLikesModal();
-    } else {
-      navigate(`/user/${event.currentTarget.id}`);
-      onClickHideLikesModal();
-    }
+    navigate(`/user/${event.currentTarget.id}`);
+    onClickHideModalLikes!();
   };
 
   return (
     <Button onClick={onClickMoveToThisUser} id={uid}>
-      <img src={img} />
+      <img src={profilePic} alt="liker profile img" />
       <div>@{username}</div>
     </Button>
   );

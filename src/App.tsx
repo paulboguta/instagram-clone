@@ -1,6 +1,6 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { SignUp } from "pages/SignUp/SignUp";
 import { SignIn } from "pages/SignIn/SignIn";
 import { Theme } from "styles/Theme";
@@ -10,7 +10,6 @@ import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
-import { LikesModalContext } from "./contexts/LikesModalContext";
 import { PostPage } from "./pages/PostPage/PostPage";
 
 const App = () => {
@@ -24,69 +23,66 @@ const App = () => {
   //     navigate("/signup");
   //   }
   // }, []);
+
+  const [showModalLikes, setShowModalLikes] = useState<boolean>(false);
+  const [postID, setPostID] = useState("");
+
+  const onClickShowModalLikes = (id: string) => {
+    setShowModalLikes(true);
+    setPostID(id);
+  };
+
+  const onClickHideModalLikes = () => {
+    setShowModalLikes(false);
+  };
+
+  // on url change also hide likes modal
+  const location = useLocation();
+  const url = location.pathname.split("/").pop();
+  useEffect(() => {
+    setShowModalLikes(false);
+  }, [url]);
+
   return (
     <Routes>
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/setup" element={<SetupPage />} />
       <Route path="/user/:userID" element={<ProfilePage />} />
-      <Route path="/" element={<Feed />} />
+      <Route
+        path="/"
+        element={
+          <Feed
+            onClickShowModalLikes={onClickShowModalLikes}
+            postID={postID}
+            onClickHideModalLikes={onClickHideModalLikes}
+            showModalLikes={showModalLikes}
+          />
+        }
+      />
       <Route path="/search" element={<SearchPage />} />
-      <Route path="/post/:postID" element={<PostPage />} />
+      <Route
+        path="/post/:postID"
+        element={
+          <PostPage
+            onClickShowModalLikes={onClickShowModalLikes}
+            onClickHideModalLikes={onClickHideModalLikes}
+            showModalLikes={showModalLikes}
+          />
+        }
+      />
     </Routes>
   );
 };
 
 const AppWrapper = () => {
-  const [showModalLikes, setShowModalLikes] = useState<boolean>(false);
-  const [likesModalID, setLikesModalID] = useState("");
-  const [postID, setPostID] = useState("");
-  const navigate = useNavigate();
-
-  const onClickShowLikesModal = (id: string) => {
-    setLikesModalID(id);
-    setShowModalLikes(true);
-  };
-  const onClickHideLikesModal = () => {
-    setShowModalLikes(false);
-  };
-
-  // on url change also hide likes modal
-  const url = window.location.pathname.split("/").pop();
-  useEffect(() => {
-    setShowModalLikes(false);
-  }, [url]);
-
-  const onClickPost = useCallback(
-    (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      setPostID(id);
-      navigate(`/post/${id}`);
-    },
-    [navigate]
-  );
-
-  const likesModalValues = useMemo(
-    () => ({
-      showModalLikes,
-      onClickHideLikesModal,
-      onClickShowLikesModal,
-      likesModalID,
-      onClickPost,
-      postID,
-    }),
-    [likesModalID, onClickPost, postID, showModalLikes]
-  );
-
   return (
-    <LikesModalContext.Provider value={likesModalValues}>
-      <Provider store={store}>
-        <Theme>
-          <GlobalStyle />
-          <App />
-        </Theme>
-      </Provider>
-    </LikesModalContext.Provider>
+    <Provider store={store}>
+      <Theme>
+        <GlobalStyle />
+        <App />
+      </Theme>
+    </Provider>
   );
 };
 

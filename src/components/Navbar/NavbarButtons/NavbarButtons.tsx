@@ -11,7 +11,7 @@ import { BsPerson, BsPersonFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import {
@@ -20,12 +20,10 @@ import {
   ButtonNavMobile,
   ButtonNavDesktop,
 } from "./NavbarButtons.styles";
-import { LikesModalContext } from "../../../contexts/LikesModalContext";
 
 export const NavbarButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
-  const { onClickHideLikesModal } = useContext(LikesModalContext);
   const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
   );
@@ -54,9 +52,16 @@ export const NavbarButtons = () => {
     navigate("/notifications");
   };
 
+  const IconValue = useMemo(
+    () => ({
+      size: "24px",
+    }),
+    []
+  );
+
   return (
     <IconWrapper>
-      <IconContext.Provider value={{ size: "24px" }}>
+      <IconContext.Provider value={IconValue}>
         <ButtonNav onClick={onClickHome} id="button-nav-home">
           <AiOutlineHome />
           <AiFillHome />

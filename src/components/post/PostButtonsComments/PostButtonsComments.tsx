@@ -4,6 +4,7 @@ import { useAppDispatch } from "hooks/hooks";
 import { useSelector } from "react-redux";
 import { IComment, ILike } from "types/post.types";
 import { useMemo } from "react";
+import { ILikesModalProps } from "types/likesModal.types";
 import {
   ButtonsLikeCommentWrapper,
   ButtonLike,
@@ -16,7 +17,7 @@ import {
   unlikePostAction,
 } from "../../../store/actions/postActions";
 
-interface IPostButtonsCommentsProps {
+interface IPostButtonsCommentsProps extends ILikesModalProps {
   likes: ILike[];
   comments: IComment[];
   id: string | undefined;
@@ -32,6 +33,7 @@ export const PostButtonsComments = ({
   isLiked,
   hideComments,
   postUid,
+  onClickShowModalLikes,
 }: IPostButtonsCommentsProps) => {
   const dispatch = useAppDispatch();
   const { uid } = useSelector(
@@ -75,6 +77,7 @@ export const PostButtonsComments = ({
         id={id}
         hideComments={hideComments}
         postUid={postUid}
+        onClickShowModalLikes={onClickShowModalLikes}
       />
     </BoxShadow>
   );
