@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export const WrapperAll = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
-  height: 100%;
+  height: 100vh;
   @media (max-width: 768px) {
     overflow: hidden;
   }
