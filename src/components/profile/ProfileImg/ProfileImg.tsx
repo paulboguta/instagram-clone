@@ -1,12 +1,8 @@
 import styled from "styled-components";
 
 interface IProfileImgProps {
-  profileImg?: string;
+  profileImg: string;
 }
-
-export const ProfileImg = ({ profileImg }: IProfileImgProps) => {
-  return <Img src={profileImg}></Img>;
-};
 
 const Img = styled.img`
   height: 140px;
@@ -17,3 +13,7 @@ const Img = styled.img`
   -moz-box-shadow: 0px 0px 36px 0px rgba(220, 186, 231, 1);
   box-shadow: 0px 0px 36px 0px rgba(220, 186, 231, 1);
 `;
+
+export const ProfileImg = ({ profileImg }: IProfileImgProps) => {
+  return <Img src={profileImg} />;
+};

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "hooks/hooks";
@@ -29,7 +29,6 @@ export const AddPostModal = ({
   onClickConfirm,
 }: IAddPostModalProps) => {
   const [image, setImage] = useState<any[]>([]);
-  const [imageURL, setImageURL] = useState<any[]>();
   const [description, setDescription] = useState("");
   const maxNumber = 1;
   const currentUser = useSelector(
@@ -39,8 +38,8 @@ export const AddPostModal = ({
 
   // https://codesandbox.io/s/react-images-uploading-demo-typescript-fr2zm?file=/src/App.tsx:453-1660
   const onChangeImage = (
-    imageList: ImageListType,
-    addUpdateIndex: number[] | undefined
+    imageList: ImageListType
+    // addUpdateIndex: number[] | undefined
   ) => {
     setImage(imageList as any);
   };
@@ -50,18 +49,25 @@ export const AddPostModal = ({
   };
 
   const onClickConfirmAddPost = () => {
-    const url = image.map((url) => {
-      return url.dataURL;
+    const url = image.map((link) => {
+      return link.dataURL;
     });
     const img = JSON.stringify(url).slice(2, -2);
     onClickConfirm();
     dispatch(addPost(currentUser.uid, img, description));
   };
 
+  const IconValue = useMemo(
+    () => ({
+      size: "24px",
+    }),
+    []
+  );
+
   return (
     <Wrapper>
       <ButtonClose onClick={onClick}>
-        <IconContext.Provider value={{ size: "24px" }}>
+        <IconContext.Provider value={IconValue}>
           <AiOutlineClose />
         </IconContext.Provider>
       </ButtonClose>
@@ -83,11 +89,13 @@ export const AddPostModal = ({
             <ButtonDrop
               style={isDragging ? { color: "red" } : undefined}
               onClick={onImageUpload}
+              // eslint-disable-next-line react/jsx-props-no-spreading
               {...dragProps}
             >
               Select Image
             </ButtonDrop>
             {imageList.map((imageItem, index) => (
+              // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
                 <Image src={imageItem.dataURL} alt="" width="100" />
                 <FlexButtonUpdateRemove>

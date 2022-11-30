@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { IButtonProps } from "./interfaces";
 
-export const ButtonUnfollow = ({ onClick, text }: IButtonProps) => {
-  return <Wrapper onClick={onClick}>{text}</Wrapper>;
-};
-
 const Wrapper = styled.button`
   background-color: ${(props) => props.theme.backgroundOpposite};
   color: ${(props) => props.theme.backgroundPrimary};
@@ -24,3 +20,7 @@ const Wrapper = styled.button`
     background-color: ${(props) => props.theme.buttonHoverBackground};
   }
 `;
+
+export const ButtonUnfollow = ({ onClick, text }: IButtonProps) => {
+  return <Wrapper onClick={onClick}>{text}</Wrapper>;
+};
