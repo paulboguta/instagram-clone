@@ -50,6 +50,7 @@ export const ButtonAddComment = styled(ButtonLike)`
 
 export const CommentsWrapper = styled.div`
   display: flex;
+  gap: 7px;
   flex-direction: column;
   overflow-y: auto;
 `;

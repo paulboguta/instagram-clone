@@ -66,7 +66,7 @@ export const FeedPost = ({ id }: IFeedPostProps) => {
     <Wrapper>
       {showModalLikes && <LikesModal id={likesModalID} />}
       <WrapperTopButtons>
-        <ButtonPost>
+        <ButtonPost id={id} onClick={onClick}>
           <ProfileImg src={postData.profilePic} />
           <div>@{postData.username}</div>
         </ButtonPost>

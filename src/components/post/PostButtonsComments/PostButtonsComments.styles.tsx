@@ -5,6 +5,7 @@ interface IBoxShadowProps {
 }
 
 export const ButtonsLikeCommentWrapper = styled.div`
+  background-color: ${(props) => props.theme.backgroundPrimary};
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -32,7 +33,7 @@ export const BoxShadow = styled.div<IBoxShadowProps>`
 
   @media (max-width: 1200px) {
     position: ${(props) =>
-      props.hideComments == true ? "absolute" : "static"};
+      props.hideComments === true ? "absolute" : "static"};
     bottom: 0;
   }
 `;

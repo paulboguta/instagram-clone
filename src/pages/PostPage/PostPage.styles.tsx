@@ -1,8 +1,10 @@
+"components/post/PostButtonsComments/PostButtonsComments";
+
 import styled from "styled-components";
 
 export const WrapperAll = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
-  height: 100vh;
+  height: 100%;
   @media (max-width: 768px) {
     overflow: hidden;
   }
@@ -19,9 +21,15 @@ export const Wrapper = styled.div`
   box-shadow: ${(props) => props.theme.boxShadowPrimary};
   height: 500px;
 
+  @media (max-width: 420px) {
+    width: 100vw;
+    height: 100vw;
+    border-radius: 0px;
+    top: 0;
+  }
+
   @media (max-width: 1200px) {
     flex-direction: column;
-    position: absolute;
     top: 0;
     left: 30%;
     transform: translateX(-50%);
@@ -31,8 +39,11 @@ export const Wrapper = styled.div`
   }
 
   @media (max-width: 1200px) and (min-width: 768px) {
-    position: absolute;
     top: 80px;
+  }
+
+  @media (max-width: 768px) {
+    top: 20px;
   }
 `;
 
@@ -40,7 +51,6 @@ export const Img = styled.img`
   @media (max-width: 420px) {
     width: 100vw;
     height: 100vw;
-    margin-top: 100px;
   }
 
   @media (max-width: 1200px) {
@@ -54,7 +64,7 @@ export const Img = styled.img`
   }
 
   @media (max-width: 1200px) {
-    margin-top: 100px;
+    margin-top: 60px;
   }
 
   @media (min-width: 1200px) {
@@ -79,6 +89,11 @@ export const PostProfileSectionWrapper = styled.div`
     top: -30px;
     left: -120px;
   }
+
+  @media (max-width: 768px) {
+    height: 10%;
+    top: 0px;
+  }
 `;
 
 export const ProfilePic = styled.img`
@@ -102,6 +117,7 @@ export const Username = styled.button`
   grid-area: 1 / 2 / 2 / 3;
   font-size: 24px;
   color: ${(props) => props.theme.fontPrimary};
+  margin-left: 20px;
 
   &:hover {
     transition: 0.2s ease-in;
@@ -120,7 +136,8 @@ export const Description = styled.div`
   font-size: 14px;
 
   @media (max-width: 1200px) {
-    margin-top: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-align: left;
     margin-left: 10px;
   }
@@ -129,11 +146,8 @@ export const Description = styled.div`
 export const WrapperComments = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 55%;
-  @media (max-width: 1200px) {
-    height: 200%;
-  }
 `;
 
 export const MarginTop = styled.div`

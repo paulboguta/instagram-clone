@@ -61,8 +61,8 @@ export const ButtonPost = styled.button`
 `;
 
 export const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: #dcbae7;
   -webkit-box-shadow: 0px 0px 12px 0px rgba(220, 186, 231, 1);

@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { checkIfPostIsLiked } from "utils/post.utils";
 import { getUserProfileData } from "features/users/users.service";
 import { IPost } from "types/post.types";
+import { PostButtonsComments } from "components/post/PostButtonsComments/PostButtonsComments";
 import { LikesModalContext } from "../../contexts/LikesModalContext";
 import { Comments } from "../../components/post/CommentsWrapper/Comments";
-import { PostButtonsComments } from "../../components/post/PostButtonsComments/PostButtonsComments";
 import {
   Description,
   Img,
@@ -92,10 +92,10 @@ export const PostPage = () => {
                 )}
               </PostProfileSectionWrapper>
               <WrapperComments>
-                <Comments comments={comments} hideComments />
                 {windowDim.width < 1200 && (
                   <Description>{description}</Description>
                 )}
+                <Comments comments={comments} hideComments />
                 <PostButtonsComments
                   likes={likes}
                   comments={comments}
