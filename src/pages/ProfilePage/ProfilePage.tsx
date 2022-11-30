@@ -17,6 +17,7 @@ export const ProfilePage = () => {
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const { uid } = useSelector(
     (state: RootState) => state.rootReducer.currentUser
@@ -59,11 +60,11 @@ export const ProfilePage = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    dispatch(setCurrentProfileAction(id, uid));
+    dispatch(setCurrentProfileAction(id, uid)).then(() => setLoading(false));
   }, [dispatch, id, uid]);
 
   return (
-    <Wrapper>
+    <Wrapper loading={loading}>
       {showAddPost && (
         <AddPostModal
           onClick={onClickClose}

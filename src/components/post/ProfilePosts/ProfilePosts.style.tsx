@@ -7,6 +7,7 @@ export const Posts = styled.div`
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   justify-content: center;
+  margin-bottom: 30px;
 
   @media (min-width: 1160px) {
     margin-top: -200px;

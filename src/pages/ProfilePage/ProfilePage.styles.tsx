@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 
-export const Wrapper = styled.div`
+interface IWrapperProps {
+  loading: boolean;
+}
+
+export const Wrapper = styled.div<IWrapperProps>`
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: repeat(3, 1fr);
@@ -12,6 +16,7 @@ export const Wrapper = styled.div`
     align-items: center;
   }
   background-color: ${(props) => props.theme.backgroundPrimary};
+  height: ${(props) => (props.loading ? "100vh" : "100%")};
 `;
 
 export const ProfileDetailsGrid = styled(ProfileDetails)`
