@@ -8,7 +8,7 @@ import {
   FollowersButton,
   Gray,
   FollowingButton,
-} from "./ProfileStats.style";
+} from "./ProfileStats.styles";
 
 interface IProfileStatsProps {
   onClickShowFollowersModal: () => void;

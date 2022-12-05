@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
-import { Wrapper, Username, Bio } from "./ProfileDetails.styled";
+import { Wrapper, Username, Bio } from "./ProfileDetails.styles";
 import { ProfileStats } from "./ProfileStats/ProfileStats";
 import { ProfileImg } from "./ProfileImg/ProfileImg";
 
