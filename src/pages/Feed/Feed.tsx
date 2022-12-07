@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import { IPost } from "types/post.types";
-import { getFeedPosts } from "features/posts/posts.service";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { getFeedPostsAction } from "store/actions/postActions";
 import { FeedPost } from "components/post/FeedPost/FeedPost";
 import { ILikesModalProps } from "types/likesModal.types";
 import { LikesModal } from "components/post/LikesModal/LikesModal";
-import { getUsers, selectUsersLoading } from "user/store/slices/usersSlice";
+import {
+  getUsers,
+  selectUsersLoading,
+} from "features/user/store/slices/usersSlice";
+import { getPosts, selectPosts } from "features/posts/store/postsSlice";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { FeedPosts, Wrapper } from "./Feed.styles";
 
@@ -16,14 +17,12 @@ export const Feed = ({
   onClickShowModalLikes,
   postID,
 }: ILikesModalProps) => {
-  const [posts, setPosts] = useState<IPost[]>([]);
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectUsersLoading);
+  const posts = useAppSelector(selectPosts);
 
   const getPostsData = async () => {
-    const postsData = await getFeedPosts();
-    dispatch(getFeedPostsAction(postsData));
-    setPosts(postsData);
+    dispatch(getPosts());
   };
 
   const getUsersData = () => {

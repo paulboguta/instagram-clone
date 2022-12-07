@@ -7,7 +7,7 @@ import {
   QueryDocumentSnapshot,
 } from "firebase/firestore";
 import { db } from "services/firebase";
-import { IUser } from "types/user.types";
+import { IUser } from "features/user/types";
 
 export const getUserProfileData = async (id: string) => {
   const usersRef = doc(db, "users", id);

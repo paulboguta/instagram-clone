@@ -1,4 +1,4 @@
-import { IFollower } from "types/user.types";
+import { IFollower } from "features/user/types";
 
 export const checkIfFollowed = (followers: IFollower[], uid: string) => {
   return followers.some((follower: IFollower) => follower.uid === uid);

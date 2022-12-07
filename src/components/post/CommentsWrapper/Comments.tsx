@@ -1,4 +1,4 @@
-import { IComment } from "types/post.types";
+import { IComment } from "features/posts/types";
 import uuid from "react-uuid";
 import { CommentsWrapper } from "./CommentsWrapper.styles";
 import { Comment } from "./Comment";

@@ -1,4 +1,4 @@
-import { IPost } from "./post.types";
+import { IPost } from "../posts/types";
 
 export interface IUser {
   username: string;

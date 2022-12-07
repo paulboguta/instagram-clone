@@ -4,7 +4,7 @@ import { useAppDispatch } from "hooks/hooks";
 import {
   selectCurrentUser,
   setTheme,
-} from "user/store/slices/currentUserSlice";
+} from "features/user/store/slices/currentUserSlice";
 import { ReactComponent as IconDark } from "../../../../assets/icons/dark.svg";
 import { ReactComponent as IconLight } from "../../../../assets/icons/light.svg";
 

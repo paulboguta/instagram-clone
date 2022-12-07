@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { ILikesModalProps } from "types/likesModal.types";
 import { useSelector } from "react-redux";
-import { IUser } from "types/user.types";
-import { selectUsers } from "user/store/slices/usersSlice";
+import { IUser } from "features/user/types";
+import { selectUsers } from "features/user/store/slices/usersSlice";
 import { Button } from "./LikesModal.styles";
 
 interface ILikesModalButtonProps extends ILikesModalProps {

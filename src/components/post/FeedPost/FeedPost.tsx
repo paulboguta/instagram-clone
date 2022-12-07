@@ -1,13 +1,13 @@
 import { BsThreeDots } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import React, { useEffect, useMemo, useState } from "react";
-import { getUserDataForThisPost } from "features/posts/posts.service";
+import { getUserDataForThisPost } from "features/posts/services/posts.service";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
-import { checkIfPostIsLiked } from "utils/post.utils";
+import { checkIfPostIsLiked } from "features/posts/utils/post.utils";
 import { useNavigate } from "react-router-dom";
 import { ILikesModalProps } from "types/likesModal.types";
-import { selectCurrentUser } from "user/store/slices/currentUserSlice";
+import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { selectPosts } from "features/posts/store/postsSlice";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 import {
   Wrapper,
@@ -35,23 +35,21 @@ export const FeedPost = ({ id, onClickShowModalLikes }: IFeedPostProps) => {
     navigate(`/post/${event.currentTarget.id}`);
   };
 
-  const { uid, comments, likes, image } = useSelector((state: RootState) =>
-    state.rootReducer.postReducer.posts.find((post) => {
-      return post.id === id;
-    })
-  );
+  const post = useSelector(selectPosts).find((p) => {
+    return p.id === id;
+  });
 
   const { uid: userID } = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    getUserDataForThisPost(uid).then((res) =>
+    getUserDataForThisPost(post?.uid).then((res) =>
       setPostData({
         username: res.username,
         profilePic: res.profilePic,
-        isLiked: checkIfPostIsLiked(likes, userID),
+        isLiked: checkIfPostIsLiked(post?.likes!, userID),
       })
     );
-  }, [uid, likes, userID]);
+  }, [post?.uid, post?.likes, userID]);
 
   const IconValue = useMemo(
     () => ({
@@ -74,15 +72,15 @@ export const FeedPost = ({ id, onClickShowModalLikes }: IFeedPostProps) => {
         </ButtonEdit>
       </WrapperTopButtons>
       <ButtonMoveToPost id={id} onClick={onClick}>
-        <Img src={image} />
+        <Img src={post?.image} />
       </ButtonMoveToPost>
       <PostButtonsComments
-        likes={likes}
-        comments={comments}
+        likes={post?.likes!}
+        comments={post?.comments!}
         id={id}
         hideComments={false}
         isLiked={postData.isLiked}
-        postUid={uid}
+        postUid={post?.uid}
         onClickShowModalLikes={onClickShowModalLikes}
       />
     </Wrapper>

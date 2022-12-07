@@ -1,6 +1,6 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "services/firebase";
-import { filterFollowers } from "utils/user.utils";
+import { filterFollowers } from "features/user/utils/user.utils";
 
 export const getData = async (
   userDoingAction: string,

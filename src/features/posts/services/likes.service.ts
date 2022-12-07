@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "services/firebase";
-import { ILike } from "types/post.types";
+import { ILike } from "features/posts/types";
 
 export const doLike = async (postUid: string, likerUID: string, id: string) => {
   const postRef = doc(db, `users/${postUid}/posts/`, id);

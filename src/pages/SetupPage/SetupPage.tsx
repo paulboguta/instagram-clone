@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { validateSetup } from "features/validation/setup.validation";
+import { validateSetup } from "utils/validation/setup.validation";
 import { useSelector } from "react-redux";
 import {
   selectCurrentUser,
   updateSetupCurrentUser,
-} from "user/store/slices/currentUserSlice";
-import { doSetupService } from "features/users/setup.service";
+} from "features/user/store/slices/currentUserSlice";
+import { doSetupService } from "features/user/services/setup.service";
 import { Wrapper, Form, Img } from "./SetupPage.styles";
 import Logo from "../../assets/logo.png";
 import {

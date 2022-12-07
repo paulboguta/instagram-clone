@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "hooks/hooks";
 import { IconContext } from "react-icons";
 import { AiOutlineClose } from "react-icons/ai";
-import { selectCurrentUser } from "user/store/slices/currentUserSlice";
+import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
 import { ButtonClose } from "../../profile/FollowersModal/FollowersModal.styles";
 import { ButtonConfirm } from "../../forms";
 import {
@@ -17,7 +17,8 @@ import {
   ButtonRemove,
   FlexButtonUpdateRemove,
 } from "./AddPostModal.styles";
-import { addPost } from "../../../store/actions/postActions";
+import { createPostService } from "features/posts/services/posts.service";
+import { createPost } from "features/posts/store/postsSlice";
 
 interface IAddPostModalProps {
   onClick(): void;
@@ -31,7 +32,7 @@ export const AddPostModal = ({
   const [image, setImage] = useState<any[]>([]);
   const [description, setDescription] = useState("");
   const maxNumber = 1;
-  const currentUser = useSelector(selectCurrentUser);
+  const {uid} = useSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
 
   // https://codesandbox.io/s/react-images-uploading-demo-typescript-fr2zm?file=/src/App.tsx:453-1660
@@ -46,13 +47,15 @@ export const AddPostModal = ({
     setDescription(event.target.value);
   };
 
-  const onClickConfirmAddPost = () => {
+  const onClickConfirmAddPost = async () => {
     const url = image.map((link) => {
       return link.dataURL;
     });
     const img = JSON.stringify(url).slice(2, -2);
     onClickConfirm();
-    dispatch(addPost(currentUser.uid, img, description));
+    const { postID, username, date } = await createPostService(uid, img, description);
+
+    dispatch(createPost({uid, image: img, description, username, id: postID, date}));
   };
 
   const IconValue = useMemo(

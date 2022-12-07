@@ -1,12 +1,13 @@
-import { validateComment } from "features/validation/comment.validation";
+import { validateComment } from "utils/validation/comment.validation";
 import { useAppDispatch } from "hooks/hooks";
 import { ChangeEvent, useMemo, useState } from "react";
 import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";
-import { addCommentAction } from "store/actions/postActions";
 import { AiOutlineSend } from "react-icons/ai";
 import styled from "styled-components";
-import { selectCurrentUser } from "user/store/slices/currentUserSlice";
+import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { addComment } from "features/posts/store/postsSlice";
+import { addCommentService } from "features/posts/services/comments.service";
 import { CommentInput } from "./CommentInput";
 import { ButtonAddComment } from "./CommentsWrapper.styles";
 
@@ -30,11 +31,18 @@ export const CommentAdd = ({ postUid, id }: ICommentAdd) => {
 
   const { uid } = useSelector(selectCurrentUser);
 
-  const onClickAddComment = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickAddComment = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const thisID = event.currentTarget.id;
     if (validateComment(newComment)) {
-      dispatch(
-        addCommentAction(postUid, uid, event.currentTarget.id, newComment)
+      const newCommentsArray = await addCommentService(
+        postUid,
+        uid,
+        thisID,
+        newComment
       );
+      dispatch(addComment({ comments: newCommentsArray, id: thisID }));
       setNewComment("");
     }
   };

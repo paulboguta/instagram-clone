@@ -2,9 +2,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import { IconContext } from "react-icons/lib";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { IFollower, IUser } from "types/user.types";
+import { IFollower, IUser } from "features/user/types";
 import uuid from "react-uuid";
-import { selectUsers } from "user/store/slices/usersSlice";
+import { selectUsers } from "features/user/store/slices/usersSlice";
 import { Wrapper, ButtonClose } from "./FollowersModal.styles";
 import { FollowersModalButton } from "./FollowersModalButton";
 

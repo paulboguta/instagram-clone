@@ -4,7 +4,7 @@ import { useAppDispatch } from "hooks/hooks";
 import { setCurrentProfileAction } from "store/actions/currentProfileAction";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
-import { selectCurrentUser } from "user/store/slices/currentUserSlice";
+import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 import Background1 from "../../assets/background/background-1.jpeg";

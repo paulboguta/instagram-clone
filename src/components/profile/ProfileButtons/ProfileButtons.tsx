@@ -4,16 +4,16 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { checkIfFollowed } from "utils/user.utils";
+import { checkIfFollowed } from "features/user/utils/user.utils";
 import {
   selectCurrentUser,
   updateFollowCurrentUser,
-} from "user/store/slices/currentUserSlice";
+} from "features/user/store/slices/currentUserSlice";
 import {
   doFollowService,
   doUnfollowService,
-} from "features/users/follow.service";
-import { updateFollowUsers } from "user/store/slices/usersSlice";
+} from "features/user/services/follow.service";
+import { updateFollowUsers } from "features/user/store/slices/usersSlice";
 import { ButtonDmAdd } from "./ButtonDmAdd";
 import { ButtonEditFollow } from "./ButtonEditFollow";
 import { ButtonUnfollow } from "./ButtonUnfollow";

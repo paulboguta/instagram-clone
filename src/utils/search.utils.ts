@@ -1,4 +1,4 @@
-import { IUser } from "types/user.types";
+import { IUser } from "features/user/types";
 
 export const requestSearchUsers = (searchValue: string, users: IUser[]) => {
   if (searchValue.length) {

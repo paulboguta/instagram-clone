@@ -2,20 +2,18 @@ import { IconContext } from "react-icons";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useAppDispatch } from "hooks/hooks";
 import { useSelector } from "react-redux";
-import { IComment, ILike } from "types/post.types";
+import { IComment, ILike } from "features/posts/types";
 import { useMemo } from "react";
 import { ILikesModalProps } from "types/likesModal.types";
-import { selectCurrentUser } from "user/store/slices/currentUserSlice";
+import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { doLike, doUnlike } from "features/posts/services/likes.service";
+import { updatePostLikes } from "features/posts/store/postsSlice";
 import {
   ButtonsLikeCommentWrapper,
   ButtonLike,
   BoxShadow,
 } from "./PostButtonsComments.styles";
 import { CommentsWrapper } from "../CommentsWrapper/CommentsWrapper";
-import {
-  likePostAction,
-  unlikePostAction,
-} from "../../../store/actions/postActions";
 
 interface IPostButtonsCommentsProps extends ILikesModalProps {
   likes: ILike[];
@@ -38,12 +36,16 @@ export const PostButtonsComments = ({
   const dispatch = useAppDispatch();
   const { uid } = useSelector(selectCurrentUser);
 
-  const onClickLike = (event: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(likePostAction(postUid, uid, event.currentTarget.id));
+  const onClickLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const thisID = event.currentTarget.id;
+    const newLikesArray = await doLike(postUid, uid, thisID);
+    dispatch(updatePostLikes({ likes: newLikesArray, id: thisID }));
   };
 
-  const onClickUnlike = (event: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(unlikePostAction(postUid, uid, event.currentTarget.id));
+  const onClickUnlike = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const thisID = event.currentTarget.id;
+    const newLikesArray = await doUnlike(postUid, uid, thisID);
+    dispatch(updatePostLikes({ likes: newLikesArray, id: thisID }));
   };
 
   const IconValue = useMemo(

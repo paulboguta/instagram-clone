@@ -1,8 +1,8 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "services/firebase";
-import { IComment } from "types/post.types";
+import { IComment } from "features/posts/types";
 
-export const addComment = async (
+export const addCommentService = async (
   postUid: string,
   commenterUid: string,
   id: string,

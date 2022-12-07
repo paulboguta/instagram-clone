@@ -1,4 +1,4 @@
-import { getUserPostsCounter } from "features/users/users.service";
+import { getUserPostsCounter } from "features/user/services/users.service";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";

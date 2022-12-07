@@ -1,5 +1,5 @@
-import { getProfilePosts } from "features/posts/posts.service";
-import { getUserProfileData } from "features/users/users.service";
+import { getProfilePosts } from "features/posts/services/posts.service";
+import { getUserProfileData } from "features/user/services/users.service";
 import { AppDispatch } from "store/store";
 import { ActionTypes } from "store/types";
 

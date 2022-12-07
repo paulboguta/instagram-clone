@@ -1,19 +1,16 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { SignUp } from "pages/SignUp/SignUp";
-import { SignIn } from "pages/SignIn/SignIn";
-import { Theme } from "styles/Theme";
-import { selectCurrentUser } from "user/store/slices/currentUserSlice";
-import { GlobalStyle } from "./styles/globalStyles";
-import store from "./store/store";
+import { SignUp } from "features/auth/pages/SignUp";
+import { SignIn } from "features/auth/pages/SignIn";
+import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
-import { PostPage } from "./pages/PostPage/PostPage";
+import { PostPage } from "./features/posts/page/PostPage";
 
-const App = () => {
+export const App = () => {
   // navigate to signin if user is not signed in
   const [showModalLikes, setShowModalLikes] = useState<boolean>(false);
   const [postID, setPostID] = useState("");
@@ -71,16 +68,3 @@ const App = () => {
     </Routes>
   );
 };
-
-const AppWrapper = () => {
-  return (
-    <Provider store={store}>
-      <Theme>
-        <GlobalStyle />
-        <App />
-      </Theme>
-    </Provider>
-  );
-};
-
-export default AppWrapper;

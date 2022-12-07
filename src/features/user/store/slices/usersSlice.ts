@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllUsers } from "features/users/users.service";
+import { getAllUsers } from "features/user/services/users.service";
 import type { RootState } from "store/store";
-import { IUser } from "types/user.types";
+import { IUser } from "features/user/types";
 import { updateSetupCurrentUser } from "./currentUserSlice";
 
 interface IUsersState {

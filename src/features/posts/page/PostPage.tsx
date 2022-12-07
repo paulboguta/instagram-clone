@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
 import { useLocation, useNavigate } from "react-router-dom";
-import { checkIfPostIsLiked } from "utils/post.utils";
-import { getUserProfileData } from "features/users/users.service";
-import { IPost } from "types/post.types";
+import { checkIfPostIsLiked } from "features/posts/utils/post.utils";
+import { getUserProfileData } from "features/user/services/users.service";
+import { IPost } from "features/posts/types";
 import { PostButtonsComments } from "components/post/PostButtonsComments/PostButtonsComments";
 import { ILikesModalProps } from "types/likesModal.types";
-import { selectCurrentUser } from "user/store/slices/currentUserSlice";
-import { Comments } from "../../components/post/CommentsWrapper/Comments";
+import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { Comments } from "../../../components/post/CommentsWrapper/Comments";
 import {
   Description,
   Img,
@@ -20,9 +19,10 @@ import {
   WrapperComments,
   MarginTop,
 } from "./PostPage.styles";
-import { Navbar } from "../../components/Navbar/Navbar";
-import { useWindowDimensions } from "../../hooks/hooks";
-import { LikesModal } from "../../components/post/LikesModal/LikesModal";
+import { Navbar } from "../../../components/Navbar/Navbar";
+import { useWindowDimensions } from "../../../hooks/hooks";
+import { LikesModal } from "../../../components/post/LikesModal/LikesModal";
+import { selectPosts } from "../store/postsSlice";
 
 export const PostPage = ({
   onClickShowModalLikes,
@@ -38,25 +38,17 @@ export const PostPage = ({
   const navigate = useNavigate();
   const location = useLocation();
   const postID = location.pathname.slice(6);
-  const {
-    image,
-    description,
-    uid: postOwner,
-    id,
-    likes,
-    comments,
-  } = useSelector((state: RootState) =>
-    state.rootReducer.postReducer.posts.find((post: IPost) => {
-      return post.id === postID;
-    })
-  );
+  const post = useSelector(selectPosts).find((p: IPost) => {
+    return p.id === postID;
+  });
+
   const { uid } = useSelector(selectCurrentUser);
   const windowDim = useWindowDimensions();
 
   const getData = useCallback(async () => {
-    const { username, profilePic } = await getUserProfileData(postOwner);
+    const { username, profilePic } = await getUserProfileData(post?.uid);
     setUser({ username, profilePic });
-  }, [postOwner]);
+  }, [post?.uid]);
 
   const onClickUsernameMoveToUserProfile = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -66,9 +58,9 @@ export const PostPage = ({
   };
 
   useEffect(() => {
-    setIsLiked(checkIfPostIsLiked(likes, uid));
+    setIsLiked(checkIfPostIsLiked(post?.likes!, uid));
     getData().then(() => setLoading(false));
-  }, [getData, likes, uid]);
+  }, [getData, post?.likes, uid]);
 
   return (
     <WrapperAll>
@@ -76,38 +68,41 @@ export const PostPage = ({
       <Wrapper>
         <MarginTop>
           {showModalLikes && (
-            <LikesModal id={id} onClickHideModalLikes={onClickHideModalLikes} />
+            <LikesModal
+              id={post?.id}
+              onClickHideModalLikes={onClickHideModalLikes}
+            />
           )}
         </MarginTop>
 
         {!loading && (
           <>
-            <Img src={image} />
+            <Img src={post?.image} />
             <div>
               <PostProfileSectionWrapper>
                 <ProfilePic src={user.profilePic} />
                 <Username
                   onClick={onClickUsernameMoveToUserProfile}
-                  id={postOwner}
+                  id={post?.uid}
                 >
                   @{user.username}
                 </Username>
                 {windowDim.width > 1200 && (
-                  <Description>{description}</Description>
+                  <Description>{post?.description}</Description>
                 )}
               </PostProfileSectionWrapper>
               <WrapperComments>
                 {windowDim.width < 1200 && (
-                  <Description>{description}</Description>
+                  <Description>{post?.description}</Description>
                 )}
-                <Comments comments={comments} hideComments />
+                <Comments comments={post?.comments} hideComments />
                 <PostButtonsComments
                   onClickShowModalLikes={onClickShowModalLikes}
-                  likes={likes}
-                  comments={comments}
-                  id={id}
+                  likes={post?.likes!}
+                  comments={post?.comments!}
+                  id={post?.id}
                   isLiked={isLiked}
-                  postUid={postOwner}
+                  postUid={post?.uid}
                   hideComments
                 />
               </WrapperComments>

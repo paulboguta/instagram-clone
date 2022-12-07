@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
 import { ActionTypes } from "store/types";
-import { ICurrentProfile } from "types/user.types";
+import { ICurrentProfile } from "features/user/types";
 
 const initialState: ICurrentProfile = {
   username: "",

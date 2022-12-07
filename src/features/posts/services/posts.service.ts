@@ -10,7 +10,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "services/firebase";
-import { IPost } from "types/post.types";
+import { IPost } from "features/posts/types";
 
 export const getProfilePosts = async (id: string) => {
   const postsRef = collection(db, "users", id, "posts");
@@ -59,7 +59,7 @@ export const getUserDataForThisPost = async (uid: string) => {
   return { username, profilePic };
 };
 
-export const createPost = async (
+export const createPostService = async (
   uid: string,
   image: string,
   description: string
@@ -79,7 +79,7 @@ export const createPost = async (
     comments: [],
     username,
     id: postID,
-    dateAdded: date,
+    dateAdded: date.toISOString(),
     uid,
   });
 

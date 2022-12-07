@@ -5,7 +5,6 @@ import {
   Link,
   FormControlLabel,
   TextField,
-  CssBaseline,
   Avatar,
   Checkbox,
   Button,
@@ -17,8 +16,8 @@ import { useState } from "react";
 import { useAppDispatch } from "hooks/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SigninSchema } from "features/validation/auth.validation";
-import { getCurrentUser } from "user/store/slices/currentUserSlice";
+import { SigninSchema } from "features/auth/utils/auth.validation";
+import { getCurrentUser } from "features/user/store/slices/currentUserSlice";
 
 interface ISignInInputs {
   email: string;
@@ -56,7 +55,6 @@ export const SignIn = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,

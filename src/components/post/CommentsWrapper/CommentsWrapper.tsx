@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { IComment, ILike } from "types/post.types";
+import { IComment, ILike } from "features/posts/types";
 import { ILikesModalProps } from "types/likesModal.types";
 import { Comments } from "./Comments";
 import {

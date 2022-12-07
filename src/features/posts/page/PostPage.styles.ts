@@ -1,5 +1,3 @@
-"components/post/PostButtonsComments/PostButtonsComments";
-
 import styled from "styled-components";
 
 export const WrapperAll = styled.div`

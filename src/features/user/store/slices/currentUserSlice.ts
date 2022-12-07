@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { login } from "features/auth/auth.service";
-import { getUserProfileData } from "features/users/users.service";
+import { login } from "features/auth/services/auth.service";
+import { getUserProfileData } from "features/user/services/users.service";
 import type { RootState } from "store/store";
-import { ICurrentUser } from "types/user.types";
+import { ICurrentUser } from "features/user/types";
 
 interface ISignInProps {
   email: string;

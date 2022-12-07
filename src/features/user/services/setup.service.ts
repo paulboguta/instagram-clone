@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { db } from "../../../services/firebase";
 
 export const doSetupService = async (
   uid: string,

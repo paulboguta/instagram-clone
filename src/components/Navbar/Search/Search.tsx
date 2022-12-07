@@ -2,8 +2,8 @@ import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { requestSearchUsers } from "utils/search.utils";
 import { useSelector } from "react-redux";
-import { IUser } from "types/user.types";
-import { selectUsers } from "user/store/slices/usersSlice";
+import { IUser } from "features/user/types";
+import { selectUsers } from "features/user/store/slices/usersSlice";
 import { SearchStyled, Results, Button, Wrapper } from "./Search.styles";
 
 export const Search = () => {

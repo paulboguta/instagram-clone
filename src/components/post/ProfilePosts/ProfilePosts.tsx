@@ -1,4 +1,4 @@
-import { IPost } from "types/post.types";
+import { IPost } from "features/posts/types";
 import { Posts } from "./ProfilePosts.style";
 import { ProfilePost } from "../ProfilePost/ProfilePost";
 
