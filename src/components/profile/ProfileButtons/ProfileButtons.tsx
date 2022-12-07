@@ -5,14 +5,19 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { checkIfFollowed } from "utils/user.utils";
+import {
+  selectCurrentUser,
+  updateFollowCurrentUser,
+} from "user/store/slices/currentUserSlice";
+import {
+  doFollowService,
+  doUnfollowService,
+} from "features/users/follow.service";
+import { updateFollowUsers } from "user/store/slices/usersSlice";
 import { ButtonDmAdd } from "./ButtonDmAdd";
 import { ButtonEditFollow } from "./ButtonEditFollow";
 import { ButtonUnfollow } from "./ButtonUnfollow";
 import { RootState } from "../../../store/store";
-import {
-  doFollowAction,
-  doUnfollowAction,
-} from "../../../store/actions/userActions";
 
 export const Wrapper = styled.div`
   @media (min-width: 1160px) {
@@ -33,9 +38,7 @@ export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
   const navigate = useNavigate();
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const { uid } = useAppSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { uid } = useAppSelector(selectCurrentUser);
   const { isOnOwnProfile, followers } = useAppSelector(
     (state: RootState) => state.rootReducer.currentProfileReducer
   );
@@ -47,12 +50,20 @@ export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
     navigate("/setup");
   };
 
-  const onClickFollow = () => {
-    dispatch(doFollowAction(uid, id));
+  const onClickFollow = async () => {
+    const { newFollowing, newFollowers } = await doFollowService(uid, id);
+    dispatch(updateFollowCurrentUser({ newFollowing, newFollowers }));
+    dispatch(
+      updateFollowUsers({ newFollowing, newFollowers, uid1: uid, uid2: id })
+    );
   };
 
-  const onClickUnfollow = () => {
-    dispatch(doUnfollowAction(uid, id));
+  const onClickUnfollow = async () => {
+    const { newFollowing, newFollowers } = await doUnfollowService(uid, id);
+    dispatch(updateFollowCurrentUser({ newFollowing, newFollowers }));
+    dispatch(
+      updateFollowUsers({ newFollowing, newFollowers, uid1: uid, uid2: id })
+    );
   };
 
   // const onClickDm = () => {

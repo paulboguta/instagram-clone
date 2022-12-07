@@ -20,7 +20,7 @@ export const getData = async (
   };
 };
 
-export const doFollow = async (
+export const doFollowService = async (
   userDoingAction: string,
   userReceivingAction: string
 ) => {
@@ -56,7 +56,7 @@ export const doFollow = async (
   };
 };
 
-export const doUnfollow = async (
+export const doUnfollowService = async (
   userDoingAction: string,
   userReceivingAction: string
 ) => {

@@ -4,6 +4,7 @@ import { useAppDispatch } from "hooks/hooks";
 import { setCurrentProfileAction } from "store/actions/currentProfileAction";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { ProfileDetails } from "../../components/profile/ProfileDetails";
 import Background1 from "../../assets/background/background-1.jpeg";
@@ -19,9 +20,7 @@ export const ProfilePage = () => {
   const [showAddPost, setShowAddPost] = useState(false);
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { uid } = useSelector(selectCurrentUser);
   const { posts } = useSelector(
     (state: RootState) => state.rootReducer.currentProfileReducer
   );

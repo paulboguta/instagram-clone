@@ -7,6 +7,7 @@ import { RootState } from "store/store";
 import { checkIfPostIsLiked } from "utils/post.utils";
 import { useNavigate } from "react-router-dom";
 import { ILikesModalProps } from "types/likesModal.types";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
 import {
   Wrapper,
@@ -40,9 +41,7 @@ export const FeedPost = ({ id, onClickShowModalLikes }: IFeedPostProps) => {
     })
   );
 
-  const userID = useSelector(
-    (state: RootState) => state.rootReducer.currentUser.uid
-  );
+  const { uid: userID } = useSelector(selectCurrentUser);
 
   useEffect(() => {
     getUserDataForThisPost(uid).then((res) =>

@@ -13,7 +13,7 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import {
   IconWrapper,
   ButtonNav,
@@ -24,9 +24,7 @@ import {
 export const NavbarButtons = () => {
   const navigate = useNavigate();
   const [userID, setUserID] = useState<string>("");
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { uid } = useSelector(selectCurrentUser);
 
   useEffect(() => {
     setUserID(uid);

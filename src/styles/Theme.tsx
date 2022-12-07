@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
 import { ThemeProvider } from "styled-components";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import { ITheme } from "./style.types";
 
 interface IThemeProps {
@@ -40,9 +40,7 @@ export const themeDark: ITheme = {
 };
 
 export const Theme: React.FC<IThemeProps> = ({ children }: IThemeProps) => {
-  const { theme } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { theme } = useSelector(selectCurrentUser);
 
   return (
     <ThemeProvider theme={theme === "themeDark" ? themeDark : themeLight}>

@@ -2,7 +2,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateSetup } from "features/validation/setup.validation";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
+import {
+  selectCurrentUser,
+  updateSetupCurrentUser,
+} from "user/store/slices/currentUserSlice";
+import { doSetupService } from "features/users/setup.service";
 import { Wrapper, Form, Img } from "./SetupPage.styles";
 import Logo from "../../assets/logo.png";
 import {
@@ -13,7 +17,6 @@ import {
   ToggleDarkMode,
 } from "../../components/forms";
 import { useAppDispatch } from "../../hooks/hooks";
-import { doSetupAction } from "../../store/actions/userActions";
 
 export const SetupPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -21,10 +24,7 @@ export const SetupPage = () => {
   const [profilePic, setProfilePic] = useState<string>("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.rootReducer.currentUser);
-  const { theme } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const user = useSelector(selectCurrentUser);
   const onChangeUsernameInput = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -45,13 +45,23 @@ export const SetupPage = () => {
     }
   }, [user.bio, user.profilePic, user.username]);
 
-  const onClickConfirm = () => {
+  const onClickConfirm = async () => {
     if (validateSetup(username, bio, profilePic)) {
-      if (bio.length < 2) {
-        setBio(`Hello it's @${username}!`);
+      try {
+        await doSetupService(user.uid, username, bio, profilePic, user.theme);
+        dispatch(
+          updateSetupCurrentUser({
+            uid: user.uid,
+            username,
+            bio,
+            profilePic,
+            theme: user.theme,
+          })
+        );
+        navigate("/");
+      } catch (err) {
+        console.log(err);
       }
-      dispatch(doSetupAction(user.uid, username, bio, profilePic, theme));
-      navigate("/");
     }
   };
 

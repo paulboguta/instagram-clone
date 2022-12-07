@@ -1,7 +1,7 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
-export const doSetup = async (
+export const doSetupService = async (
   uid: string,
   username: string,
   bio: string,

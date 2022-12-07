@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { SignUp } from "pages/SignUp/SignUp";
 import { SignIn } from "pages/SignIn/SignIn";
 import { Theme } from "styles/Theme";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import { GlobalStyle } from "./styles/globalStyles";
-import store, { RootState } from "./store/store";
+import store from "./store/store";
 import { SetupPage } from "./pages/SetupPage/SetupPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
@@ -33,9 +34,7 @@ const App = () => {
     setShowModalLikes(false);
   }, [url]);
 
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { uid } = useSelector(selectCurrentUser);
 
   return (
     <Routes>

@@ -7,6 +7,7 @@ import { getUserProfileData } from "features/users/users.service";
 import { IPost } from "types/post.types";
 import { PostButtonsComments } from "components/post/PostButtonsComments/PostButtonsComments";
 import { ILikesModalProps } from "types/likesModal.types";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import { Comments } from "../../components/post/CommentsWrapper/Comments";
 import {
   Description,
@@ -49,9 +50,7 @@ export const PostPage = ({
       return post.id === postID;
     })
   );
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { uid } = useSelector(selectCurrentUser);
   const windowDim = useWindowDimensions();
 
   const getData = useCallback(async () => {

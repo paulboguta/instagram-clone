@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 import { IComment, ILike } from "types/post.types";
 import { useMemo } from "react";
 import { ILikesModalProps } from "types/likesModal.types";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import {
   ButtonsLikeCommentWrapper,
   ButtonLike,
   BoxShadow,
 } from "./PostButtonsComments.styles";
 import { CommentsWrapper } from "../CommentsWrapper/CommentsWrapper";
-import { RootState } from "../../../store/store";
 import {
   likePostAction,
   unlikePostAction,
@@ -36,9 +36,7 @@ export const PostButtonsComments = ({
   onClickShowModalLikes,
 }: IPostButtonsCommentsProps) => {
   const dispatch = useAppDispatch();
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { uid } = useSelector(selectCurrentUser);
 
   const onClickLike = (event: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(likePostAction(postUid, uid, event.currentTarget.id));

@@ -2,9 +2,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import { IconContext } from "react-icons/lib";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
 import { IFollower, IUser } from "types/user.types";
 import uuid from "react-uuid";
+import { selectUsers } from "user/store/slices/usersSlice";
 import { Wrapper, ButtonClose } from "./FollowersModal.styles";
 import { FollowersModalButton } from "./FollowersModalButton";
 
@@ -21,11 +21,9 @@ export const FollowersModal = ({
   id,
   onClickHideModals,
 }: IFollowersModalProps) => {
-  const { following, followers } = useSelector((state: RootState) =>
-    state.rootReducer.usersReducer.users.find((user: IUser) => {
-      return user.uid === id;
-    })
-  );
+  const user = useSelector(selectUsers).find((u: IUser) => {
+    return u.uid === id;
+  });
 
   const IconValues = useMemo(
     () => ({
@@ -44,8 +42,8 @@ export const FollowersModal = ({
       <div>{header}</div>
       <>
         {modal === "following" &&
-          following.length &&
-          following.map((followee: IFollower) => {
+          user?.following.length &&
+          user?.following.map((followee: IFollower) => {
             return (
               <FollowersModalButton
                 key={uuid()}
@@ -55,8 +53,8 @@ export const FollowersModal = ({
             );
           })}
         {modal === "followers" &&
-          followers.length &&
-          followers.map((follower: IFollower) => {
+          user?.followers.length &&
+          user?.followers.map((follower: IFollower) => {
             return (
               <FollowersModalButton
                 key={uuid()}

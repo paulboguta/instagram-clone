@@ -4,9 +4,9 @@ import { ChangeEvent, useMemo, useState } from "react";
 import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";
 import { addCommentAction } from "store/actions/postActions";
-import { RootState } from "store/store";
 import { AiOutlineSend } from "react-icons/ai";
 import styled from "styled-components";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import { CommentInput } from "./CommentInput";
 import { ButtonAddComment } from "./CommentsWrapper.styles";
 
@@ -28,9 +28,7 @@ export const CommentAdd = ({ postUid, id }: ICommentAdd) => {
   const [newComment, setNewComment] = useState("");
   const dispatch = useAppDispatch();
 
-  const { uid } = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const { uid } = useSelector(selectCurrentUser);
 
   const onClickAddComment = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (validateComment(newComment)) {

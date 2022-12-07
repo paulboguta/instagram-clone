@@ -11,10 +11,6 @@ export interface IUser {
   theme: string;
 }
 
-export interface IUserState {
-  users: IUser[];
-}
-
 export interface IFollower {
   uid: string;
 }

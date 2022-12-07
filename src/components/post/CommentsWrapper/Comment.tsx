@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "store/store";
 import { IUser } from "types/user.types";
+import { selectUsers } from "user/store/slices/usersSlice";
 import {
   CommentStyled,
   CommentText,
@@ -15,11 +15,9 @@ import {
 export const Comment = ({ uid, hideComments, comment }: any) => {
   const navigate = useNavigate();
 
-  const { profilePic, username } = useSelector((state: RootState) =>
-    state.rootReducer.usersReducer.users.find((user: IUser) => {
-      return user.uid === uid;
-    })
-  );
+  const user = useSelector(selectUsers).find((u: IUser) => {
+    return u.uid === uid;
+  });
 
   const onClickUsernameMoveToUserProfile = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -33,18 +31,18 @@ export const Comment = ({ uid, hideComments, comment }: any) => {
       {!hideComments ? (
         <CommentStyled>
           <CommentUser id={uid} onClick={onClickUsernameMoveToUserProfile}>
-            @{username}
+            @{user?.username}
           </CommentUser>
           <CommentText>{comment}</CommentText>
         </CommentStyled>
       ) : (
         <PostPageComment>
-          <PostPageCommentUserPic src={profilePic} />
+          <PostPageCommentUserPic src={user?.profilePic} />
           <PostPageCommentUser
             id={uid}
             onClick={onClickUsernameMoveToUserProfile}
           >
-            @{username}
+            @{user?.username}
           </PostPageCommentUser>
           <PostPageCommentText>{comment}</PostPageCommentText>
         </PostPageComment>

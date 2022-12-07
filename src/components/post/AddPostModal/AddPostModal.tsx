@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "hooks/hooks";
 import { IconContext } from "react-icons";
 import { AiOutlineClose } from "react-icons/ai";
-import { RootState } from "../../../store/store";
+import { selectCurrentUser } from "user/store/slices/currentUserSlice";
 import { ButtonClose } from "../../profile/FollowersModal/FollowersModal.styles";
 import { ButtonConfirm } from "../../forms";
 import {
@@ -31,9 +31,7 @@ export const AddPostModal = ({
   const [image, setImage] = useState<any[]>([]);
   const [description, setDescription] = useState("");
   const maxNumber = 1;
-  const currentUser = useSelector(
-    (state: RootState) => state.rootReducer.currentUser
-  );
+  const currentUser = useSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
 
   // https://codesandbox.io/s/react-images-uploading-demo-typescript-fr2zm?file=/src/App.tsx:453-1660

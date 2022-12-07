@@ -2,8 +2,8 @@ import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { requestSearchUsers } from "utils/search.utils";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
 import { IUser } from "types/user.types";
+import { selectUsers } from "user/store/slices/usersSlice";
 import { SearchStyled, Results, Button, Wrapper } from "./Search.styles";
 
 export const Search = () => {
@@ -11,9 +11,7 @@ export const Search = () => {
   const [result, setResult] = useState<IUser[]>([]);
   const navigate = useNavigate();
 
-  const { users } = useSelector(
-    (state: RootState) => state.rootReducer.usersReducer
-  );
+  const users = useSelector(selectUsers);
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
