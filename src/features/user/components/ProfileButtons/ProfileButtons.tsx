@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "hooks/hooks";
+import { useAppDispatch } from "hooks/hooks";
 import { checkIfFollowed } from "features/user/utils/user.utils";
 import {
   selectCurrentUser,
@@ -13,11 +13,12 @@ import {
   doFollowService,
   doUnfollowService,
 } from "features/user/services/follow.service";
-import { updateFollowUsers } from "features/user/store/usersSlice";
+import { selectUsers, updateFollowUsers } from "features/user/store/usersSlice";
+import { IUser } from "features/user/types";
+import { useSelector } from "react-redux";
 import { ButtonDmAdd } from "./ButtonDmAdd";
 import { ButtonEditFollow } from "./ButtonEditFollow";
 import { ButtonUnfollow } from "./ButtonUnfollow";
-import { RootState } from "../../../../store/store";
 
 export const Wrapper = styled.div`
   @media (min-width: 1160px) {
@@ -37,32 +38,44 @@ interface IProfileButtonsProps {
 export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
   const navigate = useNavigate();
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  const [isOnOwnProfile, setIsOnOwnProfile] = useState(false);
   const dispatch = useAppDispatch();
-  const { uid } = useAppSelector(selectCurrentUser);
-  const { isOnOwnProfile, followers } = useAppSelector(
-    (state: RootState) => state.rootReducer.currentProfileReducer
-  );
-
-  const location = useLocation();
-  const id = location.pathname.slice(6);
+  const { uid } = useSelector(selectCurrentUser);
+  const { userID } = useParams();
+  const user = useSelector(selectUsers).find((u: IUser) => {
+    return u.uid === userID;
+  })!;
 
   const onClickEditProfile = () => {
     navigate("/setup");
   };
 
   const onClickFollow = async () => {
-    const { newFollowing, newFollowers } = await doFollowService(uid, id);
+    const { newFollowing, newFollowers } = await doFollowService(uid, userID!);
     dispatch(updateFollowCurrentUser({ newFollowing, newFollowers }));
     dispatch(
-      updateFollowUsers({ newFollowing, newFollowers, uid1: uid, uid2: id })
+      updateFollowUsers({
+        newFollowing,
+        newFollowers,
+        uid1: uid,
+        uid2: userID,
+      })
     );
   };
 
   const onClickUnfollow = async () => {
-    const { newFollowing, newFollowers } = await doUnfollowService(uid, id);
+    const { newFollowing, newFollowers } = await doUnfollowService(
+      uid,
+      userID!
+    );
     dispatch(updateFollowCurrentUser({ newFollowing, newFollowers }));
     dispatch(
-      updateFollowUsers({ newFollowing, newFollowers, uid1: uid, uid2: id })
+      updateFollowUsers({
+        newFollowing,
+        newFollowers,
+        uid1: uid,
+        uid2: userID,
+      })
     );
   };
 
@@ -75,8 +88,9 @@ export const ProfileButtons = ({ onClickAddPost }: IProfileButtonsProps) => {
   };
 
   useEffect(() => {
-    setIsFollowed(checkIfFollowed(followers, uid));
-  }, [followers, uid]);
+    setIsFollowed(checkIfFollowed(user?.followers, uid));
+    setIsOnOwnProfile(userID === uid);
+  }, [user?.followers, uid, userID]);
 
   return (
     <Wrapper>

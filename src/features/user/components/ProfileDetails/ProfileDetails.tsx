@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
+import { selectUsers } from "features/user/store/usersSlice";
+import { IUser } from "features/user/types";
+import { useParams } from "react-router-dom";
 import { Wrapper, Username, Bio } from "./ProfileDetails.styles";
 import { ProfileStats } from "../ProfileStats/ProfileStats";
 import { ProfileImg } from "../ProfileImg/ProfileImg";
@@ -13,15 +15,16 @@ export const ProfileDetails = ({
   onClickShowFollowersModal,
   onClickShowFollowingModal,
 }: IProfileDetialsProps) => {
-  const { username, profilePic, bio } = useSelector(
-    (state: RootState) => state.rootReducer.currentProfileReducer
-  );
+  const { userID } = useParams();
+  const user = useSelector(selectUsers).find((u: IUser) => {
+    return u.uid === userID;
+  });
   return (
     <Wrapper>
-      <ProfileImg profileImg={profilePic} />
-      <Username>@{username}</Username>
+      <ProfileImg profileImg={user?.profilePic!} />
+      <Username>@{user?.username}</Username>
       <hr />
-      <Bio>{bio}</Bio>
+      <Bio>{user?.bio}</Bio>
       <hr />
       <ProfileStats
         onClickShowFollowersModal={onClickShowFollowersModal}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { checkIfPostIsLiked } from "features/posts/utils/post.utils";
 import { getUserProfileData } from "features/user/services/users.service";
 import { IPost } from "features/posts/types";
@@ -34,8 +34,9 @@ export const PostPage = ({
     profilePic: "",
   });
   const navigate = useNavigate();
-  const location = useLocation();
-  const postID = location.pathname.slice(6);
+
+  const { postID } = useParams();
+
   const post = useSelector(selectPosts).find((p: IPost) => {
     return p.id === postID;
   });

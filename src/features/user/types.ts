@@ -1,5 +1,3 @@
-import { IPost } from "../posts/types";
-
 export interface IUser {
   username: string;
   profilePic: string;
@@ -13,17 +11,6 @@ export interface IUser {
 
 export interface IFollower {
   uid: string;
-}
-
-export interface ICurrentProfile {
-  uid: string;
-  username: string;
-  bio: string;
-  profilePic: string;
-  followers: IFollower[];
-  following: IFollower[];
-  isOnOwnProfile: boolean;
-  posts: IPost[];
 }
 
 export interface ICurrentUser {

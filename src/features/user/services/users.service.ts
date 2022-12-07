@@ -7,7 +7,7 @@ import {
   QueryDocumentSnapshot,
 } from "firebase/firestore";
 import { db } from "services/firebase";
-import { IUser } from "features/user/types";
+import { IUser } from "../types";
 
 export const getUserProfileData = async (id: string) => {
   const usersRef = doc(db, "users", id);
@@ -19,6 +19,12 @@ export const getUserPostsCounter = async (id: string) => {
   const postsRef = collection(db, "users", id, "posts");
   const data = await getDocs(postsRef);
   return data.docs.length;
+};
+
+export const getUserPosts = async (id: string) => {
+  const postsRef = collection(db, `users/${id}/posts`);
+  const posts = await getDocs(postsRef);
+  return posts.docs;
 };
 
 export const getUsersPostsAndFollowers = async (id: string) => {

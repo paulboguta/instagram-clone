@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IButtonProps } from "./interfaces";
+import { IButtonProps } from "./button.types";
 
 const Wrapper = styled.button`
   background-color: ${(props) => props.theme.backgroundOpposite};

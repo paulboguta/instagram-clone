@@ -1,7 +1,9 @@
 import { getUserPostsCounter } from "features/user/services/users.service";
+import { selectUsers } from "features/user/store/usersSlice";
+import { IUser } from "features/user/types";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "store/store";
+import { useParams } from "react-router-dom";
 import {
   Wrapper,
   Posts,
@@ -20,13 +22,14 @@ export const ProfileStats = ({
   onClickShowFollowingModal,
 }: IProfileStatsProps) => {
   const [postsCounter, setPostsCounter] = useState(0);
-  const { uid, followers, following } = useSelector(
-    (state: RootState) => state.rootReducer.currentProfileReducer
-  );
+  const { userID } = useParams();
+  const user = useSelector(selectUsers).find((u: IUser) => {
+    return u.uid === userID;
+  });
 
   const getPostsCounter = useCallback(async () => {
-    setPostsCounter(await getUserPostsCounter(uid));
-  }, [uid]);
+    setPostsCounter(await getUserPostsCounter(userID!));
+  }, [userID]);
 
   useEffect(() => {
     getPostsCounter();
@@ -39,11 +42,11 @@ export const ProfileStats = ({
       </Posts>
       <FollowersButton onClick={onClickShowFollowersModal}>
         <h2>Followers</h2>
-        <Gray>{followers.length}</Gray>
+        <Gray>{user?.followers.length}</Gray>
       </FollowersButton>
       <FollowingButton onClick={onClickShowFollowingModal}>
         <h2>Following</h2>
-        <Gray>{following.length}</Gray>
+        <Gray>{user?.following.length}</Gray>
       </FollowingButton>
     </Wrapper>
   );

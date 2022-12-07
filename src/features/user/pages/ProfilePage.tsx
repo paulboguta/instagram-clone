@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useAppDispatch } from "hooks/hooks";
-import { setCurrentProfileAction } from "store/actions/currentProfileAction";
-import { useSelector } from "react-redux";
-import { RootState } from "store/store";
-import { selectCurrentUser } from "features/user/store/currentUserSlice";
+import { useParams } from "react-router-dom";
+import { getProfilePosts } from "features/posts/services/posts.service";
+import { IPost } from "features/posts/types";
 import { Navbar } from "../../../components/Navbar/Navbar";
 import Background1 from "../../../assets/background/background-1.jpeg";
 import { Wrapper, Img } from "./ProfilePage.styles";
@@ -14,15 +11,15 @@ import { AddPostModal, ProfilePosts } from "../../posts/components";
 export const ProfilePage = () => {
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [showAddPost, setShowAddPost] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const dispatch = useAppDispatch();
-  const { uid } = useSelector(selectCurrentUser);
-  const { posts } = useSelector(
-    (state: RootState) => state.rootReducer.currentProfileReducer
-  );
-  const location = useLocation();
-  const id = location.pathname.slice(6);
+  const { userID } = useParams();
+  useEffect(() => {
+    const getData = async () => {
+      setPosts(await getProfilePosts(userID!));
+    };
+    getData();
+  }, [userID]);
 
   const onClickShowFollowersModal = () => {
     setShowFollowers((prev) => !prev);
@@ -50,17 +47,14 @@ export const ProfilePage = () => {
   };
 
   // hide modals on url change => search/navbar/opening posts/dms etc..
+  // later change to context and portal
   useEffect(() => {
     setShowFollowers(false);
     setShowFollowing(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    dispatch(setCurrentProfileAction(id, uid)).then(() => setLoading(false));
-  }, [dispatch, id, uid]);
+  }, [userID]);
 
   return (
-    <Wrapper loading={loading}>
+    <Wrapper>
       {showAddPost && (
         <AddPostModal
           onClick={onClickClose}
@@ -80,7 +74,7 @@ export const ProfilePage = () => {
         <FollowersModal
           header="Followers"
           modal="followers"
-          id={id}
+          id={userID!}
           onClickHideModals={onClickHideModals}
         />
       )}
@@ -88,7 +82,7 @@ export const ProfilePage = () => {
         <FollowersModal
           header="Following"
           modal="following"
-          id={id}
+          id={userID!}
           onClickHideModals={onClickHideModals}
         />
       )}
