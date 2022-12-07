@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { SignUp } from "features/auth/pages/SignUp";
 import { SignIn } from "features/auth/pages/SignIn";
-import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
-import { SetupPage } from "./pages/SetupPage/SetupPage";
-import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
+import { selectCurrentUser } from "features/user/store/currentUserSlice";
+import { SetupPage } from "./features/setup/pages/SetupPage";
+import { ProfilePage } from "./features/user/pages/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
-import { SearchPage } from "./pages/SearchPage/SearchPage";
-import { PostPage } from "./features/posts/page/PostPage";
+import { SearchPage } from "./features/search/pages/SearchPage";
+import { PostPage } from "./features/posts/pages/PostPage";
 
 export const App = () => {
   // navigate to signin if user is not signed in

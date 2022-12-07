@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { ThemeProvider } from "styled-components";
-import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { selectCurrentUser } from "features/user/store/currentUserSlice";
 import { ITheme } from "./style.types";
 
 interface IThemeProps {

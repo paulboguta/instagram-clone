@@ -17,7 +17,7 @@ import { useAppDispatch } from "hooks/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SigninSchema } from "features/auth/utils/auth.validation";
-import { getCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { getCurrentUser } from "features/user/store/currentUserSlice";
 
 interface ISignInInputs {
   email: string;

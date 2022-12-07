@@ -16,7 +16,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SignupSchema } from "features/auth/utils/auth.validation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { signup } from "features/auth/services/auth.service";
-import { getCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { getCurrentUser } from "features/user/store/currentUserSlice";
 
 interface ISignUpInputs {
   email: string;

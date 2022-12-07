@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { FeedPost } from "components/post/FeedPost/FeedPost";
+import { FeedPost } from "features/posts/components/FeedPost/FeedPost";
 import { ILikesModalProps } from "types/likesModal.types";
-import { LikesModal } from "components/post/LikesModal/LikesModal";
+import { LikesModal } from "features/posts/components/LikesModal/LikesModal";
 import {
   getUsers,
   selectUsersLoading,
-} from "features/user/store/slices/usersSlice";
+} from "features/user/store/usersSlice";
 import { getPosts, selectPosts } from "features/posts/store/postsSlice";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { FeedPosts, Wrapper } from "./Feed.styles";

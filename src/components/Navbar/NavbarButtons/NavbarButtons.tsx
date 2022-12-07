@@ -13,7 +13,7 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "features/user/store/slices/currentUserSlice";
+import { selectCurrentUser } from "features/user/store/currentUserSlice";
 import {
   IconWrapper,
   ButtonNav,
