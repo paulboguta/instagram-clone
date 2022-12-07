@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import React, { useState } from "react";
-import { SearchStyled, Results, Button, ErrorMessage } from "./Search.styles";
+import { SearchStyled, Button } from "./Search.styles";
 import { Search } from "./Search";
 
 describe("test searchbar", () => {

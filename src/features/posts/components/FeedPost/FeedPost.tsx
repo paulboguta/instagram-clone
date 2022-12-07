@@ -1,6 +1,6 @@
 import { BsThreeDots } from "react-icons/bs";
 import { IconContext } from "react-icons";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getUserDataForThisPost } from "features/posts/services/posts.service";
 import { useSelector } from "react-redux";
 import { checkIfPostIsLiked } from "features/posts/utils/post.utils";
