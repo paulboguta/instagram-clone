@@ -1,47 +1,58 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Typography,
+  Container,
+  Box,
+  Link,
+  FormControlLabel,
+  TextField,
+  CssBaseline,
+  Avatar,
+  Checkbox,
+  Button,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { ErrorMessage } from "styles/globalStyles";
 import { useNavigate } from "react-router-dom";
-import { login } from "features/auth/auth.service";
 import { useState } from "react";
 import { useAppDispatch } from "hooks/hooks";
-import { useFormik } from "formik";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { SigninSchema } from "features/validation/auth.validation";
-import { setCurrentUser } from "store/actions/currentUserActions";
+import { getCurrentUser } from "user/store/slices/currentUserSlice";
+
+interface ISignInInputs {
+  email: string;
+  password: string;
+}
 
 export const SignIn = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [userExists, setUserExists] = useState(true);
+  const [isAuthError, setIsAuthError] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignInInputs>({
+    defaultValues: {
       email: "",
       password: "",
     },
-    validationSchema: SigninSchema,
-    onSubmit: async (values) => {
-      const { email, password } = values;
-
-      try {
-        const response = await login(email, password);
-        dispatch(setCurrentUser(response.user.uid));
-        navigate("/");
-      } catch (e) {
-        setUserExists(false);
-      }
-    },
+    resolver: yupResolver(SigninSchema),
   });
+
+  const onSubmit: SubmitHandler<ISignInInputs> = async ({
+    email,
+    password,
+  }) => {
+    try {
+      dispatch(getCurrentUser({ email, password }));
+      navigate("/");
+    } catch (e) {
+      setIsAuthError(true);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -63,47 +74,52 @@ export const SignIn = () => {
         </Typography>
         <Box
           component="form"
-          onSubmit={formik.handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           noValidate
           sx={{ mt: 1 }}
         >
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
+          <Controller
             name="email"
-            autoComplete="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            helperText={
-              formik.errors.email &&
-              formik.touched.email && (
-                <ErrorMessage>{formik.errors.email}</ErrorMessage>
-              )
-            }
+            control={control}
+            render={({ field: { onChange, value, name } }) => (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name={name}
+                value={value}
+                onChange={onChange}
+                id="email"
+                label="Email Address"
+                autoComplete="email"
+                helperText={
+                  <ErrorMessage>{errors.email?.message}</ErrorMessage>
+                }
+              />
+            )}
           />
-
-          <TextField
-            margin="normal"
-            required
-            fullWidth
+          <Controller
             name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            helperText={
-              formik.errors.password &&
-              formik.touched.password && (
-                <ErrorMessage>{formik.errors.password}</ErrorMessage>
-              )
-            }
+            control={control}
+            render={({ field: { onChange, value, name } }) => (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name={name}
+                value={value}
+                onChange={onChange}
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                helperText={
+                  <ErrorMessage>{errors.password?.message}</ErrorMessage>
+                }
+              />
+            )}
           />
-          {!userExists && <ErrorMessage>{`User doesn't exist.`}</ErrorMessage>}
+          {isAuthError && <ErrorMessage>{`User doesn't exist.`}</ErrorMessage>}
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -116,13 +132,10 @@ export const SignIn = () => {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/signup" variant="body2">
-                {`Don't have an account? Sign Up`}
-              </Link>
-            </Grid>
-          </Grid>
+
+          <Link href="/signup" variant="body2">
+            {`Don't have an account? Sign Up`}
+          </Link>
         </Box>
       </Box>
     </Container>

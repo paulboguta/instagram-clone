@@ -10,38 +10,48 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "styles/globalStyles";
-import { useFormik } from "formik";
-import { login, signup } from "features/auth/auth.service";
 import { useAppDispatch } from "hooks/hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { SignupSchema } from "features/validation/auth.validation";
-import { setCurrentUser } from "store/actions/currentUserActions";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { signup } from "features/auth/auth.service";
+import { getCurrentUser } from "user/store/slices/currentUserSlice";
+
+interface ISignUpInputs {
+  email: string;
+  password: string;
+}
 
 export const SignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const formik = useFormik({
-    initialValues: {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUpInputs>({
+    defaultValues: {
       email: "",
       password: "",
-      passwordConfirm: "",
     },
-    validationSchema: SignupSchema,
-    onSubmit: async (values) => {
-      const { email, password } = values;
-
-      try {
-        const response = await signup(email, password);
-        if (response.user) {
-          const loginResponse = await login(email, password);
-          dispatch(setCurrentUser(loginResponse.user.uid));
-          navigate("/setup");
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    },
+    resolver: yupResolver(SignupSchema),
   });
+
+  const onSubmit: SubmitHandler<ISignUpInputs> = async ({
+    email,
+    password,
+  }) => {
+    try {
+      const response = await signup(email, password);
+      if (response.user) {
+        dispatch(getCurrentUser({ email, password }));
+        navigate("/setup");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -63,63 +73,51 @@ export const SignUp = () => {
         <Box
           component="form"
           noValidate
-          onSubmit={formik.handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
+              <Controller
                 name="email"
-                autoComplete="email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                helperText={
-                  formik.errors.email &&
-                  formik.touched.email && (
-                    <ErrorMessage>{formik.errors.email}</ErrorMessage>
-                  )
-                }
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    autoComplete="email"
+                    helperText={
+                      <ErrorMessage>{errors.email?.message}</ErrorMessage>
+                    }
+                  />
+                )}
               />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <Controller
                 name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                helperText={
-                  formik.errors.password &&
-                  formik.touched.password && (
-                    <ErrorMessage>{formik.errors.password}</ErrorMessage>
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="passwordConfirm"
-                label="Password Confirm"
-                type="password"
-                id="passwordConfirm"
-                onChange={formik.handleChange}
-                value={formik.values.passwordConfirm}
-                helperText={
-                  formik.errors.passwordConfirm &&
-                  formik.touched.passwordConfirm && (
-                    <ErrorMessage>{formik.errors.passwordConfirm}</ErrorMessage>
-                  )
-                }
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    helperText={
+                      <ErrorMessage>{errors.password?.message}</ErrorMessage>
+                    }
+                  />
+                )}
               />
             </Grid>
           </Grid>
