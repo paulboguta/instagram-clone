@@ -13,8 +13,6 @@ module.exports = {
         "plugin:prettier/recommended",
         "plugin:jest/recommended"
     ],
-    "overrides": [
-    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -52,7 +50,7 @@ module.exports = {
         "react/function-component-definition": ["error", {namedComponents: "arrow-function"}],
         "import/prefer-default-export": "off",
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-        "default-param-last": "off",
-        "@typescript-eslint/default-param-last": "off"
+        "no-param-reassign": ["error", { "props": false }],
+        "import/no-default-export": "error",
     },
 }
