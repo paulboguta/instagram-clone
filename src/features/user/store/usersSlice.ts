@@ -21,7 +21,7 @@ export const getUsers = createAsyncThunk("users/getUsers", async () => {
   return users;
 });
 
-const usersSlice = createSlice({
+export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
@@ -86,5 +86,3 @@ export const selectUsersLoading = (state: RootState) =>
   state.rootReducer.users.loading;
 
 export const { updateFollowUsers } = usersSlice.actions;
-
-export default usersSlice.reducer;

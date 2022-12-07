@@ -20,7 +20,7 @@ export const getPosts = createAsyncThunk("posts/getPosts", async () => {
   return posts;
 });
 
-const postsSlice = createSlice({
+export const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
@@ -90,5 +90,3 @@ const postsSlice = createSlice({
 export const selectPosts = (state: RootState) => state.rootReducer.posts.posts;
 
 export const { createPost, addComment, updatePostLikes } = postsSlice.actions;
-
-export default postsSlice.reducer;

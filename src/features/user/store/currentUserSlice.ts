@@ -39,7 +39,7 @@ export const getCurrentUser = createAsyncThunk(
   }
 );
 
-const currentUserSlice = createSlice({
+export const currentUserSlice = createSlice({
   name: "currentUser",
   initialState,
   reducers: {
@@ -104,5 +104,3 @@ export const selectCurrentUser = (state: RootState) =>
 
 export const { updateSetupCurrentUser, updateFollowCurrentUser, setTheme } =
   currentUserSlice.actions;
-
-export default currentUserSlice.reducer;

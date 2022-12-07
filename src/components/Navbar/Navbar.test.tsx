@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import store from "../../store/store";
 import { Provider } from "react-redux";
+import { store } from "../../store/store";
 import { Navbar } from "./Navbar";
 import { ButtonImg } from "./Navbar.styles";
 

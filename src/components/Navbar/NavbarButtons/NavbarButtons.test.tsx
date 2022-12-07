@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { NavbarButtons } from "./NavbarButtons";
 import { BrowserRouter } from "react-router-dom";
-import store from "../../../store/store";
 import { Provider } from "react-redux";
+import { NavbarButtons } from "./NavbarButtons";
+import { store } from "../../../store/store";
 import {
   ButtonNav,
   ButtonNavDesktop,
