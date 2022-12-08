@@ -45,6 +45,7 @@ module.exports = {
         "coverage",
         "dist",
         "build",
+        "cypress",
     ],
     "rules": {
         "react/function-component-definition": ["error", {namedComponents: "arrow-function"}],

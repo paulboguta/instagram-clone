@@ -1,13 +1,6 @@
-const uid = "shU1M5oNmMNstdZ1HSruGBrUca12";
-
 describe("test navbar", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000/");
-  });
-
-  it("test logo button", () => {
-    cy.get("#logo-navbar").click();
-    cy.url().should("include", "/");
   });
 
   describe("test searchbar", () => {
@@ -26,7 +19,7 @@ describe("test navbar", () => {
     it("shows error message when username was not found", () => {
       cy.get("#search-navbar").type("thridaccount");
       cy.wait(3500);
-      expect(cy.get("#search-error")).to.exist;
+      cy.get("#search-error");
     });
   });
 

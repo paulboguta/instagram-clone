@@ -25,5 +25,7 @@ yarn-error.log*
 serviceAccount.json
 
 cypress.env.json
+cypress/videos
+cypress/screenshots
 
 .env
