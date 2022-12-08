@@ -11,7 +11,7 @@ import {
 import { LockOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "styles/globalStyles";
-import { useAppDispatch } from "hooks/hooks";
+import { useAppDispatch } from "store/store";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignupSchema } from "features/auth/utils/auth.validation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";

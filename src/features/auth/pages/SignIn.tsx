@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ErrorMessage } from "styles/globalStyles";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useAppDispatch } from "hooks/hooks";
+import { useAppDispatch } from "store/store";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SigninSchema } from "features/auth/utils/auth.validation";

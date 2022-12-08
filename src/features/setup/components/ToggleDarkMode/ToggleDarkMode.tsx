@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "hooks/hooks";
+import { useAppDispatch } from "store/store";
 import {
   selectCurrentUser,
   setTheme,

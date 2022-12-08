@@ -1,5 +1,5 @@
 import { validateComment } from "features/posts/utils/comment.validation";
-import { useAppDispatch } from "hooks/hooks";
+import { useAppDispatch } from "store/store";
 import { ChangeEvent, useMemo, useState } from "react";
 import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";

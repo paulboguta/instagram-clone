@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "hooks/hooks";
+import { useAppDispatch, useAppSelector } from "store/store";
 import { FeedPost } from "features/posts/components/FeedPost/FeedPost";
 import { ILikesModalProps } from "types/likesModal.types";
 import { LikesModal } from "features/posts/components/LikesModal/LikesModal";

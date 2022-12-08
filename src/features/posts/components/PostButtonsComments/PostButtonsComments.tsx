@@ -1,6 +1,6 @@
 import { IconContext } from "react-icons";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { useAppDispatch } from "hooks/hooks";
+import { useAppDispatch } from "store/store";
 import { useSelector } from "react-redux";
 import { IComment, ILike } from "features/posts/types";
 import { useMemo } from "react";

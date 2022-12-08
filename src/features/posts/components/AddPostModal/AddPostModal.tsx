@@ -1,7 +1,7 @@
 import { ChangeEvent, useMemo, useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "hooks/hooks";
+import { useAppDispatch } from "store/store";
 import { IconContext } from "react-icons";
 import { AiOutlineClose } from "react-icons/ai";
 import { selectCurrentUser } from "features/user/store/currentUserSlice";

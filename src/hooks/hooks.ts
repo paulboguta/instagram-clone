@@ -1,7 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "store/store";
 import { auth } from "../services/firebase";
 
 export const useToggle = (defaultValue: boolean) => {
@@ -46,6 +44,3 @@ export const useWindowDimensions = () => {
 
   return windowDimensions;
 };
-
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

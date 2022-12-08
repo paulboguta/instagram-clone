@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "hooks/hooks";
+import { useAppDispatch } from "store/store";
 import { checkIfFollowed } from "features/user/utils/user.utils";
 import {
   selectCurrentUser,

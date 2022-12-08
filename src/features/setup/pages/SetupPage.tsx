@@ -7,6 +7,7 @@ import {
   updateSetupCurrentUser,
 } from "features/user/store/currentUserSlice";
 import { doSetupService } from "features/user/services/setup.service";
+import { useAppDispatch } from "store/store";
 import { Wrapper, Form, Img } from "./SetupPage.styles";
 import Logo from "../../../assets/logo.png";
 import {
@@ -16,7 +17,6 @@ import {
   ButtonConfirm,
   ToggleDarkMode,
 } from "../components/index";
-import { useAppDispatch } from "../../../hooks/hooks";
 
 export const SetupPage = () => {
   const [username, setUsername] = useState<string>("");
