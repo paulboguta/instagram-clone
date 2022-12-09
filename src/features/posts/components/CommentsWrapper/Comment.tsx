@@ -2,15 +2,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "features/user/types";
 import { selectUsers } from "features/user/store/usersSlice";
-import {
-  CommentStyled,
-  CommentText,
-  CommentUser,
-  PostPageComment,
-  PostPageCommentText,
-  PostPageCommentUser,
-  PostPageCommentUserPic,
-} from "./CommentsWrapper.styles";
+import * as Styled from "./CommentsWrapper.styles";
 
 export const Comment = ({ uid, hideComments, comment }: any) => {
   const navigate = useNavigate();
@@ -29,23 +21,26 @@ export const Comment = ({ uid, hideComments, comment }: any) => {
   return (
     <div>
       {!hideComments ? (
-        <CommentStyled>
-          <CommentUser id={uid} onClick={onClickUsernameMoveToUserProfile}>
-            @{user?.username}
-          </CommentUser>
-          <CommentText>{comment}</CommentText>
-        </CommentStyled>
-      ) : (
-        <PostPageComment>
-          <PostPageCommentUserPic src={user?.profilePic} />
-          <PostPageCommentUser
+        <Styled.CommentStyled>
+          <Styled.CommentUser
             id={uid}
             onClick={onClickUsernameMoveToUserProfile}
           >
             @{user?.username}
-          </PostPageCommentUser>
-          <PostPageCommentText>{comment}</PostPageCommentText>
-        </PostPageComment>
+          </Styled.CommentUser>
+          <Styled.CommentText>{comment}</Styled.CommentText>
+        </Styled.CommentStyled>
+      ) : (
+        <Styled.PostPageComment>
+          <Styled.PostPageCommentUserPic src={user?.profilePic} />
+          <Styled.PostPageCommentUser
+            id={uid}
+            onClick={onClickUsernameMoveToUserProfile}
+          >
+            @{user?.username}
+          </Styled.PostPageCommentUser>
+          <Styled.PostPageCommentText>{comment}</Styled.PostPageCommentText>
+        </Styled.PostPageComment>
       )}
     </div>
   );

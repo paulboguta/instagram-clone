@@ -3,7 +3,7 @@ import { ILikesModalProps } from "types/likesModal.types";
 import { useSelector } from "react-redux";
 import { IUser } from "features/user/types";
 import { selectUsers } from "features/user/store/usersSlice";
-import { Button } from "./LikesModal.styles";
+import * as Styled from "./LikesModal.styles";
 
 interface ILikesModalButtonProps extends ILikesModalProps {
   uid: string;
@@ -24,9 +24,9 @@ export const LikesModalButton = ({
   };
 
   return (
-    <Button onClick={onClickMoveToThisUser} id={uid}>
+    <Styled.Button onClick={onClickMoveToThisUser} id={uid}>
       <img src={user?.profilePic} alt="liker profile img" />
       <div>@{user?.username}</div>
-    </Button>
+    </Styled.Button>
   );
 };

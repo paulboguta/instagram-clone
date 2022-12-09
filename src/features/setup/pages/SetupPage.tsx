@@ -8,7 +8,7 @@ import {
 } from "features/user/store/currentUserSlice";
 import { doSetupService } from "features/user/services/setup.service";
 import { useAppDispatch } from "store/store";
-import { Wrapper, Form, Img } from "./SetupPage.styles";
+import * as Styled from "./SetupPage.styles";
 import Logo from "../../../assets/logo.png";
 import {
   TextField,
@@ -66,9 +66,9 @@ export const SetupPage = () => {
   };
 
   return (
-    <Wrapper>
-      <Form>
-        <Img alt="logo" src={Logo} />
+    <Styled.Wrapper>
+      <Styled.Form>
+        <Styled.Img alt="logo" src={Logo} />
         <TextField
           placeholder="username"
           onChange={onChangeUsernameInput}
@@ -78,7 +78,7 @@ export const SetupPage = () => {
         <ProfilePicForm onClickPic={onClickPic} profilepic={profilePic} />
         <ToggleDarkMode />
         <ButtonConfirm onClick={onClickConfirm} />
-      </Form>
-    </Wrapper>
+      </Styled.Form>
+    </Styled.Wrapper>
   );
 };

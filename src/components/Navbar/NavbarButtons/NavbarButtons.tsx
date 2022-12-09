@@ -14,12 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "features/user/store/currentUserSlice";
-import {
-  IconWrapper,
-  ButtonNav,
-  ButtonNavMobile,
-  ButtonNavDesktop,
-} from "./NavbarButtons.styles";
+import * as Styled from "./NavbarButtons.styles";
 
 export const NavbarButtons = () => {
   const navigate = useNavigate();
@@ -58,34 +53,34 @@ export const NavbarButtons = () => {
   );
 
   return (
-    <IconWrapper>
+    <Styled.IconWrapper>
       <IconContext.Provider value={IconValue}>
-        <ButtonNav onClick={onClickHome} id="button-nav-home">
+        <Styled.ButtonNav onClick={onClickHome} id="button-nav-home">
           <AiOutlineHome />
           <AiFillHome />
-        </ButtonNav>
-        <ButtonNavMobile onClick={onClickSearch}>
+        </Styled.ButtonNav>
+        <Styled.ButtonNavMobile onClick={onClickSearch}>
           <AiOutlineSearch />
-        </ButtonNavMobile>
-        <ButtonNavMobile>
+        </Styled.ButtonNavMobile>
+        <Styled.ButtonNavMobile>
           <IoAddCircleOutline />
-        </ButtonNavMobile>
-        <ButtonNav onClick={onClickMessages} id="button-nav-messages">
+        </Styled.ButtonNavMobile>
+        <Styled.ButtonNav onClick={onClickMessages} id="button-nav-messages">
           <AiOutlineMessage />
           <AiFillMessage />
-        </ButtonNav>
-        <ButtonNavDesktop
+        </Styled.ButtonNav>
+        <Styled.ButtonNavDesktop
           onClick={onClickNotifications}
           id="button-nav-notifications"
         >
           <AiOutlineHeart />
           <AiFillHeart />
-        </ButtonNavDesktop>
-        <ButtonNav onClick={onClickProfile} id="button-nav-profile">
+        </Styled.ButtonNavDesktop>
+        <Styled.ButtonNav onClick={onClickProfile} id="button-nav-profile">
           <BsPerson />
           <BsPersonFill />
-        </ButtonNav>
+        </Styled.ButtonNav>
       </IconContext.Provider>
-    </IconWrapper>
+    </Styled.IconWrapper>
   );
 };

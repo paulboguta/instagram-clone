@@ -4,13 +4,7 @@ import { IUser } from "features/user/types";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  Wrapper,
-  Posts,
-  FollowersButton,
-  Gray,
-  FollowingButton,
-} from "./ProfileStats.styles";
+import * as Styled from "./ProfileStats.styles";
 
 interface IProfileStatsProps {
   onClickShowFollowersModal: () => void;
@@ -36,18 +30,18 @@ export const ProfileStats = ({
   }, [getPostsCounter]);
 
   return (
-    <Wrapper>
-      <Posts>
-        <Gray>{postsCounter}</Gray>Posts
-      </Posts>
-      <FollowersButton onClick={onClickShowFollowersModal}>
+    <Styled.Wrapper>
+      <Styled.Posts>
+        <Styled.Gray>{postsCounter}</Styled.Gray>Posts
+      </Styled.Posts>
+      <Styled.FollowersButton onClick={onClickShowFollowersModal}>
         <h2>Followers</h2>
-        <Gray>{user?.followers.length}</Gray>
-      </FollowersButton>
-      <FollowingButton onClick={onClickShowFollowingModal}>
+        <Styled.Gray>{user?.followers.length}</Styled.Gray>
+      </Styled.FollowersButton>
+      <Styled.FollowingButton onClick={onClickShowFollowingModal}>
         <h2>Following</h2>
-        <Gray>{user?.following.length}</Gray>
-      </FollowingButton>
-    </Wrapper>
+        <Styled.Gray>{user?.following.length}</Styled.Gray>
+      </Styled.FollowingButton>
+    </Styled.Wrapper>
   );
 };

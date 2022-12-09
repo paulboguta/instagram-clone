@@ -6,17 +6,7 @@ import { getUserProfileData } from "features/user/services/users.service";
 import { IPost } from "features/posts/types";
 import { ILikesModalProps } from "types/likesModal.types";
 import { selectCurrentUser } from "features/user/store/currentUserSlice";
-import {
-  Description,
-  Img,
-  PostProfileSectionWrapper,
-  ProfilePic,
-  Username,
-  Wrapper,
-  WrapperAll,
-  WrapperComments,
-  MarginTop,
-} from "./PostPage.styles";
+import * as Styled from "./PostPage.styles";
 import { Navbar } from "../../../components/Navbar/Navbar";
 import { useWindowDimensions } from "../../../hooks/hooks";
 import { LikesModal, PostButtonsComments, Comments } from "../components";
@@ -62,37 +52,37 @@ export const PostPage = ({
   }, [getData, post?.likes, uid]);
 
   return (
-    <WrapperAll>
+    <Styled.WrapperAll>
       <Navbar />
-      <Wrapper>
-        <MarginTop>
+      <Styled.Wrapper>
+        <Styled.MarginTop>
           {showModalLikes && (
             <LikesModal
               id={post?.id}
               onClickHideModalLikes={onClickHideModalLikes}
             />
           )}
-        </MarginTop>
+        </Styled.MarginTop>
 
         {!loading && (
           <>
-            <Img src={post?.image} />
+            <Styled.Img src={post?.image} />
             <div>
-              <PostProfileSectionWrapper>
-                <ProfilePic src={user.profilePic} />
-                <Username
+              <Styled.PostProfileSectionWrapper>
+                <Styled.ProfilePic src={user.profilePic} />
+                <Styled.Username
                   onClick={onClickUsernameMoveToUserProfile}
                   id={post?.uid}
                 >
                   @{user.username}
-                </Username>
+                </Styled.Username>
                 {windowDim.width > 1200 && (
-                  <Description>{post?.description}</Description>
+                  <Styled.Description>{post?.description}</Styled.Description>
                 )}
-              </PostProfileSectionWrapper>
-              <WrapperComments>
+              </Styled.PostProfileSectionWrapper>
+              <Styled.WrapperComments>
                 {windowDim.width < 1200 && (
-                  <Description>{post?.description}</Description>
+                  <Styled.Description>{post?.description}</Styled.Description>
                 )}
                 <Comments comments={post?.comments} hideComments />
                 <PostButtonsComments
@@ -104,11 +94,11 @@ export const PostPage = ({
                   postUid={post?.uid}
                   hideComments
                 />
-              </WrapperComments>
+              </Styled.WrapperComments>
             </div>
           </>
         )}
-      </Wrapper>
-    </WrapperAll>
+      </Styled.Wrapper>
+    </Styled.WrapperAll>
   );
 };

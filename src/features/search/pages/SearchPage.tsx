@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "../components/Search/Search";
 import { Navbar } from "../../../components/Navbar/Navbar";
-import { Wrapper, WrapperNav } from "./SearchPage.styles";
+import * as Styled from "./SearchPage.styles";
 import { useWindowDimensions } from "../../../hooks/hooks";
 
 export const SearchPage = () => {
@@ -18,11 +18,11 @@ export const SearchPage = () => {
   }, [navigate, windowDimensions]);
 
   return (
-    <Wrapper>
+    <Styled.Wrapper>
       <Search />
-      <WrapperNav>
+      <Styled.WrapperNav>
         <Navbar />
-      </WrapperNav>
-    </Wrapper>
+      </Styled.WrapperNav>
+    </Styled.Wrapper>
   );
 };

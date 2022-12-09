@@ -4,7 +4,7 @@ import { requestSearchUsers } from "features/search/utils/search.utils";
 import { useSelector } from "react-redux";
 import { IUser } from "features/user/types";
 import { selectUsers } from "features/user/store/usersSlice";
-import { SearchStyled, Results, Button, Wrapper } from "./Search.styles";
+import * as Styled from "./Search.styles";
 
 export const Search = () => {
   const [input, setInput] = useState<string>("");
@@ -24,8 +24,8 @@ export const Search = () => {
   };
 
   return (
-    <Wrapper>
-      <SearchStyled
+    <Styled.Wrapper>
+      <Styled.SearchStyled
         placeholder="Search..."
         id="search-navbar"
         onChange={onChangeInput}
@@ -33,22 +33,22 @@ export const Search = () => {
         autoComplete="off"
       />
       {input.length ? (
-        <Results>
+        <Styled.Results>
           {/* display max 5 users while searching */}
           {result.slice(0, 5).map((user: IUser) => {
             return (
-              <Button
+              <Styled.Button
                 onClick={() => onClickResult(user.uid)}
                 id="search-result"
                 key={user.uid}
               >
                 <img src={user.profilePic} alt="profile pic" />
                 <div>@{user.username}</div>
-              </Button>
+              </Styled.Button>
             );
           })}
-        </Results>
+        </Styled.Results>
       ) : null}
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

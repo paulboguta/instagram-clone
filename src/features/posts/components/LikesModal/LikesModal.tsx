@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { ILikesModalProps } from "types/likesModal.types";
 import { ILike, IPost } from "features/posts/types";
 import { selectPosts } from "features/posts/store/postsSlice";
-import { Wrapper, ButtonClose, SecondaryText } from "./LikesModal.styles";
+import * as Styled from "./LikesModal.styles";
 import { LikesModalButton } from "./LikesModalButton";
 
 interface ILikesModal extends ILikesModalProps {
@@ -25,12 +25,12 @@ export const LikesModal = ({ id, onClickHideModalLikes }: ILikesModal) => {
   );
 
   return (
-    <Wrapper>
-      <ButtonClose onClick={onClickHideModalLikes}>
+    <Styled.Wrapper>
+      <Styled.ButtonClose onClick={onClickHideModalLikes}>
         <IconContext.Provider value={IconValue}>
           <AiOutlineClose />
         </IconContext.Provider>
-      </ButtonClose>
+      </Styled.ButtonClose>
       {post?.likes.length ? (
         post.likes.map((like: ILike) => {
           return (
@@ -42,8 +42,8 @@ export const LikesModal = ({ id, onClickHideModalLikes }: ILikesModal) => {
           );
         })
       ) : (
-        <SecondaryText>0 likes for now...</SecondaryText>
+        <Styled.SecondaryText>0 likes for now...</Styled.SecondaryText>
       )}
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

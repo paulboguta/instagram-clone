@@ -9,15 +9,7 @@ import { ILikesModalProps } from "types/likesModal.types";
 import { selectCurrentUser } from "features/user/store/currentUserSlice";
 import { selectPosts } from "features/posts/store/postsSlice";
 import { PostButtonsComments } from "../PostButtonsComments/PostButtonsComments";
-import {
-  Wrapper,
-  Img,
-  ButtonPost,
-  ProfileImg,
-  WrapperTopButtons,
-  ButtonEdit,
-  ButtonMoveToPost,
-} from "./FeedPost.styles";
+import * as Styled from "./FeedPost.styles";
 
 interface IFeedPostProps extends ILikesModalProps {
   id: string;
@@ -59,21 +51,21 @@ export const FeedPost = ({ id, onClickShowModalLikes }: IFeedPostProps) => {
   );
 
   return (
-    <Wrapper>
-      <WrapperTopButtons>
-        <ButtonPost id={id} onClick={onClick}>
-          <ProfileImg src={postData.profilePic} />
+    <Styled.Wrapper>
+      <Styled.WrapperTopButtons>
+        <Styled.ButtonPost id={id} onClick={onClick}>
+          <Styled.ProfileImg src={postData.profilePic} />
           <div>@{postData.username}</div>
-        </ButtonPost>
-        <ButtonEdit>
+        </Styled.ButtonPost>
+        <Styled.ButtonEdit>
           <IconContext.Provider value={IconValue}>
             <BsThreeDots />
           </IconContext.Provider>
-        </ButtonEdit>
-      </WrapperTopButtons>
-      <ButtonMoveToPost id={id} onClick={onClick}>
-        <Img src={post?.image} />
-      </ButtonMoveToPost>
+        </Styled.ButtonEdit>
+      </Styled.WrapperTopButtons>
+      <Styled.ButtonMoveToPost id={id} onClick={onClick}>
+        <Styled.Img src={post?.image} />
+      </Styled.ButtonMoveToPost>
       <PostButtonsComments
         likes={post?.likes!}
         comments={post?.comments!}
@@ -83,6 +75,6 @@ export const FeedPost = ({ id, onClickShowModalLikes }: IFeedPostProps) => {
         postUid={post?.uid}
         onClickShowModalLikes={onClickShowModalLikes}
       />
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

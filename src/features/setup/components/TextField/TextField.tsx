@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { WrapperInput, Wrapper } from "./TextField.styles";
+import * as Styled from "./TextField.styles";
 
 interface ITextFieldProps {
   placeholder: string;
@@ -13,8 +13,8 @@ export const TextField = ({
   value,
 }: ITextFieldProps) => {
   return (
-    <Wrapper>
-      <WrapperInput>
+    <Styled.Wrapper>
+      <Styled.WrapperInput>
         <div>@</div>
         <hr />
         <input
@@ -23,8 +23,8 @@ export const TextField = ({
           value={value}
           id="input-username"
         />
-      </WrapperInput>
+      </Styled.WrapperInput>
       <p>Name must be 4-16 characters.</p>
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

@@ -1,5 +1,5 @@
 import { IPost } from "features/posts/types";
-import { Posts } from "./ProfilePosts.style";
+import * as Styled from "./ProfilePosts.style";
 import { ProfilePost } from "../ProfilePost/ProfilePost";
 
 interface IProfilePostsProps {
@@ -8,7 +8,7 @@ interface IProfilePostsProps {
 
 export const ProfilePosts = ({ data }: IProfilePostsProps) => {
   return (
-    <Posts>
+    <Styled.Posts>
       {
         // sort by most recent
         data
@@ -17,6 +17,6 @@ export const ProfilePosts = ({ data }: IProfilePostsProps) => {
             return <ProfilePost src={post.image} key={post.id} id={post.id} />;
           })
       }
-    </Posts>
+    </Styled.Posts>
   );
 };

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { selectUsers } from "features/user/store/usersSlice";
 import { IUser } from "features/user/types";
 import { useParams } from "react-router-dom";
-import { Wrapper, Username, Bio } from "./ProfileDetails.styles";
+import * as Styled from "./ProfileDetails.styles";
 import { ProfileStats } from "../ProfileStats/ProfileStats";
 import { ProfileImg } from "../ProfileImg/ProfileImg";
 
@@ -20,16 +20,16 @@ export const ProfileDetails = ({
     return u.uid === userID;
   });
   return (
-    <Wrapper>
+    <Styled.Wrapper>
       <ProfileImg profileImg={user?.profilePic!} />
-      <Username>@{user?.username}</Username>
+      <Styled.Username>@{user?.username}</Styled.Username>
       <hr />
-      <Bio>{user?.bio}</Bio>
+      <Styled.Bio>{user?.bio}</Styled.Bio>
       <hr />
       <ProfileStats
         onClickShowFollowersModal={onClickShowFollowersModal}
         onClickShowFollowingModal={onClickShowFollowingModal}
       />
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

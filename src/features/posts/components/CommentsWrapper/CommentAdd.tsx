@@ -9,7 +9,7 @@ import { selectCurrentUser } from "features/user/store/currentUserSlice";
 import { addComment } from "features/posts/store/postsSlice";
 import { addCommentService } from "features/posts/services/comments.service";
 import { CommentInput } from "./CommentInput";
-import { ButtonAddComment } from "./CommentsWrapper.styles";
+import * as Styled from "./CommentsWrapper.styles";
 
 interface ICommentAdd {
   postUid: string;
@@ -61,11 +61,11 @@ export const CommentAdd = ({ postUid, id }: ICommentAdd) => {
   return (
     <AddCommentWrapper>
       <CommentInput onChange={onChange} newComment={newComment} />
-      <ButtonAddComment id={id} onClick={onClickAddComment}>
+      <Styled.ButtonAddComment id={id} onClick={onClickAddComment}>
         <IconContext.Provider value={IconValue}>
           <AiOutlineSend />
         </IconContext.Provider>
-      </ButtonAddComment>
+      </Styled.ButtonAddComment>
     </AddCommentWrapper>
   );
 };

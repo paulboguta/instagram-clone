@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "features/user/types";
 import { selectUsers } from "features/user/store/usersSlice";
-import { Button } from "./FollowersModal.styles";
+import * as Styled from "./FollowersModal.styles";
 
 interface IFollowersModalButtonProps {
   id: string;
@@ -25,9 +25,9 @@ export const FollowersModalButton = ({
   };
 
   return (
-    <Button onClick={onClickMoveToThisUser} id={id}>
+    <Styled.Button onClick={onClickMoveToThisUser} id={id}>
       <img src={user?.profilePic} alt="profile pic" />
       <div>@{user?.username}</div>
-    </Button>
+    </Styled.Button>
   );
 };

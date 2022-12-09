@@ -8,12 +8,8 @@ import { ILikesModalProps } from "types/likesModal.types";
 import { selectCurrentUser } from "features/user/store/currentUserSlice";
 import { doLike, doUnlike } from "features/posts/services/likes.service";
 import { updatePostLikes } from "features/posts/store/postsSlice";
-import {
-  ButtonsLikeCommentWrapper,
-  ButtonLike,
-  BoxShadow,
-} from "./PostButtonsComments.styles";
 import { CommentsWrapper } from "../CommentsWrapper/CommentsWrapper";
+import * as Styled from "./PostButtonsComments.styles";
 
 interface IPostButtonsCommentsProps extends ILikesModalProps {
   likes: ILike[];
@@ -56,21 +52,21 @@ export const PostButtonsComments = ({
   );
 
   return (
-    <BoxShadow hideComments={hideComments}>
-      <ButtonsLikeCommentWrapper>
+    <Styled.BoxShadow hideComments={hideComments}>
+      <Styled.ButtonsLikeCommentWrapper>
         <IconContext.Provider value={IconValue}>
           {!isLiked && (
-            <ButtonLike id={id} onClick={onClickLike}>
+            <Styled.ButtonLike id={id} onClick={onClickLike}>
               <AiOutlineHeart />
-            </ButtonLike>
+            </Styled.ButtonLike>
           )}
           {isLiked && (
-            <ButtonLike id={id} onClick={onClickUnlike}>
+            <Styled.ButtonLike id={id} onClick={onClickUnlike}>
               <AiFillHeart />
-            </ButtonLike>
+            </Styled.ButtonLike>
           )}
         </IconContext.Provider>
-      </ButtonsLikeCommentWrapper>
+      </Styled.ButtonsLikeCommentWrapper>
       <CommentsWrapper
         likes={likes}
         comments={comments}
@@ -79,6 +75,6 @@ export const PostButtonsComments = ({
         postUid={postUid}
         onClickShowModalLikes={onClickShowModalLikes}
       />
-    </BoxShadow>
+    </Styled.BoxShadow>
   );
 };

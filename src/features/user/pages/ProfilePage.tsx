@@ -4,7 +4,7 @@ import { getProfilePosts } from "features/posts/services/posts.service";
 import { IPost } from "features/posts/types";
 import { Navbar } from "../../../components/Navbar/Navbar";
 import Background1 from "../../../assets/background/background-1.jpeg";
-import { Wrapper, Img } from "./ProfilePage.styles";
+import * as Styled from "./ProfilePage.styles";
 import { ProfileButtons, FollowersModal, ProfileDetails } from "../components";
 import { AddPostModal, ProfilePosts } from "../../posts/components";
 
@@ -54,7 +54,7 @@ export const ProfilePage = () => {
   }, [userID]);
 
   return (
-    <Wrapper>
+    <Styled.Wrapper>
       {showAddPost && (
         <AddPostModal
           onClick={onClickClose}
@@ -63,7 +63,7 @@ export const ProfilePage = () => {
       )}
 
       <Navbar />
-      <Img src={Background1} />
+      <Styled.Img src={Background1} />
       <ProfileDetails
         onClickShowFollowersModal={onClickShowFollowersModal}
         onClickShowFollowingModal={onClickShowFollowingModal}
@@ -86,6 +86,6 @@ export const ProfilePage = () => {
           onClickHideModals={onClickHideModals}
         />
       )}
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Wrapper, ButtonImg, LogoImg, Desktop } from "./Navbar.styles";
+import * as Styled from "./Navbar.styles";
 import { Search } from "../../features/search/components/Search/Search";
 import Logo from "../../assets/logo.png";
 import { NavbarButtons } from "./NavbarButtons/NavbarButtons";
@@ -8,14 +8,14 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <Wrapper>
-      <ButtonImg id="logo-navbar" onClick={() => navigate("/")}>
-        <LogoImg src={Logo} alt="logo" />
-      </ButtonImg>
-      <Desktop>
+    <Styled.Wrapper>
+      <Styled.ButtonImg id="logo-navbar" onClick={() => navigate("/")}>
+        <Styled.LogoImg src={Logo} alt="logo" />
+      </Styled.ButtonImg>
+      <Styled.Desktop>
         <Search />
-      </Desktop>
+      </Styled.Desktop>
       <NavbarButtons />
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

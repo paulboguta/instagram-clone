@@ -2,11 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { IComment, ILike } from "features/posts/types";
 import { ILikesModalProps } from "types/likesModal.types";
 import { Comments } from "./Comments";
-import {
-  Wrapper,
-  LikesCount,
-  ButtonViewComments,
-} from "./CommentsWrapper.styles";
+import * as Styled from "./CommentsWrapper.styles";
 import { CommentAdd } from "./CommentAdd";
 
 interface ICommentsWrapperProps extends ILikesModalProps {
@@ -36,18 +32,18 @@ export const CommentsWrapper = ({
   };
 
   return (
-    <Wrapper>
-      <LikesCount onClick={onClickLikesCount} id={id}>
+    <Styled.Wrapper>
+      <Styled.LikesCount onClick={onClickLikesCount} id={id}>
         {likes?.length} likes
-      </LikesCount>
+      </Styled.LikesCount>
       {!hideComments && (
-        <ButtonViewComments onClick={onClickViewComments} id={id}>
+        <Styled.ButtonViewComments onClick={onClickViewComments} id={id}>
           View All Comments
-        </ButtonViewComments>
+        </Styled.ButtonViewComments>
       )}
       <hr />
       {!hideComments && <Comments comments={comments} />}
       <CommentAdd id={id} postUid={postUid} />
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

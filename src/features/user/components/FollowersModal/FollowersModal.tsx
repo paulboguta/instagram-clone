@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { IFollower, IUser } from "features/user/types";
 import { selectUsers } from "features/user/store/usersSlice";
-import { Wrapper, ButtonClose } from "./FollowersModal.styles";
+import * as Styled from "./FollowersModal.styles";
 import { FollowersModalButton } from "./FollowersModalButton";
 
 interface IFollowersModalProps {
@@ -32,12 +32,12 @@ export const FollowersModal = ({
   );
 
   return (
-    <Wrapper>
-      <ButtonClose onClick={onClickHideModals}>
+    <Styled.Wrapper>
+      <Styled.ButtonClose onClick={onClickHideModals}>
         <IconContext.Provider value={IconValues}>
           <AiOutlineClose />
         </IconContext.Provider>
-      </ButtonClose>
+      </Styled.ButtonClose>
       <div>{header}</div>
       <>
         {modal === "following" &&
@@ -63,6 +63,6 @@ export const FollowersModal = ({
             );
           })}
       </>
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

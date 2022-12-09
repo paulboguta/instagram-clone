@@ -1,13 +1,13 @@
 import { IComment } from "features/posts/types";
 import uuid from "react-uuid";
-import { CommentsWrapper } from "./CommentsWrapper.styles";
 import { Comment } from "./Comment";
+import * as Styled from "./CommentsWrapper.styles";
 
 export const Comments = ({ comments, hideComments }: any) => {
   const slicedComments = comments?.slice(0, 2);
 
   return (
-    <CommentsWrapper>
+    <Styled.CommentsWrapper>
       {!hideComments
         ? slicedComments?.map((comment: IComment) => {
             return (
@@ -29,6 +29,6 @@ export const Comments = ({ comments, hideComments }: any) => {
               />
             );
           })}
-    </CommentsWrapper>
+    </Styled.CommentsWrapper>
   );
 };

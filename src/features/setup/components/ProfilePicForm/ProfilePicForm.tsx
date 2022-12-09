@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Wrapper,
-  ButtonPreview,
-  WrapperForm,
-  WrapperMemojis,
-  ButtonConfirm,
-  Button,
-} from "./ProfilePicForm.styles";
+import * as Styled from "./ProfilePicForm.styles";
 import { Memojis, MemojisPreview } from "../../../../assets/memoji/index";
 
 interface IProfilePicFormProps {
@@ -28,35 +21,42 @@ export const ProfilePicForm = ({
     setClicked(false);
   };
   return (
-    <Wrapper>
+    <Styled.Wrapper>
       {!profilepic!.length ? (
-        <ButtonPreview onClick={onClickChoose} id="button-preview">
+        <Styled.ButtonPreview onClick={onClickChoose} id="button-preview">
           {MemojisPreview.map((memoji) => {
             return <img src={memoji} key={memoji} alt="memoji" />;
           })}
-        </ButtonPreview>
+        </Styled.ButtonPreview>
       ) : (
-        <ButtonPreview onClick={onClickChoose}>
+        <Styled.ButtonPreview onClick={onClickChoose}>
           <img src={profilepic} alt="chosen memoji" />
-        </ButtonPreview>
+        </Styled.ButtonPreview>
       )}
       <p>Select your profile picture</p>
       {clicked && (
-        <WrapperForm>
-          <WrapperMemojis data-test-target="component-name:WrapperMemojis">
+        <Styled.WrapperForm>
+          <Styled.WrapperMemojis data-test-target="component-name:WrapperMemojis">
             {Memojis.map((memoji) => {
               return (
-                <Button key={memoji} onClick={onClickPic} id="button-memoji">
+                <Styled.Button
+                  key={memoji}
+                  onClick={onClickPic}
+                  id="button-memoji"
+                >
                   <img src={memoji} alt="memoji" />
-                </Button>
+                </Styled.Button>
               );
             })}
-          </WrapperMemojis>
-          <ButtonConfirm onClick={onClickConfirm} id="button-confirm-memoji">
+          </Styled.WrapperMemojis>
+          <Styled.ButtonConfirm
+            onClick={onClickConfirm}
+            id="button-confirm-memoji"
+          >
             Confirm
-          </ButtonConfirm>
-        </WrapperForm>
+          </Styled.ButtonConfirm>
+        </Styled.WrapperForm>
       )}
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

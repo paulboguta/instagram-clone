@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Wrapper } from "./ProfilePost.styles";
+import * as Styled from "./ProfilePost.styles";
 
 interface IProfilePostProps {
   src: string;
@@ -12,8 +12,8 @@ export const ProfilePost = ({ src, id }: IProfilePostProps) => {
     navigate(`/post/${event.currentTarget.id}`);
   };
   return (
-    <Wrapper onClick={onClick} id={id}>
+    <Styled.Wrapper onClick={onClick} id={id}>
       <img src={src} alt="profile img" />
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };

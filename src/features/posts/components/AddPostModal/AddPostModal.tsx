@@ -9,16 +9,7 @@ import { createPostService } from "features/posts/services/posts.service";
 import { createPost } from "features/posts/store/postsSlice";
 import { ButtonClose } from "../../../user/components/FollowersModal/FollowersModal.styles";
 import { ButtonConfirm } from "../../../setup/components";
-import {
-  Description,
-  Wrapper,
-  AddPhotoWrapper,
-  Image,
-  ButtonDrop,
-  ButtonUpdate,
-  ButtonRemove,
-  FlexButtonUpdateRemove,
-} from "./AddPostModal.styles";
+import * as Styled from "./AddPostModal.styles";
 
 interface IAddPostModalProps {
   onClick(): void;
@@ -72,7 +63,7 @@ export const AddPostModal = ({
   );
 
   return (
-    <Wrapper>
+    <Styled.Wrapper>
       <ButtonClose onClick={onClick}>
         <IconContext.Provider value={IconValue}>
           <AiOutlineClose />
@@ -92,39 +83,39 @@ export const AddPostModal = ({
           isDragging,
           dragProps,
         }) => (
-          <AddPhotoWrapper>
-            <ButtonDrop
+          <Styled.AddPhotoWrapper>
+            <Styled.ButtonDrop
               style={isDragging ? { color: "red" } : undefined}
               onClick={onImageUpload}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...dragProps}
             >
               Select Image
-            </ButtonDrop>
+            </Styled.ButtonDrop>
             {imageList.map((imageItem, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
-                <Image src={imageItem.dataURL} alt="" width="100" />
-                <FlexButtonUpdateRemove>
-                  <ButtonUpdate onClick={() => onImageUpdate(index)}>
+                <Styled.Image src={imageItem.dataURL} alt="" width="100" />
+                <Styled.FlexButtonUpdateRemove>
+                  <Styled.ButtonUpdate onClick={() => onImageUpdate(index)}>
                     Update
-                  </ButtonUpdate>
-                  <ButtonRemove onClick={() => onImageRemove(index)}>
+                  </Styled.ButtonUpdate>
+                  <Styled.ButtonRemove onClick={() => onImageRemove(index)}>
                     Remove
-                  </ButtonRemove>
-                </FlexButtonUpdateRemove>
+                  </Styled.ButtonRemove>
+                </Styled.FlexButtonUpdateRemove>
               </div>
             ))}
-          </AddPhotoWrapper>
+          </Styled.AddPhotoWrapper>
         )}
       </ImageUploading>
-      <Description>
+      <Styled.Description>
         <textarea
           placeholder="Your post description..."
           onChange={onChangeDescription}
         />
-      </Description>
+      </Styled.Description>
       <ButtonConfirm onClick={onClickConfirmAddPost} />
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };
