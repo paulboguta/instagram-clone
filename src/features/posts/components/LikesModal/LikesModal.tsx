@@ -4,9 +4,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { ILikesModalProps } from "types/likesModal.types";
 import { ILike, IPost } from "features/posts/types";
-import uuid from "react-uuid";
 import { selectPosts } from "features/posts/store/postsSlice";
-import { Wrapper, ButtonClose, Likes0Info } from "./LikesModal.styles";
+import { Wrapper, ButtonClose, SecondaryText } from "./LikesModal.styles";
 import { LikesModalButton } from "./LikesModalButton";
 
 interface ILikesModal extends ILikesModalProps {
@@ -36,14 +35,14 @@ export const LikesModal = ({ id, onClickHideModalLikes }: ILikesModal) => {
         post.likes.map((like: ILike) => {
           return (
             <LikesModalButton
-              key={uuid()}
+              key={like.uid}
               uid={like.uid}
               onClickHideModalLikes={onClickHideModalLikes}
             />
           );
         })
       ) : (
-        <Likes0Info>0 likes for now...</Likes0Info>
+        <SecondaryText>0 likes for now...</SecondaryText>
       )}
     </Wrapper>
   );

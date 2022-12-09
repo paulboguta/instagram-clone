@@ -75,6 +75,6 @@ export const ButtonClose = styled.button`
   }
 `;
 
-export const Likes0Info = styled.div`
+export const SecondaryText = styled.div`
   color: ${(props) => props.theme.fontSecondary};
 `;
