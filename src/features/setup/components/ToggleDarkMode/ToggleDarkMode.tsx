@@ -5,6 +5,7 @@ import {
   selectCurrentUser,
   setTheme,
 } from "features/user/store/currentUserSlice";
+import { useDarkMode } from "features/setup/hooks/hooks";
 import { ReactComponent as IconDark } from "../../../../assets/icons/dark.svg";
 import { ReactComponent as IconLight } from "../../../../assets/icons/light.svg";
 
@@ -48,7 +49,7 @@ export const ToggleDarkMode = () => {
     dispatch(setTheme(theme === "themeLight" ? "themeDark" : "themeLight"));
   };
 
-  const isActive = theme === "themeLight";
+  const { isActive } = useDarkMode();
 
   return (
     <Button onClick={clickHandler}>
