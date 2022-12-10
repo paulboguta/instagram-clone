@@ -36,23 +36,16 @@ export const ProfilePicForm = ({
       <p>Select your profile picture</p>
       {clicked && (
         <Styled.WrapperForm>
-          <Styled.WrapperMemojis data-test-target="component-name:WrapperMemojis">
+          <Styled.WrapperMemojis>
             {Memojis.map((memoji) => {
               return (
-                <Styled.Button
-                  key={memoji}
-                  onClick={onClickPic}
-                  id="button-memoji"
-                >
+                <Styled.Button key={memoji} onClick={onClickPic}>
                   <img src={memoji} alt="memoji" />
                 </Styled.Button>
               );
             })}
           </Styled.WrapperMemojis>
-          <Styled.ButtonConfirm
-            onClick={onClickConfirm}
-            id="button-confirm-memoji"
-          >
+          <Styled.ButtonConfirm onClick={onClickConfirm}>
             Confirm
           </Styled.ButtonConfirm>
         </Styled.WrapperForm>
