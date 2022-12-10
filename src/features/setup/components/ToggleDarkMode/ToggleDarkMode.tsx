@@ -48,15 +48,14 @@ export const ToggleDarkMode = () => {
     dispatch(setTheme(theme === "themeLight" ? "themeDark" : "themeLight"));
   };
 
-  const toggle = theme === "themeLight" ? "#fff" : "transparent";
-  const toggle2 = theme === "themeDark" ? "#fff" : "transparent";
+  const isActive = theme === "themeLight";
 
   return (
     <Button onClick={clickHandler}>
       <IconDark />
       <WrapperToggle>
-        <Circle toggle={toggle2} />
-        <Circle toggle={toggle} />
+        <Circle toggle={isActive ? "#fff" : "transparent"} />
+        <Circle toggle={isActive ? "transparent" : "#fff"} />
       </WrapperToggle>
       <IconLight />
     </Button>
