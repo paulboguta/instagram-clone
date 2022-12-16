@@ -1,21 +1,10 @@
-export const validateSetup = (
-  username: string,
-  bio: string,
-  profilePic: string
-) => {
-  if (username.length < 4 || username.length > 16) {
-    alert("Wrong username! It has to be from 4 to 16 characters");
-    return false;
-  }
-  if (bio.length > 120) {
-    alert("Bio is too long! Maximum is 120 characters.");
-    return false;
-  }
+import * as Yup from "yup";
 
-  if (profilePic === "") {
-    alert("You have to choose profile picture!");
-    return false;
-  }
-
-  return true;
-};
+export const SetupSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(4, "Too short")
+    .max(16, "Too long")
+    .required("Please enter username"),
+  bio: Yup.string().max(120, "Too Long!"),
+  profilePic: Yup.string().required(),
+});

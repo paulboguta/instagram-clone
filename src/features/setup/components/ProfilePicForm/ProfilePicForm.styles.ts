@@ -63,30 +63,6 @@ export const WrapperMemojis = styled.div`
   grid-template-rows: repeat(4, 1fr);
   grid-column-gap: 5px;
   grid-row-gap: 5px;
-
-  img {
-    height: 70px;
-    width: 70px;
-    border-radius: 50%;
-    background-color: #dcbae7;
-  }
-
-  @media (max-width: 768px) {
-    img {
-      height: 60px;
-      width: 60px;
-    }
-  }
-
-  img:hover {
-    background-color: #b462d0;
-    transition: 0.3s ease-in;
-  }
-
-  img:active {
-    transform: scale(90%);
-    transition: 0.05s ease-in;
-  }
 `;
 
 export const Button = styled.button`
@@ -113,5 +89,32 @@ export const ButtonConfirm = styled.button`
   &:hover {
     background-color: #dcbae7;
     transition: 0.5s ease-in;
+  }
+`;
+
+interface IStyledImg {
+  chosen: boolean;
+}
+
+export const Img = styled.img<IStyledImg>`
+  background-color: ${(props) => (props.chosen ? "#b462d0" : "#dcbae7")};
+
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+
+  @media (max-width: 768px) {
+    height: 60px;
+    width: 60px;
+  }
+
+  &:hover {
+    background-color: #b462d0;
+    transition: 0.3s ease-in;
+  }
+
+  &:active {
+    transform: scale(90%);
+    transition: 0.05s ease-in;
   }
 `;

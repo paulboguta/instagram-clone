@@ -40,7 +40,11 @@ export const ProfilePicForm = ({
             {Memojis.map((memoji) => {
               return (
                 <Styled.Button key={memoji} onClick={onClickPic}>
-                  <img src={memoji} alt="memoji" />
+                  <Styled.Img
+                    src={memoji}
+                    alt="memoji"
+                    chosen={profilepic === memoji}
+                  />
                 </Styled.Button>
               );
             })}
