@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { SignUp } from "features/auth/pages/SignUp";
 import { SignIn } from "features/auth/pages/SignIn";
 import { selectCurrentUser } from "features/user/store/currentUserSlice";
+import { Chat } from "features/chat/pages/Chat";
 import { SetupPage } from "./features/setup/pages/SetupPage";
 import { ProfilePage } from "./features/user/pages/ProfilePage";
 import { Feed } from "./pages/Feed/Feed";
@@ -65,6 +66,7 @@ export const App = () => {
           />
         }
       />
+      <Route path="/messages" element={<Chat />} />
     </Routes>
   );
 };

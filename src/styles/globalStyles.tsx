@@ -10,6 +10,11 @@ export const GlobalStyle = createGlobalStyle`
   scrollbar-width: none;
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
